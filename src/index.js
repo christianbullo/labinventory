@@ -1,8 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'font-awesome/css/font-awesome.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-social/bootstrap-social.css';
+import "@fontsource/roboto";
+import "@fontsource/ubuntu/500.css";
+import "@fontsource/pangolin";
+import "@fontsource/playfair-display";
+
+import App from './App';
 
 ReactDOM.render(
   <React.StrictMode>

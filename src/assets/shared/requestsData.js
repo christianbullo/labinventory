@@ -1,0 +1,67 @@
+export const REQUESTS = [
+    {
+        id: 1,
+        catalog: "16441-1-AP",
+        product: "Histone H2A.z Polyclonal Antibody",
+        radioactive: "N",
+        quantity: 1,
+        unitsize: "150 uL",
+        unitcost: 310.00, 
+        totalcost: 310.00,
+        vendor: "Thermofisher",
+        requestdate: "01/10/2021",
+        requestuser: "Bob" 
+    },
+    {
+        id: 2,
+        catalog: "69997",
+        product: "Tungsten Carbide Beads, 3 mm (200)",
+        radioactive: "N",
+        quantity: 1,
+        unitsize: "1KT",
+        unitcost: 232.00, 
+        totalcost: 232.00,
+        vendor: "Quiagen",
+        requestdate: "01/05/2021",
+        requestuser: "Sam" 
+    },
+    {
+        id: 3,
+        catalog: "16222-1-AP",
+        product: "Histone H2B.w Polyclonal Antibody",
+        radioactive: "N",
+        quantity: 2,
+        unitsize: "150 uL",
+        unitcost: 210.00, 
+        totalcost: 420.00,
+        vendor: "Thermofisher",
+        requestdate: "01/04/2021",
+        requestuser: "Al" 
+    },
+    {
+        id: 4,
+        catalog: "68888",
+        product: "Tungsten Carbide Beads, 3 mm (200)",
+        radioactive: "N",
+        quantity: 2,
+        unitsize: "1KT",
+        unitcost: 232.00, 
+        totalcost: 464.00,
+        vendor: "Quiagen",
+        requestdate: "01/09/2021",
+        requestuser: "Sam" 
+    },
+    {
+        id: 5,
+        catalog: "16333-1-AP",
+        product: "Histone H2C.y Polyclonal Antibody",
+        radioactive: "N",
+        quantity: 2,
+        unitsize: "150 uL",
+        unitcost: 210.00, 
+        totalcost: 420.00,
+        vendor: "Thermofisher",
+        requestdate: "01/07/2021",
+        requestuser: "Al" 
+    },
+];
