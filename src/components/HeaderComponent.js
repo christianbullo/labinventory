@@ -31,11 +31,14 @@ class Header extends Component {
             <React.Fragment>
                 <Jumbotron fluid>
                     <div className="container text-light">
-                    <div class="row">
+                        <div class="row">
                             <div class="col">
                             </div>
                             <div class="col-6">
-                                <h1>Lab</h1>
+                                <br />
+                                <br />
+                                <br />
+                                <h1>LAB</h1>
                             </div>
                             <div class="col">
                             </div>
@@ -44,7 +47,7 @@ class Header extends Component {
                             <div class="col-sm-4">
                             </div>
                             <div class="col-sm-5">
-                                <h2>Inventory</h2>
+                                <h2>INVENTORY</h2>
                             </div>
                             <div class="col">
                             </div>
@@ -60,7 +63,7 @@ class Header extends Component {
                         <Collapse isOpen={this.state.isNavOpen} navbar className="justify-content-center">                  
                             { this.props.auth.isAuthenticated === true ? 
                                 (
-                                    <Nav navbar justified className="justify-content-center">                                 
+                                    <Nav navbar justified className="justify-content-between">                                 
                                         <NavItem>
                                             <NavLink className="nav-link" to="/requests">
                                                 <i className="fa fa-list-alt fa-lg">{' '}<span className="menu">Requests Board</span></i>
@@ -87,7 +90,7 @@ class Header extends Component {
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <Button outline className="text-black-50" onClick={this.onLogoutClick}>
+                                            <Button outline className="text-dark" onClick={this.onLogoutClick}>
                                                 <i class="fa fa-sign-out">{' '}<span className="menu">Logout user: {user.name}</span></i> 
                                             </Button>
                                         </NavItem>
@@ -102,7 +105,6 @@ class Header extends Component {
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <hr />
                                         </NavItem>
                                         <NavItem>
                                             <NavLink className="nav-link" to="/login">

@@ -5,12 +5,13 @@ body, .menu {
 
 .jumbotron h1 {
   font-family: "Pangolin";
-  font-size: 100px;
+  font-size: 120px;
+  margin-top: 50;
 }
 
 .jumbotron h2 {
   font-family: "Pangolin";
-  font-size: 80px;
+  font-size: 100px;
 }
 
 .jumbotron {

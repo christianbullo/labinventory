@@ -5,6 +5,7 @@ const passport = require("passport");
 require('dotenv').config();
 
 const users = require("./routes/userRoutes");
+const requests = require("./routes/requestRoutes");
 
 const app = express();
 
@@ -38,6 +39,7 @@ require("./config/passport")(passport);
 
 // Routes
 app.use("/api/users", users);
+app.use("/api/stock", requests);
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port 
 

@@ -5,14 +5,13 @@ import Header from "./HeaderComponent";
 //import PrivateRoute from "./components/private-route/PrivateRoute";
 //import Dashboard from "./components/dashboard/Dashboard";
 
-//import { RequestTable } from "./RequestTable";
+import RequestTable from "./RequestTable";
 // import { OrderTable } from "./OrderTable";
 // import { InStockTable } from "./InStockTable";
 // import { OutOfStockTable } from "./OutOfStockTable";
 import { StatsComponent } from "./StatsComponent";
 import { HomeComponent } from "./HomeComponent";
 
-//import { addRequest, addOrder, deleteRequest } from "../store/ActionCreators";
 import { logoutUser } from "../actions/ActionCreators";
 import { Switch, Route, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
@@ -28,10 +27,11 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  logoutUser: () => (logoutUser())
+  logoutUser: () => (logoutUser())   
 };
 
 class Main extends Component {
+  
   render() {
     return (
       <div>
@@ -41,6 +41,7 @@ class Main extends Component {
           (
             <Switch>
               <Route exact path="/home" component={HomeComponent} />
+              <Route exact path="/requests" component={RequestTable} />
               <Route exact path="/stats" component={StatsComponent} />
               <Redirect to="/stats" />
             </Switch>

@@ -1,3 +1,8 @@
 export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
+
+export const GET_REQUESTS = "GET_REQUESTS";
+export const REQUESTS_LOADING = "REQUESTS_LOADING";
+export const REQUESTS_FAILED = "REQUESTS_FAILED";
+

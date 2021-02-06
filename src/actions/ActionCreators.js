@@ -40,6 +40,7 @@ export const loginUser = userData => dispatch => {
         payload: err.response.data
       })
     );
+
 };
 
 // Set logged in user
@@ -65,4 +66,46 @@ export const logoutUser = () => dispatch => {
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
   dispatch(setCurrentUser({}));
+};
+
+// REQUESTS
+
+// Get requests 
+export const fetchRequests = () => dispatch => {
+  dispatch(requestsLoading()); 
+
+  axios
+    .get("/api/stock/requests")
+    .then(response => {
+      return response.data;
+    })
+    .then(requests => dispatch(getRequests(requests)))
+    .catch(error => dispatch(requestsFailed(error.message)));
+};
+
+export const requestsLoading = () => ({
+  type: ActionTypes.REQUESTS_LOADING
+});
+
+export const getRequests = requests => ({
+  type: ActionTypes.GET_REQUESTS,
+  payload: requests
+}); 
+
+export const requestsFailed = errMess => ({
+  type: ActionTypes.REQUESTS_FAILED,
+  payload: errMess
+});
+
+// Add request 
+export const addRequest = (requestData, history) => dispatch => {
+  axios
+    .post("/api/stock/addrequest", requestData)
+    .then(res => history.push("/requests"))
+    .catch(err =>
+      dispatch({
+        type: ActionTypes.GET_ERRORS,
+        payload: err.response.data
+      })
+    );
 };
