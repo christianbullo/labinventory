@@ -1,22 +1,25 @@
 import React, { Component } from "react";
 import { RequestTableRow } from "./RequestTableRow";
-import { RequestForm } from "./RequestForm";
+import RequestForm from "./RequestForm";
 
-import { fetchRequests } from "../actions/ActionCreators";
+import { fetchRequests, addRequest } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Loading } from "./LoadingComponent";
+import { NoItemsComponent } from "./NoItemsComponent";
 
 const mapStateToProps = state => {
     return {
-      requests: state.requests,
+        auth: state.auth,
+        requests: state.requests 
     };
-  };
+};
   
-  const mapDispatchToProps = {
+const mapDispatchToProps = {
     fetchRequests: () => (fetchRequests()),
-  };
+    addRequest: (request) => (addRequest(request)),  
+};
 
 class RequestTable extends Component {
 
@@ -25,6 +28,7 @@ class RequestTable extends Component {
     }
 
     render() {
+        
         if (this.props.requests.isLoading) {
             return <Loading />
         }
@@ -47,7 +51,7 @@ class RequestTable extends Component {
                     <thead>
                         <tr>
                             <th colSpan="12" className="bg-secondary text-white text-center h4 p-2">
-                                REQUESTS BOARD     
+                                REQUESTS BOARD       
                             </th>
                         </tr>
                         <tr>
@@ -62,18 +66,22 @@ class RequestTable extends Component {
                     <tbody>
                         {   
                             this.props.requests.requests.map(r => 
-                                <RequestTableRow 
-                                    request={ r }
-                                    key={ r.id } 
-                                />)
+                            <RequestTableRow 
+                                request={ r }
+                                key={ r.id } 
+                            />
+                            )
                         }
                     </tbody>
                 </table>
+                {
+                    (this.props.requests.requests.length === 0) ? (<NoItemsComponent />) : ( <div />)
+                }
                 <hr/>
                 <div className="container">
                     <div class="row justify-content-center">
                         <div class="col-3 text-center">
-                            <RequestForm addRequest={ this.props.addRequest } />
+                            <RequestForm auth={ this.props.auth } addRequest={ this.props.addRequest }/>
                         </div>
                     </div>
                 </div>

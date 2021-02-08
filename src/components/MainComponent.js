@@ -27,7 +27,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  logoutUser: () => (logoutUser())   
+  logoutUser: () => (logoutUser())
 };
 
 class Main extends Component {
@@ -42,6 +42,8 @@ class Main extends Component {
             <Switch>
               <Route exact path="/home" component={HomeComponent} />
               <Route exact path="/requests" component={RequestTable} />
+              {/* <Route exact path="/requests" render={() => 
+                <RequestTable auth={this.props.auth} addRequest={ this.props.addRequest } />} /> */}
               <Route exact path="/stats" component={StatsComponent} />
               <Redirect to="/stats" />
             </Switch>

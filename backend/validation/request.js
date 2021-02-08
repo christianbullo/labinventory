@@ -5,9 +5,10 @@ module.exports = function validateRequestInput(data) {
   let errors = {};
 
   // Convert empty fields to an empty string so we can use validator functions
-  data.article = !isEmpty(data.article) ? data.article : "";
-  data.quantity = !isEmpty(data.quantity) ? data.quantity : "";
-  data.unitcost = !isEmpty(data.unitcost) ? data.unitcost : "";
+  // Remember: Validator library validates and sanitizes strings only.
+  data.article = !isEmpty(data.article) ? data.article + "" : "";
+  data.quantity = !isEmpty(data.quantity) ? data.quantity + "" : "";
+  data.unitcost = !isEmpty(data.unitcost) ? data.unitcost + "" : "";
 
   // Article checks
   if (Validator.isEmpty(data.article)) {

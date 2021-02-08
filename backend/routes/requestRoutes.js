@@ -4,13 +4,24 @@ const router = express.Router();
 // Load input validation
 const validateRequestInput = require("../validation/request");
 
-// Load User model
+// Load Stock model
 const Stock = require("../models/stock.model");
+
+// @route GET api/stock/lastrequest
+// @desc Get last request id
+router.get("/lastrequest", (req, res) => {
+  Stock.find({"category": "request"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1)
+    .then(lastRequest => {
+      res.json(lastRequest);
+        console.log("lastRequest is " + lastRequest);
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
 
 // @route GET api/stock/requests
 // @desc Get requests
 router.get("/requests", (req, res) => {
-  Stock.find()
+  Stock.find({"category": "request"})
     .then(requests => res.json(requests))
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -25,14 +36,14 @@ router.post("/addrequest", (req, res) => {
   if (!isValid) {
       return res.status(400).json(errors);
   }
-
-  const id = req.body.id;
-  const category = req.body.category;
+  
+  const id = req.body.id; 
+  const category = "request"; //req.body.category;
   const article = req.body.article;
   const quantity = Number(req.body.quantity);
   const unitcost = Number(req.body.unitcost);
-  const requestdate = Date.parse(req.body.requestdate);
-  const requestuser = "test";
+  const requestdate = req.body.requestdate;
+  const requestuser = req.body.requestuser;
   const orderdate = "";
   const orderuser = "";
   const deliverydate = ""; 
@@ -61,8 +72,12 @@ router.post("/addrequest", (req, res) => {
   });
 
   newStock.save()
-  .then(() => res.json('Request added!'))
-  .catch(err => res.status(400).json('Error: ' + err));
+  .then(request => res.json(request))
+  //.then(() => res.json('Request added!'))
+  .catch(err => {
+    console.log('!!!!Error: ' + err);
+    res.status(400).json('Error: ' + err);
+  } );
 });
 
 module.exports = router;

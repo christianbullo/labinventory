@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const StockSchema = new Schema({
-  id: { type: Number, required: true },
-  category: { type: String, required: true, default: "request" }, // request - order - instock - outofstock
+  id: { type: Number, required: true},
+  category: { type: String, required: true }, // request - order - instock - outofstock
   article: { type: String, required: true },
   quantity: { type: Number, required: true },
   unitcost: { type: Number, required: true },

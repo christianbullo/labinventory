@@ -6,3 +6,6 @@ export const GET_REQUESTS = "GET_REQUESTS";
 export const REQUESTS_LOADING = "REQUESTS_LOADING";
 export const REQUESTS_FAILED = "REQUESTS_FAILED";
 
+export const ADD_REQUEST = "ADD_REQUEST";
+
+export const GET_LAST_REQUEST = "GET_LAST_REQUEST";

@@ -3,7 +3,7 @@ import * as ActionTypes from "../actions/ActionsTypes";
 export const Requests = (state = {
         isLoading: true, 
         errMess: null,
-        requests: [] 
+        requests: []
     }, action) => {
     switch (action.type) {
         case ActionTypes.GET_REQUESTS:
@@ -14,7 +14,12 @@ export const Requests = (state = {
         case ActionTypes.REQUESTS_FAILED:
             return {...state, 
                 isLoading: false,
-                errMess: action.payload};           
+                errMess: action.payload};     
+        case ActionTypes.ADD_REQUEST:
+                const request = action.payload;
+            return {...state, 
+                    requests: state.requests.concat(request)}; 
+            break;
         default:
             return state; 
             break;

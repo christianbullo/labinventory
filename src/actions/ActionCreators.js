@@ -70,6 +70,22 @@ export const logoutUser = () => dispatch => {
 
 // REQUESTS
 
+// Get last ID
+export const fetchLastRequest = () => dispatch => {
+  axios
+    .get("/api/stock/lastrequest")
+    .then(response => {
+      return response.data;
+    })
+    .then(lastRequest => dispatch(getLastRequest(lastRequest)))
+    .catch(error => dispatch(requestsFailed(error.message)));
+}
+
+export const getLastRequest = lastRequest => ({
+  type: ActionTypes.GET_LAST_REQUEST,
+  payload: lastRequest
+}); 
+
 // Get requests 
 export const fetchRequests = () => dispatch => {
   dispatch(requestsLoading()); 
@@ -98,14 +114,30 @@ export const requestsFailed = errMess => ({
 });
 
 // Add request 
-export const addRequest = (requestData, history) => dispatch => {
+export const addRequest = (requestData) => dispatch => {
   axios
     .post("/api/stock/addrequest", requestData)
-    .then(res => history.push("/requests"))
+    .then(response => {
+      return response.data;
+    })
+    .then(request => {
+      alert('request is === ' + request);
+      dispatch(addNewRequest(request));
+    })
+    //.then(res => history.push("/requests"))
+    //.then(res => alert('res is ' + res))
     .catch(err =>
-      dispatch({
-        type: ActionTypes.GET_ERRORS,
-        payload: err.response.data
-      })
+      {
+        alert('errore in add request!!!!! err = ' + err);
+        dispatch({
+          type: ActionTypes.GET_ERRORS,
+          payload: err.response.data
+        })  
+      }
     );
 };
+
+export const addNewRequest = request => ({
+  type: ActionTypes.ADD_REQUEST,
+  payload: request
+});
