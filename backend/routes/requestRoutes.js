@@ -40,6 +40,7 @@ router.post("/addrequest", (req, res) => {
   const id = req.body.id; 
   const category = "request"; //req.body.category;
   const article = req.body.article;
+  const index = req.body.index;
   const quantity = Number(req.body.quantity);
   const unitcost = Number(req.body.unitcost);
   const requestdate = req.body.requestdate;
@@ -57,6 +58,7 @@ router.post("/addrequest", (req, res) => {
     id, 
     category,
     article, 
+    index, 
     quantity,
     unitcost,
     requestdate,
@@ -73,9 +75,8 @@ router.post("/addrequest", (req, res) => {
 
   newStock.save()
   .then(request => res.json(request))
-  //.then(() => res.json('Request added!'))
   .catch(err => {
-    console.log('!!!!Error: ' + err);
+    console.log('Error in POST /addrequest : ' + err);
     res.status(400).json('Error: ' + err);
   } );
 });

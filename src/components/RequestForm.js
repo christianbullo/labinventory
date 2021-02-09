@@ -49,7 +49,6 @@ class RequestForm extends Component {
 
         const newRequest = {
             id: newId,  
-            //category: "request",
             ...values,
             requestdate: new Date().toISOString(),
             requestuser: this.props.auth.user.name
@@ -66,7 +65,8 @@ class RequestForm extends Component {
         return(
             <div>
                 <Button outline onClick={this.toggleModal}>
-                    <i className="fa fa-pencil fa-lg" /> {' '} <span className="text-info">Add a new Request</span> 
+                    {/* <i className="fa fa-pencil fa-lg" /> {' '}  */}
+                    <span className="text-info">Add a new Request</span> 
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}><span className="text-info">New Request</span></ModalHeader>
@@ -75,13 +75,13 @@ class RequestForm extends Component {
                             <div className="form-group">
                                 <Label htmlFor="article">Article</Label>
                                 <Control.text className="form-control" model=".article" id="article" name="article" 
-                                    // validators={{
-                                    //         required,
-                                    //         minLength: minLength(2),
-                                    //         maxLength: maxLength(100)
-                                    //     }}
+                                    validators={{
+                                            required,
+                                            minLength: minLength(2),
+                                            maxLength: maxLength(100)
+                                        }}
                                 />
-                                {/* <Errors
+                                <Errors
                                     className="text-danger"
                                     model=".article"
                                     show="touched"
@@ -91,19 +91,40 @@ class RequestForm extends Component {
                                         minLength: 'Must be at least 2 characters',
                                         maxLength: 'Must be 100 characters or less'
                                     }}
-                                />  */}
+                                /> 
+                            </div>
+                            <div className="form-group">
+                                <Label htmlFor="index">Index</Label>
+                                <Control.text className="form-control" model=".index" id="index" name="index" 
+                                    validators={{
+                                            required,
+                                            minLength: minLength(2),
+                                            maxLength: maxLength(100)
+                                        }}
+                                />
+                                <Errors
+                                    className="text-danger"
+                                    model=".index"
+                                    show="touched"
+                                    component="div"
+                                    messages={{
+                                        required: 'Required',
+                                        minLength: 'Must be at least 2 characters',
+                                        maxLength: 'Must be 100 characters or less'
+                                    }}
+                                /> 
                             </div>
                             <div className="form-group">
                                 <Label htmlFor="quantity">Quantity</Label>
                                 <Control.text className="form-control" model=".quantity" id="quantity" name="quantity" 
-                                    // validators={{
-                                    //         required,
-                                    //         minLength: minLength(2),
-                                    //         maxLength: maxLength(30),
-                                    //         isNumber
-                                    //     }}
+                                    validators={{
+                                            required,
+                                            minLength: minLength(2),
+                                            maxLength: maxLength(30),
+                                            isNumber
+                                        }}
                                 />
-                                {/* <Errors
+                                <Errors
                                     className="text-danger"
                                     model=".quantity"
                                     show="touched"
@@ -114,18 +135,18 @@ class RequestForm extends Component {
                                         maxLength: 'Must be 30 characters or less',
                                         isNumber: 'Must be a number'
                                     }}
-                                />  */}
+                                /> 
                             </div>
                             <div className="form-group">
                                 <Label htmlFor="unitcost">Unit cost</Label>
                                 <Control.text className="form-control" model=".unitcost" id="unitcost" name="unitcost" 
-                                    // validators={{
-                                    //         required,
-                                    //         minLength: minLength(2),
-                                    //         maxLength: maxLength(30)
-                                    //     }}
+                                    validators={{
+                                            required,
+                                            minLength: minLength(2),
+                                            maxLength: maxLength(30)
+                                        }}
                                 />
-                                {/* <Errors
+                                <Errors
                                     className="text-danger"
                                     model=".unitcost"
                                     show="touched"
@@ -135,7 +156,7 @@ class RequestForm extends Component {
                                         minLength: 'Must be at least 2 characters',
                                         maxLength: 'Must be 30 characters or less'
                                     }}
-                                />  */}
+                                /> 
                             </div>
                             <br/>
                             <Button type="submit" color="primary">Submit</Button> 

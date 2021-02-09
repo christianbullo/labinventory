@@ -57,6 +57,7 @@ class RequestTable extends Component {
                         <tr>
                             <th>ID</th>
                             <th>Article</th>
+                            <th>Index</th>
                             <th>Quantity</th>
                             <th>Unit Cost</th>
                             <th>Requested on</th>

@@ -34,7 +34,6 @@ router.post("/addorder", (req, res) => {
   const new_id = req.body.id; 
   const category = "order";  
   const tracking = req.body.tracking;
-  const index = req.body.index;
   const orderdate = req.body.orderdate;
   const orderuser = req.body.orderuser;
 
@@ -45,18 +44,16 @@ router.post("/addorder", (req, res) => {
         "id": new_id,
         "category": category, 
         "tracking": tracking,
-        "index": index, 
         "orderdate": orderdate,
         "orderuser": orderuser
       } 
     })
   .then(order => {
     res.json(order);
-    console.log('order updated: ' + order);
+    //console.log('order updated: ' + order);
   })
-  //.then(() => res.json('Request added!'))
   .catch(err => {
-    console.log('!!!!Error: ' + err);
+    console.log('Error in POST /addorder: ' + err);
     res.status(400).json('Error: ' + err);
   } );
 });

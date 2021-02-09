@@ -55,10 +55,8 @@ class OrderTable extends Component {
                         <tr>
                             <th>ID</th>
                             <th>Tracking</th>
+                            <th>Status</th>
                             <th>Article</th>
-                            <th>Index</th>
-                            <th>Quantity</th>
-                            <th>Unit cost</th>
                             <th>Purchased on</th>
                             <th>Ordered by</th>
                         </tr>

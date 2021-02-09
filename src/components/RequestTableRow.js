@@ -6,6 +6,12 @@ import { fetchLastOrder, addOrder, deleteRequest } from "../actions/ActionCreato
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
+import Moment from "react-moment";
+
+const required = val => val && val.length; 
+const maxLength = len => val => !val || (val.length <= len); 
+const minLength = len => val => val && (val.length >= len); 
+
 const mapStateToProps = state => {
     return { 
         lastId: state.lastId
@@ -69,21 +75,12 @@ class RequestTableRow extends Component {
             <tr>
                 <td> {r.id} </td>
                 <td> {r.article} </td>
+                <td> {r.index} </td>
                 <td> {r.quantity} </td>
                 <td> {r.unitcost} </td>
-                <td> {r.requestdate} </td>
+                <td> <Moment format="ddd, MMM DD, YYYY">{r.requestdate}</Moment> </td>
                 <td> {r.requestuser} </td>
                 <td>
-                    {/* <button className="btn btn-light m-1" 
-                        onClick={ () => {
-                            //this.props.addOrder(r);
-                            //this.props.deleteRequest(r);
-                            alert(`The product: \n${r.catalog} / ${r.product},\nhas been ordered.\nPlease check on the page "Incoming Orders".`);
-                        }  
-                    }>
-                        <p className="text-danger">Set as purchased</p>
-                    </button> */}
-
                     <Button outline onClick={this.toggleModal}>
                         <span className="text-info">Purchased</span> 
                     </Button>
@@ -105,15 +102,15 @@ class RequestTableRow extends Component {
                                 <div className="form-group">
                                     <Label htmlFor="tracking">Tracking number: </Label>
                                     <Control.text className="form-control" model=".tracking" id="tracking" name="tracking" 
-                                        // validators={{
-                                        //         required,
-                                        //         minLength: minLength(2),
-                                        //         maxLength: maxLength(100)
-                                        //     }}
+                                        validators={{
+                                                required,
+                                                minLength: minLength(2),
+                                                maxLength: maxLength(100)
+                                            }}
                                     />
-                                    {/* <Errors
+                                    <Errors
                                         className="text-danger"
-                                        model=".article"
+                                        model=".tracking"
                                         show="touched"
                                         component="div"
                                         messages={{
@@ -121,31 +118,12 @@ class RequestTableRow extends Component {
                                             minLength: 'Must be at least 2 characters',
                                             maxLength: 'Must be 100 characters or less'
                                         }}
-                                    />  */}
+                                    /> 
                                 </div>
-                                <div className="form-group">
-                                    <Label htmlFor="index">Index number:</Label>
-                                    <Control.text className="form-control" model=".index" id="index" name="index" 
-                                        // validators={{
-                                        //         required,
-                                        //         minLength: minLength(2),
-                                        //         maxLength: maxLength(30),
-                                        //         isNumber
-                                        //     }}
-                                    />
-                                    {/* <Errors
-                                        className="text-danger"
-                                        model=".quantity"
-                                        show="touched"
-                                        component="div"
-                                        messages={{
-                                            required: 'Required',
-                                            minLength: 'Must be at least 2 characters',
-                                            maxLength: 'Must be 30 characters or less',
-                                            isNumber: 'Must be a number'
-                                        }}
-                                    />  */}
-                                </div>
+                                {/* here handler upload PDF         */}
+                                <hr/>
+                                <i> -- here handler upload PDF -- </i>
+                                <hr/>
                                 <br/>
                                 <Button type="submit" color="primary">Purchased</Button> 
                             </LocalForm>
