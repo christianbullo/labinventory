@@ -1171,10 +1171,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@fontsource/pangolin@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@fontsource/pangolin/-/pangolin-4.1.0.tgz#59fcb370875f990416bec342eda4e19c2f23436a"
-  integrity sha512-db4Xt1qdZGUB8IOhwgJYibFqrE2km2UcgSouDGwS7wviwm+wc/sJsbKjzu9/RpYeBJpSVVrrFqJV9MCBZGSo2w==
+"@fontsource/pangolin@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/pangolin/-/pangolin-4.2.0.tgz#4ba9db069c75d8efd1fa386bbd96692224f995a8"
+  integrity sha512-/fKdpnFd8kqbw2ZQD+I41+LD6erFtp2oUgNoAZWnAZMfkY9KvfEBOTDAx2usaYgG5JJFLHcdfuh+jBX+P4ZZIQ==
 
 "@fontsource/playfair-display@^4.1.1":
   version "4.1.1"
@@ -3971,6 +3971,11 @@ data-urls@^2.0.0:
     abab "^2.0.3"
     whatwg-mimetype "^2.3.0"
     whatwg-url "^8.0.0"
+
+dateformat@^4.5.1:
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-4.5.1.tgz#c20e7a9ca77d147906b6dc2261a8be0a5bd2173c"
+  integrity sha512-OD0TZ+B7yP7ZgpJf5K2DIbj3FZvFvxgFUuaqA/V5zTjAtAAXZ1E8bktHxmAGs4x5b7PflqA9LeQ84Og7wYtF7Q==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.9:
   version "2.6.9"

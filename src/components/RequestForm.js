@@ -66,10 +66,10 @@ class RequestForm extends Component {
         return(
             <div>
                 <Button outline onClick={this.toggleModal}>
-                    <i className="fa fa-pencil fa-lg" /> {' '} <span className="text-danger">Submit a Request</span> 
+                    <i className="fa fa-pencil fa-lg" /> {' '} <span className="text-info">Add a new Request</span> 
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-                    <ModalHeader toggle={this.toggleModal}>Submit Request </ModalHeader>
+                    <ModalHeader toggle={this.toggleModal}><span className="text-info">New Request</span></ModalHeader>
                     <ModalBody>
                         <LocalForm onSubmit={ (values) => this.handleSubmit(values) }>
                             <div className="form-group">
@@ -137,7 +137,8 @@ class RequestForm extends Component {
                                     }}
                                 />  */}
                             </div>
-                            <Button type="submit" color="primary">Submit Request</Button> 
+                            <br/>
+                            <Button type="submit" color="primary">Submit</Button> 
                         </LocalForm>
                     </ModalBody>
                 </Modal>

@@ -10,6 +10,9 @@ export const LastId = (state = {
         case ActionTypes.GET_LAST_REQUEST:
             return {...state, 
                 lastRequest: action.payload};
+        case ActionTypes.GET_LAST_ORDER:      
+            return {...state, 
+                lastOrder: action.payload};
         default:
             return state; 
             break;

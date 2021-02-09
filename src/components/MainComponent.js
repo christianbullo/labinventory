@@ -6,7 +6,7 @@ import Header from "./HeaderComponent";
 //import Dashboard from "./components/dashboard/Dashboard";
 
 import RequestTable from "./RequestTable";
-// import { OrderTable } from "./OrderTable";
+import OrderTable from "./OrderTable";
 // import { InStockTable } from "./InStockTable";
 // import { OutOfStockTable } from "./OutOfStockTable";
 import { StatsComponent } from "./StatsComponent";
@@ -42,6 +42,7 @@ class Main extends Component {
             <Switch>
               <Route exact path="/home" component={HomeComponent} />
               <Route exact path="/requests" component={RequestTable} />
+              <Route exact path="/orders" component={OrderTable} />
               {/* <Route exact path="/requests" render={() => 
                 <RequestTable auth={this.props.auth} addRequest={ this.props.addRequest } />} /> */}
               <Route exact path="/stats" component={StatsComponent} />

@@ -2,10 +2,20 @@ export const GET_ERRORS = "GET_ERRORS";
 export const USER_LOADING = "USER_LOADING";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 
+// REQUESTS
 export const GET_REQUESTS = "GET_REQUESTS";
 export const REQUESTS_LOADING = "REQUESTS_LOADING";
 export const REQUESTS_FAILED = "REQUESTS_FAILED";
 
 export const ADD_REQUEST = "ADD_REQUEST";
-
 export const GET_LAST_REQUEST = "GET_LAST_REQUEST";
+
+export const DELETE_REQUEST = 'DELETE_REQUEST';
+
+// ORDERS
+export const GET_ORDERS = "GET_ORDERS";
+export const ORDERS_LOADING = "ORDERS_LOADING";
+export const ORDERS_FAILED = "ORDERS_FAILED";
+
+export const ADD_ORDER = "ADD_ORDER";
+export const GET_LAST_ORDER = "GET_LAST_ORDER";

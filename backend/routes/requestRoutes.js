@@ -21,7 +21,7 @@ router.get("/lastrequest", (req, res) => {
 // @route GET api/stock/requests
 // @desc Get requests
 router.get("/requests", (req, res) => {
-  Stock.find({"category": "request"})
+  Stock.find({"category": "request"}).sort({requestdate: 'asc'})
     .then(requests => res.json(requests))
     .catch(err => res.status(400).json('Error: ' + err));
 });

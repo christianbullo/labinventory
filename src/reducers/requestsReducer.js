@@ -16,9 +16,14 @@ export const Requests = (state = {
                 isLoading: false,
                 errMess: action.payload};     
         case ActionTypes.ADD_REQUEST:
-                const request = action.payload;
+            const request = action.payload;
             return {...state, 
                     requests: state.requests.concat(request)}; 
+            break;
+        case ActionTypes.DELETE_REQUEST:
+            const toDeleteId = action.payload;
+            return {...state, 
+                    requests: state.requests.filter(request => request._id !== toDeleteId)}; 
             break;
         default:
             return state; 

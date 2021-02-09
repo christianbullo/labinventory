@@ -73,7 +73,7 @@ export const logoutUser = () => dispatch => {
 // Get last ID
 export const fetchLastRequest = () => dispatch => {
   axios
-    .get("/api/stock/lastrequest")
+    .get("/api/stock/requests/lastrequest")
     .then(response => {
       return response.data;
     })
@@ -91,7 +91,7 @@ export const fetchRequests = () => dispatch => {
   dispatch(requestsLoading()); 
 
   axios
-    .get("/api/stock/requests")
+    .get("/api/stock/requests/requests")
     .then(response => {
       return response.data;
     })
@@ -116,12 +116,12 @@ export const requestsFailed = errMess => ({
 // Add request 
 export const addRequest = (requestData) => dispatch => {
   axios
-    .post("/api/stock/addrequest", requestData)
+    .post("/api/stock/requests/addrequest", requestData)
     .then(response => {
       return response.data;
     })
     .then(request => {
-      alert('request is === ' + request);
+      //alert('request is === ' + request);
       dispatch(addNewRequest(request));
     })
     //.then(res => history.push("/requests"))
@@ -140,4 +140,88 @@ export const addRequest = (requestData) => dispatch => {
 export const addNewRequest = request => ({
   type: ActionTypes.ADD_REQUEST,
   payload: request
+});
+
+
+// ORDERS
+
+// Get last ID
+export const fetchLastOrder = () => dispatch => {
+  axios
+    .get("/api/stock/orders/lastorder")
+    .then(response => {
+      //alert('response fetch is ' + response);
+      return response.data;
+    })
+    .then(lastOrder => dispatch(getLastOrder(lastOrder)))
+    .catch(error => dispatch(ordersFailed(error.message)));
+}
+
+export const getLastOrder = lastOrder => ({
+  type: ActionTypes.GET_LAST_ORDER,
+  payload: lastOrder
+}); 
+
+// Get orders 
+export const fetchOrders = () => dispatch => {
+  dispatch(ordersLoading()); 
+
+  axios
+    .get("/api/stock/orders/orders")
+    .then(response => {
+      return response.data;
+    })
+    .then(orders => dispatch(getOrders(orders)))
+    .catch(error => dispatch(ordersFailed(error.message)));
+};
+
+export const ordersLoading = () => ({
+  type: ActionTypes.ORDERS_LOADING
+});
+
+export const getOrders = orders => ({
+  type: ActionTypes.GET_ORDERS,
+  payload: orders
+}); 
+
+export const ordersFailed = errMess => ({
+  type: ActionTypes.ORDERS_FAILED,
+  payload: errMess
+});
+
+// Add order 
+export const addOrder = (orderData) => dispatch => {
+  axios
+    .post("/api/stock/orders/addorder", orderData)
+    .then(response => {
+      return response.data;
+    })
+    .then(order => {
+      dispatch(addNewOrder(order));
+    })
+    .catch(err =>
+      {
+        alert('errore in add order!!!!! err = ' + err);
+        dispatch({
+          type: ActionTypes.GET_ERRORS,
+          payload: err.response.data
+        })  
+      }
+    );
+};
+
+export const addNewOrder = order => ({
+  type: ActionTypes.ADD_ORDER,
+  payload: order 
+});
+
+// delete old request 
+export const deleteRequest = (oldRequest_Id) => dispatch => {
+  // Remove old request after updating as an order 
+  dispatch(deleteOldRequest(oldRequest_Id));
+};
+
+export const deleteOldRequest = oldRequest_Id => ({
+  type: ActionTypes.DELETE_REQUEST,
+  payload: oldRequest_Id 
 });

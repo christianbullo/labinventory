@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { RequestTableRow } from "./RequestTableRow";
+import RequestTableRow  from "./RequestTableRow";
 import RequestForm from "./RequestForm";
 
 import { fetchRequests, addRequest } from "../actions/ActionCreators";
@@ -18,7 +18,7 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = {
     fetchRequests: () => (fetchRequests()),
-    addRequest: (request) => (addRequest(request)),  
+    addRequest: (request) => (addRequest(request))
 };
 
 class RequestTable extends Component {
@@ -69,6 +69,7 @@ class RequestTable extends Component {
                             <RequestTableRow 
                                 request={ r }
                                 key={ r.id } 
+                                auth={ this.props.auth }
                             />
                             )
                         }
