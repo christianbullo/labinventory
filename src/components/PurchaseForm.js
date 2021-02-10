@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { LocalForm, Control, Errors } from 'react-redux-form';
-import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
+//import { LocalForm, Control, Errors } from 'react-redux-form';
+import { Field, reduxForm } from 'redux-form';
+import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
 import { fetchLastOrder, addOrder, deleteRequest } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
-import Moment from "react-moment";
 
 const required = val => val && val.length; 
 const maxLength = len => val => !val || (val.length <= len); 
@@ -29,10 +28,15 @@ class PurchaseForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModalOpen: false 
+            isModalOpen: false,
+            tracking: '',
+            pdfdata: ''
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.onTrackingChange = this.onTrackingChange.bind(this);
+        this.onFileChange = this.onFileChange.bind(this);
     }
     
     componentDidMount() {
@@ -45,27 +49,61 @@ class PurchaseForm extends Component {
         });
     }
 
-    handleSubmit(values) {
+    onTrackingChange(e) {
+        e.preventDefault();
+        this.setState({ tracking: e.target.value });
+        //alert('tracking now is = ' + e.target.value);
+    }
+
+    onFileChange(e) {
+        e.preventDefault();
+        //console.log(e.target.files[0], "$$$$");
+        const file = e.target.files[0];
+        this.setState({ pdfdata: file });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+
         this.props.fetchLastOrder();
  
         const lastOrderId = this.props.lastId.lastOrder[0];
         const newId = lastOrderId.id + 1; 
- 
-        const newOrder = {
-            id: newId,  
-            //category: "request",
-            ...values,
-            orderdate: new Date().toISOString(),
-            orderuser: this.props.auth.user.name
-        };
 
-        this.props.addOrder(newOrder);
+        let r = this.props.request;           
 
-        this.props.deleteRequest(values.item_id);
+        const item_id = r._id; 
+        const tracking = this.state.tracking;
+        const orderdate = new Date().toISOString();
+        const orderuser = this.props.auth.user.name; 
+        const pdfdata = this.state.pdfdata; 
+
+        const formData = new FormData();
+
+        formData.append('item_id', item_id); 
+        formData.append('id', newId); 
+        formData.append('tracking', tracking); 
+        formData.append('orderdate', orderdate); 
+        formData.append('orderuser', orderuser); 
+        formData.append('pdfdata', pdfdata); 
+
+        // const newOrder = {
+        //     id: newId,  
+        //     //category: "request",
+        //     ...values,
+        //     orderdate: new Date().toISOString(),
+        //     orderuser: this.props.auth.user.name
+        // };
+
+        //this.props.addOrder(newOrder);
+        this.props.addOrder(formData);
+
+        this.props.deleteRequest(item_id);
 
         this.toggleModal();
 
-        alert('Current state is: ' + JSON.stringify(newOrder) );
+        //alert('Current state is: ' + JSON.stringify(formData) );
+        //alert('Current state is: ' + formData);
     }
 
     render() {
@@ -78,58 +116,27 @@ class PurchaseForm extends Component {
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>
-                        <h5>Purchase confirmation of the item {r.id}: </h5>
+                        Purchase confirmation of:
                         <hr/>
-                        <h4 className="text-info">{r.article}</h4>
+                        <h4 className="text-primary">{r.article}</h4>
+                        <h5 className="text-info">{r.index}</h5>
                     </ModalHeader>
                     <ModalBody>
-                        {/* <LocalForm onSubmit={ (values) => {
-                            const r_id = this.props.request._id;
-                            const formData = {
-                                ...values,
-                                item_id: r_id 
-                            };
-                            this.handleSubmit(formData);
-                        } }>
-                            <div className="form-group">
-                                <Label htmlFor="tracking">Tracking number: </Label>
-                                <Control.text className="form-control" model=".tracking" id="tracking" name="tracking" 
-                                    validators={{
-                                            required,
-                                            minLength: minLength(2),
-                                            maxLength: maxLength(100)
-                                        }}
-                                />
-                                <Errors
-                                    className="text-danger"
-                                    model=".tracking"
-                                    show="touched"
-                                    component="div"
-                                    messages={{
-                                        required: 'Required',
-                                        minLength: 'Must be at least 2 characters',
-                                        maxLength: 'Must be 100 characters or less'
-                                    }}
-                                /> 
-                            </div>
-                            
-                            <hr/>
-                            <i> -- here handler upload PDF -- </i>
-                            <hr/>
-                            <br/>
-                            <Button type="submit" color="primary">Purchased</Button> 
-                        </LocalForm> */}
-
-                        <Form>
+                        <Form onSubmit={this.handleSubmit}>
                             <FormGroup>
-                                <Label for="exampleFile">File</Label>
-                                <Input type="file" name="file" id="exampleFile" />
-                                <FormText color="muted">
-                                    This is some placeholder block-level help text for the above input.
-                                    It's a bit lighter and easily wraps to a new line.
-                                </FormText>
+                                <Label for="tracking">Tracking number: </Label>
+                                <Input type="text" name="tracking" id="tracking" 
+                                    value={this.state.tracking} onChange={this.onTrackingChange}
+                                />
+                            </FormGroup>    
+                            <FormGroup>
+                                <Label for="pdfdata">Choose the Internal Order Form to upload: </Label>
+                                <Input type="file" name="pdfdata" id="pdfdata" 
+                                    onChange={this.onFileChange}
+                                />
                             </FormGroup>
-                            <Button type="submit" color="primary">Purchased</Button> 
+                            <br/>
+                            <Button type="submit" color="primary">Submit</Button> 
                         </Form>
                     </ModalBody>
                 </Modal>

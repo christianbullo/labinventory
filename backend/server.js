@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const multer = require("multer");
+const cors = require("cors");
 
 require('dotenv').config();
 
@@ -10,6 +12,15 @@ const orders = require("./routes/ordersRoutes");
 const instock = require("./routes/instockRoutes");
 const outstock = require("./routes/outstockRoutes");
 
+// Storage: sets up where to store POST files
+const storage = multer.diskStorage({
+  destination: function (req, res, cb) {
+      cb(null, 'uploads/');
+  }
+});
+const upload = multer({ storage: storage }); 
+
+// setup express app server 
 const app = express();
 
 // parse requests of content-type - application/json
@@ -18,9 +29,12 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded(
   {
-    extended: false
+    extended: true
   }
 ));
+app.use(cors());
+
+app.use('/public', express.static('public'));
 
 // DB Config
 const mongoUri = process.env.DB_URL || 'mongodb://localhost:27017/labinventory';

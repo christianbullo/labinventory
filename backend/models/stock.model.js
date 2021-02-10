@@ -19,7 +19,13 @@ const StockSchema = new Schema({
   stocknotes: { type: String },
   location: { type: String },
   sublocation: { type: String },
-  status: { type: String }
+  status: { type: String },
+  aliquot: { type: String },
+  pdfname: { type: String },
+  pdfdata: { type: Buffer },
+  imgname: { type: String },
+  imgdata: { type: Buffer }
+
 });
 
 module.exports = Stock = mongoose.model("Stock", StockSchema);
