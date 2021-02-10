@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
+
+import Moment from "react-moment";
 
 export class InStockTableRow extends Component {
     render() {
@@ -7,16 +10,22 @@ export class InStockTableRow extends Component {
         return(
             <tr>
                 <td> {i.id} </td>
-                <td> {i.catalog} </td>
-                <td> {i.product} </td>
+                <td> {i.article} </td>
+                <td> {i.index} </td>
                 <td> {i.location} </td>
-                <td> {i.sublocation} </td>
-                <td> {i.radioactive} </td>
                 <td> {i.quantity} </td>
-                <td> {i.unitsize} </td>
-                <td> {i.unitcost} </td>
-                <td> {i.totalcost} </td>
-                <td> {i.vendor} </td>
+                <td> <Moment format="ll">{i.deliverydate}</Moment></td>
+                <td> {i.deliveryuser} </td>
+                <td>
+                    <Button outline onClick={this.toggleModal}>
+                        <i className="fa fa-search" />
+                    </Button>
+                </td>
+                <td>
+                    <Button outline onClick={this.toggleModal}>
+                        <i className="fa fa-pencil" />
+                    </Button>
+                </td>
             </tr>
         );
     }

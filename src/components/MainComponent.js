@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import Header from "./HeaderComponent";
-//import Navbar from "./components/layout/Navbar";
-
-//import PrivateRoute from "./components/private-route/PrivateRoute";
-//import Dashboard from "./components/dashboard/Dashboard";
+import Footer from "./FooterComponent";
 
 import RequestTable from "./RequestTable";
 import OrderTable from "./OrderTable";
-// import { InStockTable } from "./InStockTable";
-// import { OutOfStockTable } from "./OutOfStockTable";
+import InStockTable from "./InStockTable";
+// import OutOfStockTable from "./OutOfStockTable";
 import { StatsComponent } from "./StatsComponent";
-import { HomeComponent } from "./HomeComponent";
+//import { HomeComponent } from "./HomeComponent";
 
 import { logoutUser } from "../actions/ActionCreators";
 import { Switch, Route, withRouter, Redirect } from "react-router-dom";
@@ -19,6 +16,7 @@ import { connect } from "react-redux";
 import Landing from "../components/layout/Landing";
 import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
+import Dashboard from "../components/dashboard/Dashboard";
 
 const mapStateToProps = state => {
   return {
@@ -40,13 +38,12 @@ class Main extends Component {
         { this.props.auth.isAuthenticated === true ? 
           (
             <Switch>
-              <Route exact path="/home" component={HomeComponent} />
+              <Route exact path="/" component={Dashboard} />
               <Route exact path="/requests" component={RequestTable} />
               <Route exact path="/orders" component={OrderTable} />
-              {/* <Route exact path="/requests" render={() => 
-                <RequestTable auth={this.props.auth} addRequest={ this.props.addRequest } />} /> */}
+              <Route exact path="/instock" component={InStockTable} />
               <Route exact path="/stats" component={StatsComponent} />
-              <Redirect to="/stats" />
+              <Redirect to="/" />
             </Switch>
           ) 
           : 
@@ -58,6 +55,8 @@ class Main extends Component {
             </Switch>
           )
         }
+        <br />
+        <Footer />
       </div>
     );
   }

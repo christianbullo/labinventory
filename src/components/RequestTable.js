@@ -87,7 +87,7 @@ class RequestTable extends Component {
                         </div>
                     </div>
                 </div>
-                <hr/>
+                <br/>
             </div>
         );
     }

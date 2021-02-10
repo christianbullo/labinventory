@@ -19,3 +19,15 @@ export const ORDERS_FAILED = "ORDERS_FAILED";
 
 export const ADD_ORDER = "ADD_ORDER";
 export const GET_LAST_ORDER = "GET_LAST_ORDER";
+
+export const DELETE_ORDER = 'DELETE_ORDER';
+
+// IN STOCK 
+export const GET_INSTOCK = "GET_INSTOCK";
+export const INSTOCK_LOADING = "INSTOCK_LOADING";
+export const INSTOCK_FAILED = "INSTOCK_FAILED";
+
+export const ADD_INSTOCK = "ADD_INSTOCK";
+export const GET_LAST_INSTOCK = "GET_LAST_INSTOCK";
+export const DELETE_INSTOCK = 'DELETE_INSTOCK';
+

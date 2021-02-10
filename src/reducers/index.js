@@ -4,11 +4,13 @@ import errorReducer from "./errorReducer";
 import { LastId } from "./lastIdReducer";
 import { Requests } from "./requestsReducer";
 import { Orders } from "./ordersReducer";
+import { Instock } from "./inStockReducer";
 
 export default combineReducers({
   auth: authReducer,
   errors: errorReducer,
   lastId: LastId,  
   requests: Requests,
-  orders: Orders
+  orders: Orders,
+  instock: Instock 
 });

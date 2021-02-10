@@ -55,10 +55,12 @@ class Header extends Component {
                     </div>
                 </Jumbotron>
                 <Navbar dark sticky="top" expand="md">
-                    <div className="container justify-content-center">
-                        {/* <NavbarBrand className="mr-auto" href="/stats">
-                            <i className="fa fa-bar-chart fa-lg">{' '}Stats</i> 
-                        </NavbarBrand> */}
+                    <div className="container justify-content-between">
+                        <NavbarBrand className="ml-0 mr-sm-2">
+                                <NavLink className="nav-link" to="/">
+                                    <i className="fa fa-home fa-lg"></i>
+                                </NavLink>
+                        </NavbarBrand>
                         <NavbarToggler onClick={this.toggleNav} />   
                         <Collapse isOpen={this.state.isNavOpen} navbar className="justify-content-center">                  
                             { this.props.auth.isAuthenticated === true ? 
@@ -90,7 +92,7 @@ class Header extends Component {
                                             </NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <Button outline className="text-dark" onClick={this.onLogoutClick}>
+                                            <Button outline className="text-dark ml-3" onClick={this.onLogoutClick}>
                                                 <i class="fa fa-sign-out">{' '}<span className="menu">Logout user: {user.name}</span></i> 
                                             </Button>
                                         </NavItem>

@@ -25,3 +25,8 @@ body, .menu {
 .navbar-dark {
   background-color:rgba(6, 80, 150, 0.5);
 }
+
+.vertical-line {
+  display: inline-block;
+  border-left: 1px solid #ccc;
+  height: 150px; }

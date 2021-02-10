@@ -13,6 +13,9 @@ export const LastId = (state = {
         case ActionTypes.GET_LAST_ORDER:      
             return {...state, 
                 lastOrder: action.payload};
+        case ActionTypes.GET_LAST_INSTOCK:    
+            return {...state, 
+                lastInStock: action.payload};
         default:
             return state; 
             break;

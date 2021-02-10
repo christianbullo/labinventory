@@ -225,3 +225,86 @@ export const deleteOldRequest = oldRequest_Id => ({
   type: ActionTypes.DELETE_REQUEST,
   payload: oldRequest_Id 
 });
+
+
+// IN STOCK 
+
+// Get last ID
+export const fetchLastInstock = () => dispatch => {
+  axios
+    .get("/api/stock/instock/lastinstock")
+    .then(response => {
+      return response.data;
+    })
+    .then(lastInStock => dispatch(getLastInstock(lastInStock)))
+    .catch(error => dispatch(instockFailed(error.message)));
+}
+
+export const getLastInstock = lastInStock => ({
+  type: ActionTypes.GET_LAST_INSTOCK, 
+  payload: lastInStock
+}); 
+
+// Get in stock  
+export const fetchInStock = () => dispatch => {
+  dispatch(instockLoading()); 
+
+  axios
+    .get("/api/stock/instock/instock")
+    .then(response => {
+      return response.data;
+    })
+    .then(instock => dispatch(getInStock(instock)))
+    .catch(error => dispatch(instockFailed(error.message)));
+};
+
+export const instockLoading = () => ({
+  type: ActionTypes.INSTOCK_LOADING
+});
+
+export const getInStock = instock => ({
+  type: ActionTypes.GET_INSTOCK, 
+  payload: instock
+}); 
+
+export const instockFailed = errMess => ({
+  type: ActionTypes.INSTOCK_FAILED,
+  payload: errMess
+});
+
+// Add in stock  
+export const addInStock = (stockData) => dispatch => {
+  axios
+    .post("/api/stock/instock/addinstock", stockData)
+    .then(response => {
+      return response.data;
+    })
+    .then(instock => {
+      dispatch(addNewInstock(instock));
+    })
+    .catch(err =>
+      {
+        alert('errore in add in stock!!!!! err = ' + err);
+        dispatch({
+          type: ActionTypes.GET_ERRORS,
+          payload: err.response.data
+        })  
+      }
+    );
+};
+
+export const addNewInstock = instock => ({
+  type: ActionTypes.ADD_INSTOCK,  
+  payload: instock 
+});
+
+// delete old in stock  
+export const deleteInStock = (oldInstock_Id) => dispatch => {
+  // Remove old request after updating as an order 
+  dispatch(deleteOldInstock(oldInstock_Id));
+};
+
+export const deleteOldInstock = oldInstock_Id => ({
+  type: ActionTypes.DELETE_INSTOCK, 
+  payload: oldInstock_Id 
+});
