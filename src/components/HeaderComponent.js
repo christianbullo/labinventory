@@ -58,7 +58,15 @@ class Header extends Component {
                     <div className="container justify-content-between">
                         <NavbarBrand className="ml-0 mr-sm-2">
                                 <NavLink className="nav-link" to="/">
-                                    <i className="fa fa-home fa-lg"></i>
+                                    { this.props.auth.isAuthenticated === true ? 
+                                        (
+                                            <i className="fa fa-user-circle fa-lg"></i>
+                                        ) 
+                                        : 
+                                        (
+                                            <i className="fa fa-home fa-lg"></i>
+                                        )
+                                    }
                                 </NavLink>
                         </NavbarBrand>
                         <NavbarToggler onClick={this.toggleNav} />   

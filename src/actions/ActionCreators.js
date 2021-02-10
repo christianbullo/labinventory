@@ -308,3 +308,74 @@ export const deleteOldInstock = oldInstock_Id => ({
   type: ActionTypes.DELETE_INSTOCK, 
   payload: oldInstock_Id 
 });
+
+// OUY OF STOCK 
+
+// Get last ID
+export const fetchLastOutstock = () => dispatch => {
+  axios
+    .get("/api/stock/outstock/lastoutstock")
+    .then(response => {
+      return response.data;
+    })
+    .then(lastOutStock => dispatch(getLastOutstock(lastOutStock)))
+    .catch(error => dispatch(outstockFailed(error.message)));
+}
+
+export const getLastOutstock = lastOutStock => ({
+  type: ActionTypes.GET_LAST_OUTSTOCK, 
+  payload: lastOutStock
+}); 
+
+// Get out of stock  
+export const fetchOutStock = () => dispatch => {
+  dispatch(outstockLoading()); 
+
+  axios
+    .get("/api/stock/outstock/outstock")
+    .then(response => {
+      return response.data;
+    })
+    .then(outstock => dispatch(getOutStock(outstock)))
+    .catch(error => dispatch(outstockFailed(error.message)));
+};
+
+export const outstockLoading = () => ({
+  type: ActionTypes.OUTSTOCK_LOADING
+});
+
+export const getOutStock = outstock => ({
+  type: ActionTypes.GET_OUTSTOCK, 
+  payload: outstock
+}); 
+
+export const outstockFailed = errMess => ({
+  type: ActionTypes.OUTSTOCK_FAILED,
+  payload: errMess
+});
+
+// Add out of stock  
+export const addOutStock = (stockData) => dispatch => {
+  axios
+    .post("/api/stock/instock/addoutstock", stockData)
+    .then(response => {
+      return response.data;
+    })
+    .then(outstock => {
+      dispatch(addNewOutstock(outstock));
+    })
+    .catch(err =>
+      {
+        alert('errore in add out of stock!!!!! err = ' + err);
+        dispatch({
+          type: ActionTypes.GET_ERRORS,
+          payload: err.response.data
+        })  
+      }
+    );
+};
+
+export const addNewOutstock = outstock => ({
+  type: ActionTypes.ADD_OUTSTOCK,  
+  payload: outstock 
+});

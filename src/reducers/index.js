@@ -5,6 +5,7 @@ import { LastId } from "./lastIdReducer";
 import { Requests } from "./requestsReducer";
 import { Orders } from "./ordersReducer";
 import { Instock } from "./inStockReducer";
+import { Outstock } from "./outStockReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   lastId: LastId,  
   requests: Requests,
   orders: Orders,
-  instock: Instock 
+  instock: Instock,
+  outstock: Outstock
 });

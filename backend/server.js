@@ -8,6 +8,7 @@ const users = require("./routes/userRoutes");
 const requests = require("./routes/requestRoutes");
 const orders = require("./routes/ordersRoutes"); 
 const instock = require("./routes/instockRoutes");
+const outstock = require("./routes/outstockRoutes");
 
 const app = express();
 
@@ -48,6 +49,7 @@ app.use("/api/users", users);
 app.use("/api/stock/requests", requests);
 app.use("/api/stock/orders", orders); 
 app.use("/api/stock/instock", instock); 
+app.use("/api/stock/outstock", outstock); 
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port 
 

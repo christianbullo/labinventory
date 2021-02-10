@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { LocalForm, Control, Errors } from 'react-redux-form';
-import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
+import { Button, Form, FormGroup, FormText, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
 import { fetchLastOrder, addOrder, deleteRequest } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
@@ -70,7 +70,7 @@ class PurchaseForm extends Component {
 
     render() {
         let r = this.props.request;
-        
+
         return (
             <div>
                 <Button outline onClick={this.toggleModal}>
@@ -83,7 +83,7 @@ class PurchaseForm extends Component {
                         <h4 className="text-info">{r.article}</h4>
                     </ModalHeader>
                     <ModalBody>
-                        <LocalForm onSubmit={ (values) => {
+                        {/* <LocalForm onSubmit={ (values) => {
                             const r_id = this.props.request._id;
                             const formData = {
                                 ...values,
@@ -112,13 +112,25 @@ class PurchaseForm extends Component {
                                     }}
                                 /> 
                             </div>
-                            {/* here handler upload PDF         */}
+                            
                             <hr/>
                             <i> -- here handler upload PDF -- </i>
                             <hr/>
                             <br/>
                             <Button type="submit" color="primary">Purchased</Button> 
-                        </LocalForm>
+                        </LocalForm> */}
+
+                        <Form>
+                            <FormGroup>
+                                <Label for="exampleFile">File</Label>
+                                <Input type="file" name="file" id="exampleFile" />
+                                <FormText color="muted">
+                                    This is some placeholder block-level help text for the above input.
+                                    It's a bit lighter and easily wraps to a new line.
+                                </FormText>
+                            </FormGroup>
+                            <Button type="submit" color="primary">Purchased</Button> 
+                        </Form>
                     </ModalBody>
                 </Modal>
             </div>

@@ -5,7 +5,7 @@ import Footer from "./FooterComponent";
 import RequestTable from "./RequestTable";
 import OrderTable from "./OrderTable";
 import InStockTable from "./InStockTable";
-// import OutOfStockTable from "./OutOfStockTable";
+import OutOfStockTable from "./OutOfStockTable";
 import { StatsComponent } from "./StatsComponent";
 //import { HomeComponent } from "./HomeComponent";
 
@@ -42,6 +42,7 @@ class Main extends Component {
               <Route exact path="/requests" component={RequestTable} />
               <Route exact path="/orders" component={OrderTable} />
               <Route exact path="/instock" component={InStockTable} />
+              <Route exact path="/outofstock" component={OutOfStockTable} />
               <Route exact path="/stats" component={StatsComponent} />
               <Redirect to="/" />
             </Switch>

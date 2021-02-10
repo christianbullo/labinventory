@@ -16,6 +16,9 @@ export const LastId = (state = {
         case ActionTypes.GET_LAST_INSTOCK:    
             return {...state, 
                 lastInStock: action.payload};
+        case ActionTypes.GET_LAST_OUTSTOCK:    
+            return {...state, 
+                lastOutOfStock: action.payload};
         default:
             return state; 
             break;
