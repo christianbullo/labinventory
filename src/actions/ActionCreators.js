@@ -224,6 +224,32 @@ export const deleteOldRequest = oldRequest_Id => ({
   payload: oldRequest_Id 
 });
 
+// Edit order 
+export const editOrder = (formData) => dispatch => {
+  
+  axios
+    .post("/api/stock/orders/editorder", formData)
+    .then(response => {
+      return response.data;
+    })
+    .then(order => {
+      dispatch(editedOrder(order));
+    })
+    .catch(err =>
+      {
+        alert('errore in edit order!!!!! err = ' + err);
+        dispatch({
+          type: ActionTypes.GET_ERRORS,
+          payload: err.response.data
+        })  
+      }
+    );
+};
+
+export const editedOrder = order => ({
+  type: ActionTypes.EDIT_ORDER,
+  payload: order 
+});
 
 // IN STOCK 
 

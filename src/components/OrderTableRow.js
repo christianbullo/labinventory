@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 import PdfComponent from "./PdfComponent";
+import EditOrderForm from "./EditOrderForm";
 import Moment from "react-moment";
 
 export class OrderTableRow extends Component {
@@ -19,9 +20,10 @@ export class OrderTableRow extends Component {
                     <PdfComponent order={o} />  
                 </td>
                 <td>
-                    <Button outline onClick={this.toggleModal}>
+                    <EditOrderForm order={o} />
+                    {/* <Button outline onClick={this.toggleModal}>
                         <i className="fa fa-pencil" />
-                    </Button>
+                    </Button> */}
                 </td>
                 <td>
                     <Button outline onClick={this.toggleModal} className="text-info">

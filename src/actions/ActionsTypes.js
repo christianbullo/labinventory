@@ -19,6 +19,7 @@ export const ORDERS_FAILED = "ORDERS_FAILED";
 export const ADD_ORDER = "ADD_ORDER";
 export const GET_LAST_ORDER = "GET_LAST_ORDER";
 export const DELETE_ORDER = 'DELETE_ORDER';
+export const EDIT_ORDER = "EDIT_ORDER";
 
 // IN STOCK 
 export const GET_INSTOCK = "GET_INSTOCK";

@@ -16,10 +16,15 @@ export const Orders = (state = {
                 isLoading: false,
                 errMess: action.payload};     
         case ActionTypes.ADD_ORDER:
-                const order = action.payload;
+            const order = action.payload;
             return {...state, 
                     orders: state.orders.concat(order)}; 
             break;
+        case ActionTypes.EDIT_ORDER:
+            const editedOrder = action.payload;
+        return {...state, 
+                orders: state.orders.filter(o => o._id !== editedOrder._id).concat(editedOrder)}; 
+        break;
         default:
             return state; 
             break;
