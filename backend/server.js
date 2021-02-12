@@ -1,11 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
-const multer = require("multer");
 const cors = require("cors");
-//const methodOverride = require("method-override");
-const GridFsStorage = require("multer-gridfs-storage");
-const crypto = require("crypto");
 
 require('dotenv').config();
 
@@ -15,40 +11,6 @@ const orders = require("./routes/ordersRoutes");
 const instock = require("./routes/instockRoutes");
 const outstock = require("./routes/outstockRoutes");
 const files = require("./routes/filesRoutes");
-const oldfiles = require("./routes/old_filesRoutes");
-
-// Storage: sets up where to store POST files
-// const storage = multer.diskStorage({
-//   destination: function (req, res, cb) {
-//       cb(null, 'uploads/');
-//   }
-// });
-//const upload = multer({ storage: storage }); 
-
-// create storage engine 
-// const storage = new GridFsStorage({
-//   url: mongoUri,
-//   file: (req, file) => {
-//     return new Promise((resolve, reject) => {
-//       // encrypt filename before storing it
-//       crypto.randomBytes(16, (err, buf) => {
-//         if (err) {
-//           return reject(err);
-//         }
-//         const filename = buf.toString("hex") + path.extname(file.originalname);
-//         const fileInfo = {
-//           filename: filename,
-//           bucketName: "uploads"
-//         };
-//         resolve(fileInfo);
-//       });
-//     });
-//   }
-// });
-
-// const upload = multer({
-//   storage
-// });
 
 // setup express app server 
 const app = express();

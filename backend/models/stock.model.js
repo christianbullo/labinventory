@@ -22,9 +22,7 @@ const StockSchema = new Schema({
   status: { type: String },
   aliquot: { type: String },
   pdfname: { type: String },
-  pdfdata: { type: Buffer },
-  imgname: { type: String },
-  imgdata: { type: Buffer }
+  imgname: { type: String }
 
 });
 

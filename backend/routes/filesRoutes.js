@@ -8,41 +8,11 @@ const GridFsStorage = require("multer-gridfs-storage");
 const crypto = require("crypto");
 
 const multer = require("multer");
-const { v4: uuidv4 } = require('uuid');
-
-const fs = require('fs');
-
-const DIR = "./public/";
 
 require('dotenv').config();
 
 // DB Config
 const mongoUri = process.env.DB_URL || 'mongodb://localhost:27017/labinventory';
-
-// setup storage
-// const storage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//       cb(null, DIR);
-//   },
-//   filename: (req, file, cb) => {
-//       const fileName = file.originalname.toLowerCase().split(' ').join('-');
-//       cb(null, uuidv4() + '-' + fileName);
-//       //cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-//   }
-// });
-
-// var upload = multer({
-//   storage: storage,
-//   fileFilter: (req, file, cb) => {
-//       if (file.mimetype == "application/pdf" || file.mimetype == "image/jpeg") {
-//           cb(null, true);
-//       } else {
-//           cb(null, false);
-//           return cb(new Error('Only .pdf and .jpg format allowed!'));
-//       }
-//   }
-// });
-
 
 // create storage engine 
 const storage = new GridFsStorage({
@@ -81,18 +51,12 @@ conn.once("open", () => {
   });
 });
 
-// Load input validation
-//const validateOrderInput = require("../validation/order");
-
 // Load Stock model
 const Stock = require("../models/stock.model");
 
 // @route GET api/stock/orders/uploads
 // @desc Get file by :filename
 router.get("/:filename", (req, res) => {
-    //console.log('req.file: ', req.file);
-    //res.send(req);
-    //console.log('req: ', req);
     const file = gfs
       .find({
         filename: req.params.filename 
