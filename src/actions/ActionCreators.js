@@ -4,6 +4,9 @@ import jwt_decode from "jwt-decode";
 
 import * as ActionTypes from "./ActionsTypes";
 
+const Fs = require('fs');
+const Path = require('path')  
+
 // Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
@@ -225,6 +228,62 @@ export const deleteOldRequest = oldRequest_Id => ({
   type: ActionTypes.DELETE_REQUEST,
   payload: oldRequest_Id 
 });
+
+
+// Get file order
+export const fetchFileOrder = (filename) => dispatch => {
+  axios.get("/api/files", filename) 
+  // axios.get({
+  //   url: '/api/files',
+  //   params: {
+  //     filename: filename
+  //   },
+  //   responseType: 'blob'
+  // })
+  .then(res => {
+    alert("!!!type of res is " + (typeof res));
+    return res;
+  })
+  .catch(error => dispatch(ordersFailed(error.message)));
+}
+
+export const ___fetchFileOrder = (filename) => dispatch => {
+  axios
+    //.get("/api/stock/orders/uploads/", { params: { id: filename}})
+    .get("/api/public/", { params: { filename: filename }})
+    .then(res => {
+      alert("!!!type of res is " + (typeof res));
+      return res;  
+      //if (res.content-type === 'image/jpeg') {
+      //  alert("!!!res.content-type is " + res.content-type); 
+      //}
+      //alert('response fetch is ' + response);
+      //return response.data;
+    })
+    //.then(fileOrder => dispatch(getFileOrder(fileOrder)))
+    .catch(error => dispatch(ordersFailed(error.message)));
+}
+
+// Get file order 
+export const ALTfetchFileOrder = (filename) => dispatch => {
+  const path = Path.resolve(__dirname, '..', 'test.jpg');
+  //const writer = Fs.createWriteStream(path);
+
+  axios
+    .get("/api/stock/files/", { params: { filename: filename} }, { responseType: 'stream' })
+    .then(response => {
+      //alert('response fetch is ' + response);
+      //return response.data.pipe(writer);
+      alert ('response.config.url' + response.config.url);
+    })
+    //.then(fileOrder => dispatch(getFileOrder(fileOrder)))
+    .catch(error => dispatch(ordersFailed(error.message)));
+}
+
+export const getFileOrder = fileOrder => ({
+  type: ActionTypes.GET_FILE_ORDER,
+  payload: fileOrder
+}); 
 
 
 // IN STOCK 

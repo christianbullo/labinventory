@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
-
+import PdfComponent from "./PdfComponent";
 import Moment from "react-moment";
 
 export class OrderTableRow extends Component {
@@ -16,9 +16,7 @@ export class OrderTableRow extends Component {
                 <td> <Moment format="ll">{o.orderdate}</Moment> </td>
                 <td> {o.orderuser} </td>
                 <td>
-                    <Button outline onClick={this.toggleModal}>
-                        <i className="fa fa-file-pdf-o" />
-                    </Button>
+                    <PdfComponent order={o} />
                 </td>
                 <td>
                     <Button outline onClick={this.toggleModal}>

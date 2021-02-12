@@ -6,6 +6,7 @@ import { Requests } from "./requestsReducer";
 import { Orders } from "./ordersReducer";
 import { Instock } from "./inStockReducer";
 import { Outstock } from "./outStockReducer";
+import { Files } from "./filesReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   requests: Requests,
   orders: Orders,
   instock: Instock,
-  outstock: Outstock
+  outstock: Outstock,
+  files: Files 
 });

@@ -20,6 +20,8 @@ export const ORDERS_FAILED = "ORDERS_FAILED";
 export const ADD_ORDER = "ADD_ORDER";
 export const GET_LAST_ORDER = "GET_LAST_ORDER";
 
+export const GET_FILE_ORDER = "GET_FILE_ORDER";
+
 export const DELETE_ORDER = 'DELETE_ORDER';
 
 // IN STOCK 
