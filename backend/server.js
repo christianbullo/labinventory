@@ -107,7 +107,6 @@ app.use("/api/stock/orders", orders);
 app.use("/api/stock/instock", instock); 
 app.use("/api/stock/outstock", outstock); 
 
-//app.use("/api/stock/files", oldfiles);
 app.use("/api/files", files); 
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port 

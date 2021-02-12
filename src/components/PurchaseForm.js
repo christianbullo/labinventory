@@ -1,15 +1,9 @@
 import React, { Component } from "react";
-//import { LocalForm, Control, Errors } from 'react-redux-form';
-import { Field, reduxForm } from 'redux-form';
-import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
+import { Button, Form, FormGroup, FormFeedback, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
 import { fetchLastOrder, addOrder, deleteRequest } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
-const required = val => val && val.length; 
-const maxLength = len => val => !val || (val.length <= len); 
-const minLength = len => val => val && (val.length >= len); 
 
 const mapStateToProps = state => {
     return { 
@@ -29,8 +23,9 @@ class PurchaseForm extends Component {
         super(props);
         this.state = {
             isModalOpen: false,
-            tracking: '',
-            pdfdata: ''
+            isError: false, 
+            isTracking: false,
+            isPdfdata: false
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,19 +46,29 @@ class PurchaseForm extends Component {
 
     onTrackingChange(e) {
         e.preventDefault();
-        this.setState({ tracking: e.target.value });
-        //alert('tracking now is = ' + e.target.value);
+        (e.target.value.length !== 0) ?
+        this.setState({ isTracking: true }) : 
+        this.setState({ isTracking: false }) 
     }
 
     onFileChange(e) {
         e.preventDefault();
-        //console.log(e.target.files[0], "$$$$");
         const file = e.target.files[0];
-        this.setState({ pdfdata: file });
+        
+        (!file || file.type !== 'application/pdf') ? 
+        this.setState({ isPdfdata: false }) :
+        this.setState({ isPdfdata: true })
     }
 
     handleSubmit(e) {
         e.preventDefault();
+
+        if (!this.state.isTracking || !this.state.isPdfdata ) 
+        {   
+            return this.setState({
+                isError: true 
+            });
+        }
 
         this.props.fetchLastOrder();
  
@@ -87,23 +92,12 @@ class PurchaseForm extends Component {
         formData.append('orderuser', orderuser); 
         formData.append('pdfdata', pdfdata); 
 
-        // const newOrder = {
-        //     id: newId,  
-        //     //category: "request",
-        //     ...values,
-        //     orderdate: new Date().toISOString(),
-        //     orderuser: this.props.auth.user.name
-        // };
-
-        //this.props.addOrder(newOrder);
         this.props.addOrder(formData);
 
         this.props.deleteRequest(item_id);
 
         this.toggleModal();
 
-        //alert('Current state is: ' + JSON.stringify(formData) );
-        //alert('Current state is: ' + formData);
     }
 
     render() {
@@ -127,13 +121,25 @@ class PurchaseForm extends Component {
                                 <Label for="tracking">Tracking number: </Label>
                                 <Input type="text" name="tracking" id="tracking" 
                                     value={this.state.tracking} onChange={this.onTrackingChange}
+                                    invalid={this.state.isError && !this.state.isTracking}
                                 />
+                                {(this.state.isError && !this.state.isTracking) ? (
+                                    <div>
+                                        <p className="text-danger">Traking number is required.</p>
+                                    </div>    
+                                ) : ( <div /> )}            
                             </FormGroup>    
                             <FormGroup>
                                 <Label for="pdfdata">Choose the Internal Order Form to upload: </Label>
                                 <Input type="file" name="pdfdata" id="pdfdata" 
-                                    onChange={this.onFileChange}
+                                    onChange={this.onFileChange} 
                                 />
+                                {(this.state.isError && !this.state.isPdfdata) ? (
+                                    <div>
+                                        <FormFeedback>Internal Order Form is mandatory.</FormFeedback>
+                                        <p className="text-danger">PDF file is required.</p>
+                                    </div>    
+                                ) : ( <div /> )}
                             </FormGroup>
                             <br/>
                             <Button type="submit" color="primary">Submit</Button> 

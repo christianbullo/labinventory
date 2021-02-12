@@ -16,7 +16,7 @@ export class OrderTableRow extends Component {
                 <td> <Moment format="ll">{o.orderdate}</Moment> </td>
                 <td> {o.orderuser} </td>
                 <td>
-                    <PdfComponent order={o} />
+                    <PdfComponent order={o} />  
                 </td>
                 <td>
                     <Button outline onClick={this.toggleModal}>

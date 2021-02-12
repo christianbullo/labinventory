@@ -9,7 +9,6 @@ export const REQUESTS_FAILED = "REQUESTS_FAILED";
 
 export const ADD_REQUEST = "ADD_REQUEST";
 export const GET_LAST_REQUEST = "GET_LAST_REQUEST";
-
 export const DELETE_REQUEST = 'DELETE_REQUEST';
 
 // ORDERS
@@ -19,9 +18,6 @@ export const ORDERS_FAILED = "ORDERS_FAILED";
 
 export const ADD_ORDER = "ADD_ORDER";
 export const GET_LAST_ORDER = "GET_LAST_ORDER";
-
-export const GET_FILE_ORDER = "GET_FILE_ORDER";
-
 export const DELETE_ORDER = 'DELETE_ORDER';
 
 // IN STOCK 
