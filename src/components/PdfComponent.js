@@ -38,8 +38,8 @@ export default class PdfComponent extends Component {
     }
 
     triggerPDF() {
-        const order = this.props.order;   
-        const url = `/api/files/${order.pdfname}`;
+        const item = this.props.item;   
+        const url = `/api/files/${item.pdfname}`;
 
         fetch(url)
         .then(response => response.blob())

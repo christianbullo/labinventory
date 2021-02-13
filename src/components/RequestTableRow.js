@@ -14,12 +14,6 @@ const mapStateToProps = state => {
     };
 };
 
-// const mapDispatchToProps = {
-//     fetchLastOrder: () => (fetchLastOrder()),
-//     addOrder: (order) => (addOrder(order)),
-//     deleteRequest: (oldrequest) => (deleteRequest(oldrequest))
-// };
-
 class RequestTableRow extends Component {
 
     render() {

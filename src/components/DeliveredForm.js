@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
-import { fetchLastInstock, addInStock, deleteOrder } from "../actions/ActionCreators";
+import { fetchLastInstock, addInStock, deleteOrder, fetchOrders } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -14,7 +14,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     fetchLastInstock: () => (fetchLastInstock()),
     addInStock: (instock) => (addInStock(instock)),
-    deleteOrder: (oldorder) => (deleteOrder(oldorder))
+    deleteOrder: (oldorder) => (deleteOrder(oldorder)),
+    fetchOrders: () => (fetchOrders()),
 };
 
 class DeliveredForm extends Component {
@@ -102,7 +103,7 @@ class DeliveredForm extends Component {
         this.props.addInStock(formData);
 
         this.props.deleteOrder(item_id);
-
+        this.props.fetchOrders();
         this.toggleModal();
 
     }

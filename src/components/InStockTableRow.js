@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
-
+import PdfComponent from "./PdfComponent";
 import Moment from "react-moment";
 
 export class InStockTableRow extends Component {
@@ -16,6 +16,9 @@ export class InStockTableRow extends Component {
                 <td> {i.quantity} </td>
                 <td> <Moment format="ll">{i.deliverydate}</Moment></td>
                 <td> {i.deliveryuser} </td>
+                <td>
+                    <PdfComponent item={i} />  
+                </td>
                 <td>
                     <Button outline onClick={this.toggleModal}>
                         <i className="fa fa-search" />

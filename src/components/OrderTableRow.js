@@ -29,19 +29,13 @@ class OrderTableRow extends Component {
                 <td> <Moment format="ll">{o.orderdate}</Moment> </td>
                 <td> {o.orderuser} </td>
                 <td>
-                    <PdfComponent order={o} />  
+                    <PdfComponent item={o} />  
                 </td>
                 <td>
                     <EditOrderForm order={o} />
-                    {/* <Button outline onClick={this.toggleModal}>
-                        <i className="fa fa-pencil" />
-                    </Button> */}
                 </td>
                 <td>
                     <DeliveredForm auth={ this.props.auth } order={o} />  
-                    {/* <Button outline onClick={this.toggleModal} className="text-info">
-                        <span className="text-info">Delivered</span> 
-                    </Button> */}
                 </td>
             </tr>
         );
