@@ -81,17 +81,8 @@ router.post("/addorder", upload.single('pdfdata'), (req, res) => {
   const tracking = req.body.tracking;
   const orderdate = req.body.orderdate;
   const orderuser = req.body.orderuser;
-  const pdfname = req.file.filename;
-
-  // console.log('req.body.item_id', req.body.item_id);
-  // console.log('req.body.item_id', req.body.id);
-  // console.log('req.body.tracking', req.body.tracking);  
-  // console.log('req.body.orderdate', req.body.orderdate); 
-  // console.log('req.body.orderuser', req.body.orderuser);
-  //console.log('req.body.pdfdata (req.file.filename)', req.body.pdfdata);
+  const pdfname = req.file.filename; 
   
-  console.log('req.file: ', req.file);
-
   Stock.findByIdAndUpdate(
     { "_id": item_id }, 
     { $set: 
@@ -117,12 +108,8 @@ router.post("/addorder", upload.single('pdfdata'), (req, res) => {
 // @desc Add request
 router.post("/editorder", (req, res) => {
 
-  // console.log('req.body is ' + req.body);
-  // res.send('ciao!');
   const item_id = req.body.item_id; 
-  console.log('item_id = ', item_id);
   const status = req.body.status;
-  console.log('status = ', status);
 
   Stock.findByIdAndUpdate(
     { "_id": item_id }, 

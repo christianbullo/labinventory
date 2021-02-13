@@ -1,11 +1,56 @@
 const express = require("express");
 const router = express.Router();
+const path = require('path'); 
+const mongoose = require("mongoose");
+const GridFsStorage = require("multer-gridfs-storage");
+const crypto = require("crypto");
+const multer = require("multer");
 
-// Load input validation
-//const validateRequestInput = require("../validation/order");
+require('dotenv').config();
 
 // Load Stock model
 const Stock = require("../models/stock.model");
+
+// DB Config
+const mongoUri = process.env.DB_URL || 'mongodb://localhost:27017/labinventory';
+
+// create storage engine 
+const storage = new GridFsStorage({
+  url: mongoUri,
+  file: (req, file) => {
+    return new Promise((resolve, reject) => {
+      // encrypt filename before storing it
+      crypto.randomBytes(16, (err, buf) => {
+        if (err) {
+          return reject(err);
+        }
+        const filename = buf.toString("hex") + path.extname(file.originalname);
+        const fileInfo = {
+          filename: filename,
+          bucketName: "uploads"
+        };
+        resolve(fileInfo);
+      });
+    });
+  }
+});
+
+const upload = multer({
+  storage
+});
+
+// pending connection to the test database running on localhost  
+const conn = mongoose.connection;
+
+// init gfs
+let gfs;
+conn.once("open", () => {
+  // init stream
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
+    bucketName: "uploads"
+  });
+});
+
 
 // @route GET api/stock/instock/lastinstock
 // @desc Get last request id
@@ -28,16 +73,16 @@ router.get("/instock", (req, res) => {
 
 // @route POST api/stock/instock/addinstock
 // @desc Add in stock 
-router.post("/addinstock", (req, res) => {
+router.post("/addinstock", upload.single('imgdata'), (req, res) => {
   
   const item_id = req.body.item_id; 
   const new_id = req.body.id; 
   const category = "instock";  
+  const location = req.body.location;
   const deliverydate = req.body.deliverydate;
   const deliveryuser = req.body.deliveryuser;
-  const stocknotes = req.body.stocknotes;
-  const location = req.body.location;
   const status = " ";  
+  const imgname = req.file.filename; 
 
   Stock.findByIdAndUpdate(
     { "_id": item_id }, 
@@ -45,14 +90,14 @@ router.post("/addinstock", (req, res) => {
       { 
         "id": new_id,
         "category": category, 
+        "location": location,
         "deliverydate": deliverydate, 
         "deliveryuser": deliveryuser,
-        "stocknotes": stocknotes,
-        "location": location,
-        "sublocation": sublocation,
-        "status": status
+        "status": status, 
+        "imgname": imgname
       } 
-    })
+    }
+  )
   .then(instock => {
     res.json(instock);
     //console.log('order updated: ' + order);
