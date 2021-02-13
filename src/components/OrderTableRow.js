@@ -25,15 +25,15 @@ class OrderTableRow extends Component {
                 <td> {o.id} </td>
                 <td> {o.tracking} </td>
                 <td> {o.status} </td>
-                <td> {o.article} </td>
-                <td> <Moment format="ll">{o.orderdate}</Moment> </td>
-                <td> {o.orderuser} </td>
-                <td>
-                    <PdfComponent item={o} />  
-                </td>
                 <td>
                     <EditOrderForm order={o} />
                 </td>
+                <td> {o.article} </td>
+                <td>
+                    <PdfComponent item={o} />  
+                </td>
+                <td> <Moment format="ll">{o.orderdate}</Moment> </td>
+                <td> {o.orderuser} </td>
                 <td>
                     <DeliveredForm auth={ this.props.auth } order={o} />  
                 </td>

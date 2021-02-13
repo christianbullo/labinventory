@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Button} from "reactstrap";
 import Moment from "react-moment";
 
 export class OutOfStockTableRow extends Component {
@@ -15,6 +15,11 @@ export class OutOfStockTableRow extends Component {
                 <td> {i.orderuser} </td>
                 <td> <Moment format="ll">{i.deliverydate}</Moment></td>
                 <td> {i.deliveryuser} </td>
+                <td>
+                    <Button outline onClick={this.triggerPDF}>
+                        <i className="fa fa-file-pdf-o" />
+                    </Button>
+                </td>
             </tr>
         );
     }

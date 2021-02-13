@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
-import { fetchLastInstock, addInStock, deleteOrder, fetchOrders } from "../actions/ActionCreators";
+import { editStock } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -12,13 +12,10 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    fetchLastInstock: () => (fetchLastInstock()),
-    addInStock: (instock) => (addInStock(instock)),
-    deleteOrder: (oldorder) => (deleteOrder(oldorder)),
-    fetchOrders: () => (fetchOrders()),
+    editStock: (instock) => (editStock(instock)),
 };
 
-class DeliveredForm extends Component {
+class EditStockForm extends Component {
 
     constructor(props) {
         super(props);
@@ -33,10 +30,6 @@ class DeliveredForm extends Component {
 
         this.onChangeLocation = this.onChangeLocation.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
-    }
-    
-    componentDidMount() {
-        this.props.fetchLastInstock();
     }
 
     toggleModal() {
@@ -83,12 +76,12 @@ class DeliveredForm extends Component {
         const lastInStockId = this.props.lastId.lastInStock[0];
         const newId = lastInStockId.id + 1; 
 
-        let o = this.props.order;           
+        let i = this.props.item;           
 
-        const item_id = o._id; 
+        const item_id = i._id; 
         const location = this.state.location;
-        const deliverydate = new Date().toISOString();
-        const deliveryuser = this.props.auth.user.name;
+        //const updateddate = new Date().toISOString();
+        //const updatedyuser = this.props.auth.user.name;
         const imgdata = this.state.imgdata;
 
         const formData = new FormData();
@@ -96,35 +89,57 @@ class DeliveredForm extends Component {
         formData.append('item_id', item_id); 
         formData.append('id', newId); 
         formData.append('location', location); 
-        formData.append('deliverydate', deliverydate); 
-        formData.append('deliveryuser', deliveryuser); 
+        //formData.append('deliverydate', deliverydate); 
+        //formData.append('deliveryuser', deliveryuser); 
         formData.append('imgdata', imgdata); 
 
         this.props.addInStock(formData);
 
-        this.props.deleteOrder(item_id);
-        this.props.fetchOrders();
         this.toggleModal();
 
     }
 
     render() {
-        let o = this.props.order;
+        let i = this.props.item;
 
         return (
             <div>
                 <Button outline onClick={this.toggleModal}>
-                    <span className="text-info">Delivered</span> 
+                    <i className="fa fa-pencil" />
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>
-                        Delivery confirmation of:
+                        Updating info of item:
                         <hr/>
-                        <h4 className="text-primary">{o.tracking}</h4>
-                        <h5 className="text-info">{o.article}</h5>
+                        <h4 className="text-primary">{i.article}</h4>
+                        <h5 className="text-info">{i.index}</h5>
                     </ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.handleSubmit}>
+                            <FormGroup>
+                                <Label for="quantity">Quantity: </Label>
+                                <Input type="text" name="quantity" id="quantity" 
+                                    value={this.state.quantity} onChange={this.onChangeQuantity}
+                                    invalid={this.state.isError && !this.state.quantity}
+                                />
+                                {(this.state.isError && !this.state.quantity) ? (
+                                    <div>
+                                        <p className="text-danger">Quantity is required.</p>
+                                    </div>    
+                                ) : ( <div /> )}            
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="aliquot">Aliquot: </Label>
+                                <Input type="text" name="aliquot" id="aliquot" 
+                                    value={this.state.aliquot} onChange={this.onChangeAliquot}
+                                    invalid={this.state.isError && !this.state.aliquot}
+                                />
+                                {(this.state.isError && !this.state.aliquot) ? (
+                                    <div>
+                                        <p className="text-danger">Aliquot is required.</p>
+                                    </div>    
+                                ) : ( <div /> )}            
+                            </FormGroup>
                             <FormGroup>
                                 <Label for="location">Location: </Label>
                                 <Input type="text" name="location" id="location" 
@@ -133,7 +148,7 @@ class DeliveredForm extends Component {
                                 />
                                 {(this.state.isError && !this.state.location) ? (
                                     <div>
-                                        <p className="text-danger">Location description is required.</p>
+                                        <p className="text-danger">Location is required.</p>
                                     </div>    
                                 ) : ( <div /> )}            
                             </FormGroup>    
@@ -144,9 +159,21 @@ class DeliveredForm extends Component {
                                 />
                                 {(this.state.isError && !this.state.imgdata) ? (
                                     <div>
-                                        <p className="text-danger">Photo of location is required.</p>
+                                        <p className="text-danger">Photo is required.</p>
                                     </div>    
                                 ) : ( <div /> )}
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="stocknotes">Additional notes: </Label>
+                                <Input type="text" name="stocknotes" id="stocknotes" 
+                                    value={this.state.stocknotes} onChange={this.onChangeStocknotes}
+                                    invalid={this.state.isError && !this.state.stocknotes}
+                                />
+                                {(this.state.isError && !this.state.stocknotes) ? (
+                                    <div>
+                                        <p className="text-danger">Additional notes are required.</p>
+                                    </div>    
+                                ) : ( <div /> )}            
                             </FormGroup>
                             <br/>
                             <Button type="submit" color="primary">Submit</Button> 
@@ -158,4 +185,4 @@ class DeliveredForm extends Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DeliveredForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EditStockForm));

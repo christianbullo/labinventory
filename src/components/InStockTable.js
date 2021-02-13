@@ -55,11 +55,13 @@ class InStockTable extends Component {
                         <tr>
                             <th>ID</th>
                             <th>Article</th>
-                            <th>Index</th>
+                            <th>Details</th> 
+                            <th></th> 
                             <th>Delivered on</th>
                             <th>Delivered by</th>
                             <th>Location</th>
-                            <th>Quantity</th> 
+                            <th></th> 
+                            <th>Qty</th> 
                         </tr>
                     </thead>
                     <tbody>

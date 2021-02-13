@@ -60,11 +60,11 @@ class Header extends Component {
                                 <NavLink className="nav-link" to="/">
                                     { this.props.auth.isAuthenticated === true ? 
                                         (
-                                            <i className="fa fa-user-circle fa-lg"></i>
+                                            <i className="fa fa-user fa-lg"></i>
                                         ) 
                                         : 
                                         (
-                                            <i className="fa fa-home fa-lg"></i>
+                                            <i className="fa fa-info-circle fa-lg"></i>
                                         )
                                     }
                                 </NavLink>
@@ -108,7 +108,7 @@ class Header extends Component {
                                 ) 
                                 : 
                                 (
-                                    <Nav navbar justified className="justify-content-end">                                 
+                                    <Nav navbar className="justify-content-end ml-auto w-100">                                 
                                         <NavItem>
                                             <NavLink className="nav-link" to="/register">
                                                 <i className="fa fa-user-plus fa-lg">{' '}<span className="menu">Signup</span></i>

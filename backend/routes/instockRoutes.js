@@ -108,5 +108,34 @@ router.post("/addinstock", upload.single('imgdata'), (req, res) => {
   } );
 });
 
+// @route POST api/stock/instock/editstock
+// @desc Update item in stock
+router.post("/editstock", upload.single('imgdata'), (req, res) => {
+
+  //workaround per gestire eventuale immagine in upload ....
+
+  const item_id = req.body.item_id; 
+  //const status = req.body.status;
+  //const status = req.body.status;
+  //const status = req.body.status;
+  //const status = req.body.status;
+
+  Stock.findByIdAndUpdate(
+    { "_id": item_id }, 
+    { $set: 
+      { 
+        "status": status 
+      } 
+  })
+  .then(order => {
+    res.json(order);
+  })
+  .catch(err => {
+    console.log('Error in POST /editorder: ' + err);
+    res.status(400).json('Error: ' + err);
+  } );
+
+});
+
 module.exports = router;
   

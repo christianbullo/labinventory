@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Card, CardSubtitle, CardText, CardBody, CardTitle, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -53,74 +54,81 @@ class Login extends Component {
     const { errors } = this.state;
 
     return (
-      <div className="container">
-        <div style={{ marginTop: "4rem" }} className="row">
-          <div className="col s8 offset-s2">
-            <Link to="/" className="btn-flat waves-effect">
-              <i className="material-icons left">keyboard_backspace</i> Back to
-              home
+      <React.Fragment>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col"></div>
+          <div className="col-sm-6 text-right">
+            <br/>
+            <Link to="/">
+              <i class="fa fa-arrow-circle-left fa-lg">{" "}Back to info</i>
             </Link>
-            <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-              <h4>
-                <b>Login</b> below
-              </h4>
-              <p className="grey-text text-darken-1">
-                Don't have an account? <Link to="/register">Register</Link>
-              </p>
-            </div>
-            <form noValidate onSubmit={this.onSubmit}>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.email}
-                  error={errors.email}
-                  id="email"
-                  type="email"
-                  className={classnames("", {
-                    invalid: errors.email || errors.emailnotfound
-                  })}
-                />
-                <label htmlFor="email">Email</label>
-                <span className="red-text">
-                  {errors.email}
-                  {errors.emailnotfound}
-                </span>
-              </div>
-              <div className="input-field col s12">
-                <input
-                  onChange={this.onChange}
-                  value={this.state.password}
-                  error={errors.password}
-                  id="password"
-                  type="password"
-                  className={classnames("", {
-                    invalid: errors.password || errors.passwordincorrect
-                  })}
-                />
-                <label htmlFor="password">Password</label>
-                <span className="red-text">
-                  {errors.password}
-                  {errors.passwordincorrect}
-                </span>
-              </div>
-              <div className="col s12" style={{ paddingLeft: "11.250px" }}>
-                <button
-                  style={{
-                    width: "150px",
-                    borderRadius: "3px",
-                    letterSpacing: "1.5px",
-                    marginTop: "1rem"
-                  }}
-                  type="submit"
-                  className="btn btn-large waves-effect waves-light hoverable blue accent-3"
-                >
-                  Login
-                </button>
-              </div>
-            </form>
           </div>
+          <div className="col"></div>
+        </div>
+        <div className="row">
+          <div className="col"></div>
+          <div className="col-sm-6">
+            <Card>
+                <CardBody>
+                    <CardTitle><h2><b>Login</b> below</h2></CardTitle>
+                    <CardSubtitle>
+                      <h5>Don't have an account? <Link to="/register">Register</Link></h5>
+                    </CardSubtitle>
+                    <CardText>
+                      <form noValidate onSubmit={this.onSubmit}>
+                        <br/>
+                        <div className="input-field col s12">
+                          <label htmlFor="email">Email</label><br/>
+                          <input
+                            onChange={this.onChange}
+                            value={this.state.email}
+                            error={errors.email}
+                            id="email"
+                            type="email"
+                            className={classnames("", {
+                              invalid: errors.email || errors.emailnotfound
+                            })}
+                          />                          
+                          {" "}
+                          <span className="text-danger">
+                            {errors.email}
+                            {errors.emailnotfound}
+                          </span>
+                        </div>
+                        <br/>
+                        <div className="input-field col s12">
+                          <label htmlFor="password">Password</label><br/>  
+                          <input
+                            onChange={this.onChange}
+                            value={this.state.password}
+                            error={errors.password}
+                            id="password"
+                            type="password"
+                            className={classnames("", {
+                              invalid: errors.password || errors.passwordincorrect
+                            })}
+                          />
+                          {" "}
+                          <span className="text-danger">
+                            {errors.password}
+                            {errors.passwordincorrect}
+                          </span>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div className="col s12" style={{ paddingLeft: "11.250px" }}>
+                          <Button className="btn-info">Login</Button>
+                        </div>
+                      </form>
+                    </CardText>
+                </CardBody>
+            </Card>
+          </div>
+          <div className="col"></div>
         </div>
       </div>
+      </React.Fragment>
     );
   }
 }
