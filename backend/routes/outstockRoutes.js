@@ -13,7 +13,7 @@ router.get("/lastoutstock", (req, res) => {
   Stock.find({"category": "outofstock"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1)
     .then(lastOutstock => {
       res.json(lastOutstock);
-        console.log("lastOutstock is " + lastOutstock);
+        //console.log("lastOutstock is " + lastOutstock);
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });

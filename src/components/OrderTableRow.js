@@ -1,10 +1,22 @@
 import React, { Component } from "react";
-import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
+
 import PdfComponent from "./PdfComponent";
 import EditOrderForm from "./EditOrderForm";
+import DeliveredForm from "./DeliveredForm";
+
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
 import Moment from "react-moment";
 
-export class OrderTableRow extends Component {
+const mapStateToProps = state => {
+    return { 
+        auth: state.auth
+    };
+};
+
+class OrderTableRow extends Component {
+
     render() {
         let o = this.props.order;
 
@@ -26,11 +38,14 @@ export class OrderTableRow extends Component {
                     </Button> */}
                 </td>
                 <td>
-                    <Button outline onClick={this.toggleModal} className="text-info">
+                    <DeliveredForm auth={ this.props.auth } order={o} />  
+                    {/* <Button outline onClick={this.toggleModal} className="text-info">
                         <span className="text-info">Delivered</span> 
-                    </Button>
+                    </Button> */}
                 </td>
             </tr>
         );
     }
 }
+
+export default withRouter(connect(mapStateToProps)(OrderTableRow));

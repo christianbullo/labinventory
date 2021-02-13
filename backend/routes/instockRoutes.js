@@ -13,7 +13,7 @@ router.get("/lastinstock", (req, res) => {
   Stock.find({"category": "instock"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1)
     .then(lastInstock => {
       res.json(lastInstock);
-        console.log("lastInstock is " + lastInstock);
+        //console.log("lastInstock is " + lastInstock);
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -37,7 +37,6 @@ router.post("/addinstock", (req, res) => {
   const deliveryuser = req.body.deliveryuser;
   const stocknotes = req.body.stocknotes;
   const location = req.body.location;
-  const sublocation = req.body.sublocation;
   const status = " ";  
 
   Stock.findByIdAndUpdate(

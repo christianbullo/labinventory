@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { OrderTableRow } from "./OrderTableRow";
+import OrderTableRow from "./OrderTableRow";
 
 import { fetchOrders } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
@@ -66,6 +66,7 @@ class OrderTable extends Component {
                             this.props.orders.orders.map(o => 
                                 <OrderTableRow order={ o }
                                     key={ o.id }  
+                                    auth={ this.props.auth }
                                 />)
                         }
                     </tbody>

@@ -322,6 +322,17 @@ export const addNewInstock = instock => ({
   payload: instock 
 });
 
+// delete old request 
+export const deleteOrder = (oldOrder_Id) => dispatch => {
+  // Remove old order after updating as in stock 
+  dispatch(deleteOldOrder(oldOrder_Id));
+};
+
+export const deleteOldOrder = oldOrder_Id => ({
+  type: ActionTypes.DELETE_ORDER,
+  payload: oldOrder_Id  
+});
+
 // delete old in stock  
 export const deleteInStock = (oldInstock_Id) => dispatch => {
   // Remove old request after updating as an order 

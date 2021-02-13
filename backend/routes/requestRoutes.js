@@ -13,7 +13,7 @@ router.get("/lastrequest", (req, res) => {
   Stock.find({"category": "request"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1)
     .then(lastRequest => {
       res.json(lastRequest);
-        console.log("lastRequest is " + lastRequest);
+        //console.log("lastRequest is " + lastRequest);
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -45,6 +45,7 @@ router.post("/addrequest", (req, res) => {
   const unitcost = Number(req.body.unitcost);
   const requestdate = req.body.requestdate;
   const requestuser = req.body.requestuser;
+  const tracking = "";
   const orderdate = "";
   const orderuser = "";
   const deliverydate = ""; 
@@ -53,6 +54,9 @@ router.post("/addrequest", (req, res) => {
   const location = "";
   const sublocation = ""; 
   const status = ""; 
+  const aliquot = ""; 
+  const pdfname = "";
+  const imgname = "";
 
   const newStock = new Stock({
     id, 
@@ -63,6 +67,7 @@ router.post("/addrequest", (req, res) => {
     unitcost,
     requestdate,
     requestuser,
+    tracking, 
     orderdate,
     orderuser,
     deliverydate,
@@ -70,7 +75,10 @@ router.post("/addrequest", (req, res) => {
     stocknotes,
     location,
     sublocation,
-    status 
+    status,
+    aliquot,
+    pdfname,
+    imgname 
   });
 
   newStock.save()

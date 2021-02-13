@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Col, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
-import { editOrder } from "../actions/ActionCreators";
+import { editOrder, fetchOrders } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -12,7 +12,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    editOrder: () => (editOrder())
+    editOrder: (formData) => (editOrder(formData)),
+    fetchOrders: () => (fetchOrders()),
 };
 
 class EditOrderForm extends Component {
@@ -36,16 +37,12 @@ class EditOrderForm extends Component {
     }
 
     onChangeStatus(event) {
-        //e.preventDefault();
-        // const status = e.target.value;
+        event.preventDefault();
+        const status = event.target.value;
         
-        // (status.length !== 0) ?
-        // this.setState({ status: status, isError: false }) : 
-        // this.setState({ status: "" }) 
-
-        this.setState({ status: event.target.value })
-
-        //alert ('status is ' + this.state.status);
+        (status.length !== 0) ?
+        this.setState({ status: status, isError: false }) : 
+        this.setState({ status: "" }) 
     }
 
     handleSubmit(event) {
@@ -62,23 +59,14 @@ class EditOrderForm extends Component {
         const orderId = order._id;
 
         const status = this.state.status;
-        //alert('status & orderId = ' + status + " " + orderId);
-
-        // const updateOrder = {
-        //     item_id: orderId,  
-        //     status: status 
-        // };
-
-        const formData = new FormData();
         
-        formData.append('item_id', orderId); 
-        formData.append('status', status); 
+        const updateOrder = {
+            item_id: orderId,  
+            status: status 
+        };
 
-        //alert('updateOrder = ', updateOrder); 
-        //alert('formData is ' + formData.get('item_id') + "" + formData.get('status'));
-  
-        this.props.editOrder(formData);
-
+        this.props.editOrder(updateOrder);
+        this.props.fetchOrders();
         this.toggleModal();
 
     }
@@ -99,7 +87,7 @@ class EditOrderForm extends Component {
                         <h5 className="text-info">{o.article}</h5>
                     </ModalHeader>
                     <ModalBody>
-                        <Form onSubmit={(values) => this.handleSubmit(values)}>
+                        <Form onSubmit={this.handleSubmit}>
                             <FormGroup>
                                 <Label for="status">Status: </Label>
                                 <Col sm={10}>
