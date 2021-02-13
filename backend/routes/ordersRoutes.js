@@ -117,27 +117,27 @@ router.post("/addorder", upload.single('pdfdata'), (req, res) => {
 // @desc Add request
 router.post("/editorder", (req, res) => {
 
-  console.log('req.body is ' + req.body);
-  res.send('ciao!');
-  // const item_id = req.body.item_id; 
-  // console.log('item_id = ', item_id);
-  // const status = req.body.status;
-  // console.log('status = ', status);
+  // console.log('req.body is ' + req.body);
+  // res.send('ciao!');
+  const item_id = req.body.item_id; 
+  console.log('item_id = ', item_id);
+  const status = req.body.status;
+  console.log('status = ', status);
 
-  // Stock.findByIdAndUpdate(
-  //   { "_id": item_id }, 
-  //   { $set: 
-  //     { 
-  //       "status": status 
-  //     } 
-  // })
-  // .then(order => {
-  //   res.json(order);
-  // })
-  // .catch(err => {
-  //   console.log('Error in POST /editorder: ' + err);
-  //   res.status(400).json('Error: ' + err);
-  // } );
+  Stock.findByIdAndUpdate(
+    { "_id": item_id }, 
+    { $set: 
+      { 
+        "status": status 
+      } 
+  })
+  .then(order => {
+    res.json(order);
+  })
+  .catch(err => {
+    console.log('Error in POST /editorder: ' + err);
+    res.status(400).json('Error: ' + err);
+  } );
 
 });
 

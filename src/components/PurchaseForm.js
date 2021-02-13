@@ -24,8 +24,8 @@ class PurchaseForm extends Component {
         this.state = {
             isModalOpen: false,
             isError: false, 
-            isTracking: false,
-            pdfdata: ""
+            pdfdata: "",
+            tracking: ""
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -46,9 +46,11 @@ class PurchaseForm extends Component {
 
     onTrackingChange(e) {
         e.preventDefault();
-        (e.target.value.length !== 0) ?
-        this.setState({ isTracking: true }) : 
-        this.setState({ isTracking: false }) 
+        const tracking = e.target.value; 
+
+        (tracking.length !== 0) ?
+        this.setState({ tracking: tracking }) : 
+        this.setState({ tracking: "" }) 
     }
 
     onFileChange(e) {
@@ -63,7 +65,7 @@ class PurchaseForm extends Component {
     handleSubmit(e) {
         e.preventDefault();
 
-        if (!this.state.isTracking || !this.state.pdfdata ) 
+        if (!this.state.tracking || !this.state.pdfdata ) 
         {   
             return this.setState({
                 isError: true 
@@ -121,9 +123,9 @@ class PurchaseForm extends Component {
                                 <Label for="tracking">Tracking number: </Label>
                                 <Input type="text" name="tracking" id="tracking" 
                                     value={this.state.tracking} onChange={this.onTrackingChange}
-                                    invalid={this.state.isError && !this.state.isTracking}
+                                    invalid={this.state.isError && !this.state.tracking}
                                 />
-                                {(this.state.isError && !this.state.isTracking) ? (
+                                {(this.state.isError && !this.state.tracking) ? (
                                     <div>
                                         <p className="text-danger">Traking number is required.</p>
                                     </div>    
