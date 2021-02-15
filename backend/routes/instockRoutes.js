@@ -58,7 +58,7 @@ router.get("/lastinstock", (req, res) => {
   Stock.find({"category": "instock"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1)
     .then(lastInstock => {
       if (lastInstock.length === 0) {
-        console.log('attenzione lastInstock is null');
+        //console.log('attenzione lastInstock is null');
         lastInstock = [{ id: 0 }]; 
       };
       res.json(lastInstock);
@@ -150,8 +150,8 @@ router.post("/editdetails", (req, res) => {
   for (let i = 0; i < entries.length; i++) {
     if (entries[i] !== 'item_id') {
       updates[entries[i]] = Object.values(req.body)[i];
-      console.log('entries[i] is ' + entries[i]);
-      console.log('updates[entries[i]] is ' + updates[entries[i]]);
+      //console.log('entries[i] is ' + entries[i]);
+      //console.log('updates[entries[i]] is ' + updates[entries[i]]);
       }    
   }
 
