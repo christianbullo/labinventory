@@ -138,7 +138,7 @@ class DeliveredForm extends Component {
                                 ) : ( <div /> )}            
                             </FormGroup>    
                             <FormGroup>
-                                <Label for="imgdata">Upload evidence of location: </Label>
+                                <Label for="imgdata">Upload photo as evidence of location: </Label>
                                 <Input type="file" name="imgdata" id="imgdata" 
                                     onChange={this.onFileChange} 
                                 />

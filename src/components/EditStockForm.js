@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
-import { LocalForm, Control, Errors } from 'react-redux-form';
 
-import { editStock, fetchInStock } from "../actions/ActionCreators";
+import { editDetails, fetchInStock } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -19,7 +18,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    editStock: (instock) => (editStock(instock)),
+    editDetails: (instock) => (editDetails(instock)),
     fetchInStock: () => (fetchInStock())
 };
 
@@ -29,15 +28,19 @@ class EditStockForm extends Component {
         super(props);
         this.state = {
             isModalOpen: false,
-            isError: false, 
-            imgdata: "",
-            location: ""
+            isErrorQty: false, 
+            quantity: "",
+            isErrorAliq: false,
+            aliquot: "",
+            isErrorNotes: false,
+            stocknotes: ""
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        this.onChangeLocation = this.onChangeLocation.bind(this);
-        this.onFileChange = this.onFileChange.bind(this);
+        this.onChangeQuantity = this.onChangeQuantity.bind(this);
+        this.onChangeAliquot = this.onChangeAliquot.bind(this);
+        this.onChangeStocknotes = this.onChangeStocknotes.bind(this);
     }
 
     toggleModal() {
@@ -46,93 +49,118 @@ class EditStockForm extends Component {
         });
     }
 
-    onChangeLocation(e) {
+    onChangeQuantity(e) {
         e.preventDefault();
-        const location = e.target.value; 
+        const quantity = e.target.value; 
 
-        (location.length !== 0) ?
-        this.setState({ location: location }) : 
-        this.setState({ location: "" }) 
-    }
-
-    onFileChange(e) {
-        e.preventDefault();
-        const file = e.target.files[0];
+        (quantity.length !== 0) ?
+        this.setState({ quantity: quantity }) : 
+        this.setState({ quantity: "" });
         
-        (!file || file.type !== 'image/jpeg' 
-            // || file.type !== 'image/apng' ||
-            // file.type !== 'image/apng' || file.type !== 'image/avif' || 
-            // file.type !== 'image/gif' || file.type !== 'image/png' || 
-            // file.type !== 'image/svg+xml'  
-        ) ? 
-        this.setState({ imgdata: "" }) :
-        this.setState({ imgdata: file })
-    }
+        const isNumber = val => !isNaN(+val); 
+        const resultN = isNumber(quantity);
+        const isZero = val => val && (+val > 0);
+        const resultZ = isZero(quantity);
 
-    handleSubmit(values) {
-        values.preventDefault();
-
-        if ((this.state.location && !this.state.imgdata ) || 
-            (!this.state.location && this.state.imgdata )) 
-        {   
+        if (!isNumber || !resultZ) {
             return this.setState({
-                isError: true 
+                isErrorQty: true 
+            });
+        } else {
+            return this.setState({
+                isErrorQty: false  
             });
         }
+    }
 
-        let i = this.props.item;           
+    onChangeAliquot(e) {
+        e.preventDefault();
+        const aliquot = e.target.value; 
 
+        (aliquot.length !== 0) ?
+        this.setState({ aliquot: aliquot }) : 
+        this.setState({ aliquot: "" }) 
+
+        const minLength = len => val => val && (val.length >= len); 
+        const result = minLength(5)(aliquot);
+        if (!result) {
+            return this.setState({
+                isErrorAliq: true 
+            });
+        } else {
+            return this.setState({
+                isErrorAliq: false  
+            });
+        } 
+    }
+
+    onChangeStocknotes(e) {
+        e.preventDefault();
+        const stocknotes = e.target.value; 
+
+        (stocknotes.length !== 0) ?
+        this.setState({ stocknotes: stocknotes }) : 
+        this.setState({ stocknotes: "" }) 
+
+        const minLength = len => val => val && (val.length >= len); 
+        const result = minLength(5)(stocknotes);
+        if (!result) {
+            return this.setState({
+                isErrorNotes: true 
+            });
+        } else {
+            return this.setState({
+                isErrorNotes: false  
+            });
+        } 
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        const i = this.props.item;           
         const item_id = i._id; 
-        const location = this.state.location;
-        const updatelocdate = new Date().toISOString();
-        const updatelocuser = this.props.auth.user.name;
-        const imgdata = this.state.imgdata;
+        let newDetails = {}
+        // let newDetails = {
+        //     item_id: item_id
+        // }
 
-        const formData = new FormData();
-
-        formData.append('item_id', item_id); 
-        if (location && imgdata) {
-            formData.append('location', location); 
-            formData.append('imgdata', imgdata); 
-            formData.append('updatelocdate', updatelocdate); 
-            formData.append('updatelocuser', updatelocuser); 
-        }
-
-        const quantity = values.quantity;
+        const quantity = this.state.quantity;
         const updateqtydate = new Date().toISOString();
         const updateqtyuser = this.props.auth.user.name;
-        if (quantity) {
-            formData.append('quantity', quantity); 
-            formData.append('updateqtydate', updateqtydate); 
-            formData.append('updateqtyuser', updateqtyuser); 
+        if (quantity.length !== 0) {
+            newDetails.quantity = quantity;
+            newDetails.updateqtydate = updateqtydate;
+            newDetails.updateqtyuser = updateqtyuser; 
         }
 
-        const aliquot = values.aliquot;
+        const aliquot = this.state.aliquot;
         const updatealiqdate = new Date().toISOString();
         const updatealiquser = this.props.auth.user.name;
-        if (aliquot) {
-            formData.append('aliquot', aliquot); 
-            formData.append('updatealiqdate', updatealiqdate); 
-            formData.append('updatealiquser', updatealiquser); 
+        if (aliquot.length !== 0) {
+            newDetails.aliquot = aliquot;
+            newDetails.updatealiqdate = updatealiqdate;
+            newDetails.updatealiquser = updatealiquser; 
         }
 
-        const stocknotes = values.stocknotes;
+        const stocknotes = this.state.stocknotes;
         const updatenotedate = new Date().toISOString();
         const updatenoteuser = this.props.auth.user.name;
-        if (stocknotes) {
-            formData.append('stocknotes', stocknotes); 
-            formData.append('updatenotedate', updatenotedate); 
-            formData.append('updatenoteuser', updatenoteuser); 
-        }
-        
-        if (location && imgdata) {
-            this.props.editStockloc(formData);
+
+        if (stocknotes.length !== 0) {
+            newDetails.stocknotes = stocknotes;
+            newDetails.updatenotedate = updatenotedate;
+            newDetails.updatenoteuser = updatenoteuser; 
         }
 
-        this.props.editStock(formData);
-
+        if (newDetails.length !== 0) {
+            newDetails.item_id = item_id; 
+        //if ((quantity.length !== 0) || (aliquot.length !== 0) || (stocknotes.length !== 0)) {
+            alert('newDetails is ' + JSON.stringify(newDetails) ); 
+            this.props.editDetails(newDetails);
+        }    
+        this.props.fetchInStock();
         this.toggleModal();
-
     }
 
     render() {
@@ -150,107 +178,46 @@ class EditStockForm extends Component {
                         <h4 className="text-primary">{i.article}</h4>
                     </ModalHeader>
                     <ModalBody>
-                        <LocalForm onSubmit={ (values) => this.handleSubmit(values) }>
-                            <div className="form-group">
-                                <Label htmlFor="quantity">New quantity: </Label>
-                                <Control.text className="form-control" model=".quantity" id="quantity" name="quantity" 
-                                    validators={{
-                                            minLength: minLength(1),
-                                            maxLength: maxLength(30),
-                                            isNumber,
-                                            isZero
-                                        }}
+                        <Form onSubmit={this.handleSubmit}>
+                            <FormGroup>
+                                <Label for="quantity">New Quantity: </Label>
+                                <Input type="text" name="quantity" id="quantity" 
+                                    onChange={this.onChangeQuantity}
+                                    invalid={this.state.isErrorQty && this.state.quantity}
                                 />
-                                <Errors
-                                    className="text-danger"
-                                    model=".quantity"
-                                    show="touched"
-                                    component="div"
-                                    messages={{
-                                        minLength: 'Must be at least 1',
-                                        maxLength: 'Must be 30 characters or less',
-                                        isNumber: 'Must be a number',
-                                        isZero: 'Must be a valid quantity | In case of zero, set as out of stock'
-                                    }}
-                                /> 
-                            </div>
-                            
-                            <div className="form-group">
-                                <Label htmlFor="aliquot">Aliquot</Label>
-                                <Control.text className="form-control" model=".aliquot" id="aliquot" name="aliquot" 
-                                    validators={{
-                                            minLength: minLength(2),
-                                            maxLength: maxLength(100)
-                                        }}
-                                />
-                                <Errors
-                                    className="text-danger"
-                                    model=".aliquot"
-                                    show="touched"
-                                    component="div"
-                                    messages={{
-                                        minLength: 'Must be at least 2 characters',
-                                        maxLength: 'Must be 100 characters or less'
-                                    }}
-                                /> 
-                            </div>
-                            <div className="form-group">
-                                <Label htmlFor="stocknotes">Additional notes: </Label>
-                                <Control.text className="form-control" model=".stocknotes" id="stocknotes" name="stocknotes" 
-                                    validators={{
-                                            minLength: minLength(2),
-                                            maxLength: maxLength(100)
-                                        }}
-                                />
-                                <Errors
-                                    className="text-danger"
-                                    model=".stocknotes"
-                                    show="touched"
-                                    component="div"
-                                    messages={{
-                                        minLength: 'Must be at least 2 characters',
-                                        maxLength: 'Must be 100 characters or less'
-                                    }}
-                                /> 
-                            </div>
-                            
-                            <div className="form-group">
-                                <Label for="location">Location: </Label>
-                                <Input type="text" name="location" id="location" 
-                                    value={this.state.location} onChange={this.onChangeLocation}
-                                    invalid={this.state.isError && !this.state.location}
-                                />
-                                {(this.state.isError && !this.state.location && this.state.imgdata) ? (
+                                {(this.state.isErrorQty && this.state.quantity) ? (
                                     <div>
-                                        <p className="text-danger">Location description is required.</p>
+                                        <p className="text-danger">Must be a valid quantity | In case of zero, set as out of stock.</p>
                                     </div>    
-                                ) : ( <div /> )}    
-                            </div>
-                            <div className="form-group">
-                                <Label htmlFor="imgdata">Upload evidence of location: </Label>
-                                <Input type="file" name="imgdata" id="imgdata" 
-                                    onChange={this.onFileChange} 
+                                ) : ( <div /> )}            
+                            </FormGroup>    
+                            <FormGroup>
+                                <Label for="aliquot">New Aliquot: </Label>
+                                <Input type="text" name="aliquot" id="aliquot" 
+                                    onChange={this.onChangeAliquot}
+                                    invalid={this.state.isErrorAliq && this.state.aliquot}
                                 />
-                                {(this.state.isError && this.state.imgdata && !this.state.imgdata) ? (
+                                {(this.state.isErrorAliq && this.state.aliquot) ? (
                                     <div>
-                                        <p className="text-danger">Photo of location is required.</p>
+                                        <p className="text-danger">Must be at least 5 characters.</p>
                                     </div>    
-                                ) : ( <div /> )}
-                                <Errors
-                                    className="text-danger"
-                                    model=".imgdata"
-                                    show="touched"
-                                    component="div"
-                                    messages={{
-                                        required: 'Required',
-                                        minLength: 'Must be at least 2 characters',
-                                        maxLength: 'Must be 100 characters or less'
-                                    }}
-                                /> 
-                            </div>
+                                ) : ( <div /> )}            
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="stocknotes">New Additional Notes: </Label>
+                                <Input type="text" name="stocknotes" id="stocknotes" 
+                                    onChange={this.onChangeStocknotes}
+                                    invalid={this.state.isErrorNotes && this.state.stocknotes}
+                                />
+                                {(this.state.isErrorNotes && this.state.stocknotes) ? (
+                                    <div>
+                                        <p className="text-danger">Must be at least 5 characters.</p>
+                                    </div>    
+                                ) : ( <div /> )}            
+                            </FormGroup>
                             <br/>
                             <Button type="submit" color="primary">Submit</Button> 
-                        </LocalForm>
+                        </Form>
                     </ModalBody>
                 </Modal>
             </div>

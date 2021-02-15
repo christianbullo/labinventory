@@ -7,12 +7,11 @@ import { editLocation, fetchInStock } from "../actions/ActionCreators";
 
 import PdfComponent from "./PdfComponent";
 import ImgComponent from "./ImgComponent";
-//import EditStockForm from "./EditStockForm";
+import EditStockForm from "./EditStockForm";
 import DetailsComponent from "./DetailsComponent";
-//import OutOfStockForm from "./OutOfStockForm";
 import EditOutOfSTockForm from "./EditOutOfStockForm";
 import EditLocation from "./EditLocation";
-//import Moment from "react-moment";
+
 
 const mapStateToProps = state => {
     return { 
@@ -33,15 +32,15 @@ class InStockTableRow extends Component {
             <tr>
                 <td> {i.id} </td>
                 <td> {i.article} </td>
+                <td> {i.quantity} </td>
                 <td>
                     <PdfComponent item={i} />  
                 </td>
-                <td> {i.quantity} </td>
                 <td>
                     <DetailsComponent item={i} />
                 </td>                
                 <td>
-                    Edit details {/* <EditStockForm auth={ this.props.auth } item={i}/> */}
+                    <EditStockForm auth={ this.props.auth } item={i}/>
                 </td>                
                 <td> {i.location} </td>
                 <td>

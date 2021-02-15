@@ -141,5 +141,35 @@ router.post("/editlocation", upload.single('imgdata'), (req, res) => {
 
 });
 
+// @route POST api/stock/instock/editdetails
+// @desc Update item in stock on location
+router.post("/editdetails", (req, res) => {
+  
+  const entries = Object.keys(req.body)
+  const updates = {}
+  for (let i = 0; i < entries.length; i++) {
+    if (entries[i] !== 'item_id') {
+      updates[entries[i]] = Object.values(req.body)[i];
+      console.log('entries[i] is ' + entries[i]);
+      console.log('updates[entries[i]] is ' + updates[entries[i]]);
+      }    
+  }
+
+  const item_id = req.body.item_id; 
+  
+  Stock.findByIdAndUpdate(
+    { "_id": item_id }, 
+    { $set: updates }
+  )
+  .then(order => {
+    res.json(order);
+  })
+  .catch(err => {
+    console.log('Error in POST /editdetails: ' + err);
+    res.status(400).json('Error: ' + err);
+  } );
+
+});
+
 module.exports = router;
   

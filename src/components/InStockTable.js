@@ -57,8 +57,8 @@ class InStockTable extends Component {
                         <tr>
                             <th>ID</th>
                             <th>Article</th>
+                            <th>Qty now</th> 
                             <th></th>
-                            <th>Qty</th> 
                             <th>Details</th>  
                             <th>Edit Details</th> 
                             <th>Location</th>

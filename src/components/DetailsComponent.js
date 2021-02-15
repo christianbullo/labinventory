@@ -44,7 +44,9 @@ export default class DetailsComponent extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col">{i.updateqtyuser}</div>
-                                        <div className="col"><Moment format="ll">{i.updateqtydate}</Moment></div>
+                                        <div className="col">
+                                            {i.updateqtydate ? (<Moment format="ll">{i.updateqtydate}</Moment>) : (<div/>)}
+                                        </div>
                                     </div>
                                 </CardText>
                             </CardBody>
@@ -60,7 +62,9 @@ export default class DetailsComponent extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col">{i.updatelocuser}</div>
-                                        <div className="col"><Moment format="ll">{i.updatelocdate}</Moment></div>
+                                        <div className="col">
+                                            {i.updateqtydate ? (<Moment format="ll">{i.updatelocdate}</Moment>) : (<div/>)}
+                                        </div>
                                     </div>
                                 </CardText>
                             </CardBody>
@@ -76,7 +80,9 @@ export default class DetailsComponent extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col">{i.updatealiquser}</div>
-                                        <div className="col"><Moment format="ll">{i.updatealiqdate}</Moment></div>
+                                        <div className="col">
+                                            {i.updateqtydate ? (<Moment format="ll">{i.updatealiqdate}</Moment>) : (<div/>)}
+                                        </div>
                                     </div>
                                 </CardText>
                             </CardBody>
@@ -92,7 +98,9 @@ export default class DetailsComponent extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="col">{i.updatenoteuser}</div>
-                                        <div className="col"><Moment format="ll">{i.updatenotedate}</Moment></div>
+                                        <div className="col">
+                                            {i.updateqtydate ? (<Moment format="ll">{i.updatenotedate}</Moment>) : (<div/>)}
+                                        </div>
                                     </div>
                                 </CardText>
                             </CardBody>

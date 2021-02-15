@@ -32,7 +32,7 @@ export const DELETE_INSTOCK = 'DELETE_INSTOCK';
 
 export const EDIT_LOCATION = "EDIT_LOCATION";
 
-export const EDIT_STOCK = "EDIT_STOCK";
+export const EDIT_DETAILS = "EDIT_DETAILS";
 
 // OUT OF STOCK 
 export const GET_OUTSTOCK = "GET_OUTSTOCK";

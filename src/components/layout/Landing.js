@@ -20,8 +20,7 @@ class Landing extends Component {
                   <CardBody>
                     <CardTitle>
                     <h2>
-                      <b>Demo</b> version of the {" "}
-                      <span style={{ fontFamily: "monospace" }}>STORE</span> application
+                      <b>Demo version </b> of the inventory application
                     </h2>
                     </CardTitle>
                     <CardText>
