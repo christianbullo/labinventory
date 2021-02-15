@@ -111,17 +111,24 @@ router.post("/addinstock", upload.single('imgdata'), (req, res) => {
   } );
 });
 
-// @route POST api/stock/instock/editstock
-// @desc Update item in stock
-router.post("/editstock", upload.single('imgdata'), (req, res) => {
+// @route POST api/stock/instock/editstockloc
+// @desc Update item in stock on location
+router.post("/editlocation", upload.single('imgdata'), (req, res) => {
 
   const item_id = req.body.item_id; 
+  const location = req.body.location; 
+  const imgname = req.file.filename;
+  const updatelocdate = req.body.updatelocdate;
+  const updatelocuser = req.body.updatelocuser;
 
   Stock.findByIdAndUpdate(
     { "_id": item_id }, 
     { $set: 
       { 
-        "status": status 
+        "location": location,
+        "imgname": imgname,
+        "updatelocdate": updatelocdate,
+        "updatelocuser": updatelocuser
       } 
   })
   .then(order => {

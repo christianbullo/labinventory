@@ -346,19 +346,19 @@ export const deleteOldInstock = oldInstock_Id => ({
 });
 
 // Edit stock  
-export const editStock = (formData) => dispatch => {
+export const editLocation = (formData) => dispatch => {
   
   axios
-    .post("/api/stock/instock/editstock", formData)
+    .post("/api/stock/instock/editlocation", formData)
     .then(response => {
       return response.data;
     })
     .then(stock => {
-      dispatch(editedStock(stock));
+      dispatch(editedLocation(stock));
     })
     .catch(err =>
       {
-        alert('errore in edit stock!!!!! err = ' + err);
+        alert('errore in edit LOCATION!!!!! err = ' + err);
         dispatch({
           type: ActionTypes.GET_ERRORS,
           payload: err.response.data
@@ -367,8 +367,8 @@ export const editStock = (formData) => dispatch => {
     );
 };
 
-export const editedStock = stock => ({
-  type: ActionTypes.EDIT_STOCK,
+export const editedLocation = stock => ({
+  type: ActionTypes.EDIT_LOCATION,
   payload: stock  
 });
 

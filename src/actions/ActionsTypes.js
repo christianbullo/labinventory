@@ -30,6 +30,8 @@ export const ADD_INSTOCK = "ADD_INSTOCK";
 export const GET_LAST_INSTOCK = "GET_LAST_INSTOCK";
 export const DELETE_INSTOCK = 'DELETE_INSTOCK';
 
+export const EDIT_LOCATION = "EDIT_LOCATION";
+
 export const EDIT_STOCK = "EDIT_STOCK";
 
 // OUT OF STOCK 

@@ -23,7 +23,11 @@ export const Instock = (state = {
         case ActionTypes.DELETE_INSTOCK:
             const toDeleteId = action.payload;
             return {...state, 
-                instock: state.instock.filter(o => o._id !== toDeleteId)}; 
+                instock: state.instock.filter(o => o._id !== toDeleteId)};
+        case ActionTypes.EDIT_LOCATION:
+            const toChangeItem = action.payload;
+            return {...state, 
+                instock: state.instock.filter(o => o._id !== toChangeItem._id).concat(toChangeItem)}; 
         default:
             return state; 
             break;
