@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 import { LocalForm, Control, Errors } from 'react-redux-form';
 
-import { fetchLastRequest } from "../actions/ActionCreators";
+import { fetchLastRequest, fetchRequests } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -10,6 +10,7 @@ const required = val => val && val.length;
 const maxLength = len => val => !val || (val.length <= len); 
 const minLength = len => val => val && (val.length >= len); 
 const isNumber = val => !isNaN(+val); 
+const isZero = val => val && (+val > 0);
 
 const mapStateToProps = state => {
     return { 
@@ -18,6 +19,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+    fetchRequests: () => (fetchRequests()),
     fetchLastRequest: () => (fetchLastRequest())
 };
 
@@ -25,27 +27,30 @@ class RequestForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModalOpen: false 
+            isModalOpen: false,
+            //lastRequest: undefined 
         };
         this.toggleModal = this.toggleModal.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        //this.handleLastRequest = this.handleLastRequest.bind(this);
     }
     
-    componentDidMount() {
-        this.props.fetchLastRequest();
-    }
-
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
     }
 
+    componentDidMount() {
+        this.props.fetchLastRequest();
+    }
+
     handleSubmit(values) {
         this.props.fetchLastRequest();
 
-        const lastRequestId = this.props.lastId.lastRequest[0];
-        const newId = lastRequestId.id + 1; 
+        const lastRequest = this.props.lastId.lastRequest[0];
+        //alert(JSON.stringify(lastRequest)); 
+        const newId = lastRequest.id + 1; 
 
         const newRequest = {
             id: newId,  
@@ -55,9 +60,10 @@ class RequestForm extends Component {
         };
 
         this.props.addRequest(newRequest);
+        this.props.fetchRequests();
         this.toggleModal();
 
-        alert('Current state is: ' + JSON.stringify(newRequest) );
+        //alert('Current state is: ' + JSON.stringify(newRequest) );
     }
 
     render() {
@@ -65,7 +71,6 @@ class RequestForm extends Component {
         return(
             <div>
                 <Button outline onClick={this.toggleModal}>
-                    {/* <i className="fa fa-pencil fa-lg" /> {' '}  */}
                     <span className="text-info">Add a new Request</span> 
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
@@ -119,9 +124,10 @@ class RequestForm extends Component {
                                 <Control.text className="form-control" model=".quantity" id="quantity" name="quantity" 
                                     validators={{
                                             required,
-                                            minLength: minLength(2),
+                                            minLength: minLength(1),
                                             maxLength: maxLength(30),
-                                            isNumber
+                                            isNumber,
+                                            isZero
                                         }}
                                 />
                                 <Errors
@@ -131,9 +137,10 @@ class RequestForm extends Component {
                                     component="div"
                                     messages={{
                                         required: 'Required',
-                                        minLength: 'Must be at least 2 characters',
+                                        minLength: 'Must be at least 1',
                                         maxLength: 'Must be 30 characters or less',
-                                        isNumber: 'Must be a number'
+                                        isNumber: 'Must be a number',
+                                        isZero: 'Must be a valid quantity'
                                     }}
                                 /> 
                             </div>
@@ -142,8 +149,10 @@ class RequestForm extends Component {
                                 <Control.text className="form-control" model=".unitcost" id="unitcost" name="unitcost" 
                                     validators={{
                                             required,
-                                            minLength: minLength(2),
-                                            maxLength: maxLength(30)
+                                            minLength: minLength(1),
+                                            maxLength: maxLength(30),
+                                            isNumber,
+                                            isZero 
                                         }}
                                 />
                                 <Errors
@@ -153,8 +162,10 @@ class RequestForm extends Component {
                                     component="div"
                                     messages={{
                                         required: 'Required',
-                                        minLength: 'Must be at least 2 characters',
-                                        maxLength: 'Must be 30 characters or less'
+                                        minLength: 'Must be at least 1 characters',
+                                        maxLength: 'Must be 30 characters or less',
+                                        isNumber: 'Must be a number',
+                                        isZero: 'Must be a valid quantity'
                                     }}
                                 /> 
                             </div>

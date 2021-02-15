@@ -18,8 +18,12 @@ export const Instock = (state = {
         case ActionTypes.ADD_INSTOCK:
                 const instock = action.payload;
             return {...state, 
-                    instock: state.instock.concat(instock)}; 
+                instock: state.instock.concat(instock)}; 
             break;
+        case ActionTypes.DELETE_INSTOCK:
+            const toDeleteId = action.payload;
+            return {...state, 
+                instock: state.instock.filter(o => o._id !== toDeleteId)}; 
         default:
             return state; 
             break;

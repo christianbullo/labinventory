@@ -11,19 +11,25 @@ const StockSchema = new Schema({
   unitcost: { type: Number, required: true },
   requestdate: { type: Date, required: true },
   requestuser: { type: String, required: true },
+  pdfname: { type: String },
   tracking: { type: String }, 
+  status: { type: String },
   orderdate: { type: Date },
   orderuser: { type: String },
+  location: { type: String },
+  imgname: { type: String },
   deliverydate: { type: Date },
   deliveryuser: { type: String },
-  stocknotes: { type: String },
-  location: { type: String },
-  sublocation: { type: String },
-  status: { type: String },
   aliquot: { type: String },
-  pdfname: { type: String },
-  imgname: { type: String }
-
+  stocknotes: { type: String },
+  updateqtydate: { type: Date },
+  updateqtyuser: { type: String },
+  updatelocdate: { type: Date },
+  updatelocuser: { type: String },
+  updatealiqdate: { type: Date },
+  updatealiquser: { type: String },
+  updatenotedate: { type: Date },
+  updatenoteuser: { type: String }
 });
 
 module.exports = Stock = mongoose.model("Stock", StockSchema);

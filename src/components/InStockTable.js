@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { InStockTableRow } from "./InStockTableRow";
+import InStockTableRow from "./InStockTableRow";
 
-import { fetchInStock } from "../actions/ActionCreators";
+import { fetchInStock, addInStock , deleteInStock } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -17,6 +17,8 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = {
     fetchInStock: () => (fetchInStock()),
+    addInStock: (stock) => (addInStock(stock)),
+    deleteInStock: (oldInstockId) => (deleteInStock(oldInstockId))
 };
 
 class InStockTable extends Component {
@@ -57,11 +59,13 @@ class InStockTable extends Component {
                             <th>Article</th>
                             <th>Details</th> 
                             <th></th> 
-                            <th>Delivered on</th>
-                            <th>Delivered by</th>
+                            {/* <th>Delivered on</th>
+                            <th>Delivered by</th> */}
                             <th>Location</th>
                             <th></th> 
                             <th>Qty</th> 
+                            <th></th> 
+                            <th></th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -70,6 +74,7 @@ class InStockTable extends Component {
                                 .map(item => 
                                     <InStockTableRow item={ item }
                                         key={ item.id }  
+                                        auth={ this.props.auth }
                                     />)
                         }
                     </tbody>

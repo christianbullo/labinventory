@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import OrderTableRow from "./OrderTableRow";
 
-import { fetchOrders } from "../actions/ActionCreators";
+import { fetchOrders, addInStock, deleteOrder } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -17,6 +17,8 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = {
     fetchOrders: () => (fetchOrders()),
+    addInStock: (instock) => (addInStock(instock)),
+    deleteOrder: (oldorder) => (deleteOrder(oldorder)),
 };
 
 class OrderTable extends Component {
@@ -61,6 +63,7 @@ class OrderTable extends Component {
                             <th></th>
                             <th>Purchased on</th>
                             <th>Ordered by</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

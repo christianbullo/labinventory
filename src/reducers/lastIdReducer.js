@@ -1,10 +1,10 @@
 import * as ActionTypes from "../actions/ActionsTypes";
 
 export const LastId = (state = {
-        lastRequest: {},
-        lastOrder: {},
-        lastInStock: {},
-        lastOutOfStock: {}
+        lastRequest: { id: 0 },
+        lastOrder: { id: 0 },
+        lastInStock: { id: 0 },
+        lastOutOfStock: { id: 0 }
     }, action) => {
     switch (action.type) {  
         case ActionTypes.GET_LAST_REQUEST:

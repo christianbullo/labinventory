@@ -7,14 +7,20 @@ module.exports = function validateRequestInput(data) {
   // Convert empty fields to an empty string so we can use validator functions
   // Remember: Validator library validates and sanitizes strings only.
   data.article = !isEmpty(data.article) ? data.article + "" : "";
-  data.quantity = !isEmpty(data.quantity) ? data.quantity + "" : "";
-  data.unitcost = !isEmpty(data.unitcost) ? data.unitcost + "" : "";
+  data.index = !isEmpty(data.index) ? data.index + "" : "";
+  data.quantity = !isEmpty(data.quantity) ? data.quantity.trim() + "" : "";
+  data.unitcost = !isEmpty(data.unitcost) ? data.unitcost.trim() + "" : "";
 
   // Article checks
   if (Validator.isEmpty(data.article)) {
     errors.name = "Article field is required";
   }
 
+  // Index checks
+  if (Validator.isEmpty(data.index)) {
+    errors.name = "Index field is required";
+  }
+    
   // Quantity checks
   if (Validator.isEmpty(data.quantity)) {
     errors.email = "Quantity field is required";

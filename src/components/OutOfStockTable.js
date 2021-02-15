@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { OutOfStockTableRow } from "./OutOfStockTableRow";
 
-import { fetchOutStock } from "../actions/ActionCreators";
+import { fetchOutStock, addOutStock } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -17,6 +17,7 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = {
     fetchOutStock: () => (fetchOutStock()),
+    addOutStock: (stock) => (addOutStock(stock)),
 };
 
 class OutOfStockTable extends Component {
@@ -60,6 +61,7 @@ class OutOfStockTable extends Component {
                             <th>Ordered by</th>
                             <th>Delivered on</th>
                             <th>Delivered by</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

@@ -33,15 +33,15 @@ class PurchaseForm extends Component {
         this.onTrackingChange = this.onTrackingChange.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
     }
-    
-    componentDidMount() {
-        this.props.fetchLastOrder();
-    }
 
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
+    }
+
+    componentDidMount() {
+        this.props.fetchLastOrder();
     }
 
     onTrackingChange(e) {
@@ -73,9 +73,9 @@ class PurchaseForm extends Component {
         }
 
         this.props.fetchLastOrder();
- 
-        const lastOrderId = this.props.lastId.lastOrder[0];
-        const newId = lastOrderId.id + 1; 
+        
+        const lastOrder = this.props.lastId.lastOrder[0];
+        const newId = lastOrder.id + 1; 
 
         let r = this.props.request;           
 

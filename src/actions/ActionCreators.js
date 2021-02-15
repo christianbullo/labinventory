@@ -151,6 +151,7 @@ export const fetchLastOrder = () => dispatch => {
       //alert('response fetch is ' + response);
       return response.data;
     })
+    //.then(lastOrder => dispatch(getLastOrder(lastOrder)))
     .then(lastOrder => dispatch(getLastOrder(lastOrder)))
     .catch(error => dispatch(ordersFailed(error.message)));
 }
@@ -419,7 +420,7 @@ export const outstockFailed = errMess => ({
 // Add out of stock  
 export const addOutStock = (stockData) => dispatch => {
   axios
-    .post("/api/stock/instock/addoutstock", stockData)
+    .post("/api/stock/outstock/addoutstock", stockData)
     .then(response => {
       return response.data;
     })

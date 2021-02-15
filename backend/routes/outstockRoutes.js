@@ -12,8 +12,11 @@ const Stock = require("../models/stock.model");
 router.get("/lastoutstock", (req, res) => {
   Stock.find({"category": "outofstock"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1)
     .then(lastOutstock => {
+      if (lastOutstock.length === 0) {
+        console.log('attenzione lastOutstock is null');
+        lastOutstock = [{ id: 0 }]; 
+      };
       res.json(lastOutstock);
-        //console.log("lastOutstock is " + lastOutstock);
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -28,18 +31,19 @@ router.get("/outstock", (req, res) => {
 
 // @route POST api/stock/outstock/addoutstock
 // @desc Add out of stock 
-router.post("/addoutstock", (req, res) => {
-  
+router.post("/old_addoutstock", (req, res) => {
   const item_id = req.body.item_id; 
   const new_id = req.body.id; 
   const category = "outofstock";  
+  const quantity = 0;
   
   Stock.findByIdAndUpdate(
     { "_id": item_id }, 
     { $set: 
       { 
         "id": new_id,
-        "category": category 
+        "category": category,
+        "quantity": quantity
       } 
     })
   .then(outstock => {
@@ -49,6 +53,32 @@ router.post("/addoutstock", (req, res) => {
     console.log('Error in POST /addoutstock: ' + err);
     res.status(400).json('Error: ' + err);
   } );
+});
+
+// @route POST api/stock/addoutstock
+// @desc Add outstock
+router.post("/addoutstock", (req, res) => {
+
+  const item_id = req.body.item_id; 
+  const category = req.body.category;  
+  const quantity = 0;
+
+  Stock.findByIdAndUpdate(
+    { "_id": item_id }, 
+    { $set: 
+      { 
+        "category": category,
+        "quantity": quantity
+      } 
+  })
+  .then(outstock => {
+    res.json(outstock);
+  })
+  .catch(err => {
+    console.log('Error in POST /addoutstock: ' + err);
+    res.status(400).json('Error: ' + err);
+  } );
+
 });
 
 module.exports = router;

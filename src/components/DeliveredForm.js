@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
-import { fetchLastInstock, addInStock, deleteOrder, fetchOrders } from "../actions/ActionCreators";
+import { fetchOrders, fetchLastInstock, addInStock, deleteOrder } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -15,7 +15,7 @@ const mapDispatchToProps = {
     fetchLastInstock: () => (fetchLastInstock()),
     addInStock: (instock) => (addInStock(instock)),
     deleteOrder: (oldorder) => (deleteOrder(oldorder)),
-    fetchOrders: () => (fetchOrders()),
+    fetchOrders: () => (fetchOrders())
 };
 
 class DeliveredForm extends Component {
@@ -34,15 +34,15 @@ class DeliveredForm extends Component {
         this.onChangeLocation = this.onChangeLocation.bind(this);
         this.onFileChange = this.onFileChange.bind(this);
     }
-    
-    componentDidMount() {
-        this.props.fetchLastInstock();
-    }
 
     toggleModal() {
         this.setState({
             isModalOpen: !this.state.isModalOpen
         });
+    }
+
+    componentDidMount() {
+        this.props.fetchLastInstock();
     }
 
     onChangeLocation(e) {
@@ -79,9 +79,9 @@ class DeliveredForm extends Component {
         }
 
         this.props.fetchLastInstock();
- 
-        const lastInStockId = this.props.lastId.lastInStock[0];
-        const newId = lastInStockId.id + 1; 
+        
+        const lastInStock = this.props.lastId.lastInStock[0]; 
+        const newId = lastInStock.id + 1; 
 
         let o = this.props.order;           
 
@@ -103,7 +103,7 @@ class DeliveredForm extends Component {
         this.props.addInStock(formData);
 
         this.props.deleteOrder(item_id);
-        this.props.fetchOrders();
+        //this.props.fetchOrders();
         this.toggleModal();
 
     }

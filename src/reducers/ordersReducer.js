@@ -26,7 +26,7 @@ export const Orders = (state = {
                 orders: state.orders.filter(o => o._id !== editedOrder._id).concat(editedOrder)}; 
         break;
         case ActionTypes.DELETE_ORDER:
-            const toDeleteId = action.payload;
+            const toDeleteId = action.payload; 
         return {...state, 
                 orders: state.orders.filter(o => o._id !== toDeleteId)}; 
         break;

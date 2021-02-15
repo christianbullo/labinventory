@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { CardLink, Card, CardSubtitle, CardText, CardBody, CardTitle, Button } from "reactstrap";
+import { Card, CardText, CardBody, CardTitle } from "reactstrap";
 import { Link } from "react-router-dom";
 
 class Landing extends Component {

@@ -112,12 +112,11 @@ class EditStockForm extends Component {
                         Updating info of item:
                         <hr/>
                         <h4 className="text-primary">{i.article}</h4>
-                        <h5 className="text-info">{i.index}</h5>
                     </ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.handleSubmit}>
                             <FormGroup>
-                                <Label for="quantity">Quantity: </Label>
+                                <Label for="quantity">New Quantity: </Label>
                                 <Input type="text" name="quantity" id="quantity" 
                                     value={this.state.quantity} onChange={this.onChangeQuantity}
                                     invalid={this.state.isError && !this.state.quantity}
@@ -129,7 +128,7 @@ class EditStockForm extends Component {
                                 ) : ( <div /> )}            
                             </FormGroup>
                             <FormGroup>
-                                <Label for="aliquot">Aliquot: </Label>
+                                <Label for="aliquot">New Aliquot: </Label>
                                 <Input type="text" name="aliquot" id="aliquot" 
                                     value={this.state.aliquot} onChange={this.onChangeAliquot}
                                     invalid={this.state.isError && !this.state.aliquot}
@@ -140,8 +139,9 @@ class EditStockForm extends Component {
                                     </div>    
                                 ) : ( <div /> )}            
                             </FormGroup>
+                            <br/>
                             <FormGroup>
-                                <Label for="location">Location: </Label>
+                                <Label for="location">New Location: </Label>
                                 <Input type="text" name="location" id="location" 
                                     value={this.state.location} onChange={this.onChangeLocation}
                                     invalid={this.state.isError && !this.state.location}
@@ -153,7 +153,7 @@ class EditStockForm extends Component {
                                 ) : ( <div /> )}            
                             </FormGroup>    
                             <FormGroup>
-                                <Label for="imgdata">Upload evidence of location: </Label>
+                                <Label for="imgdata">Upload new evidence of location: </Label>
                                 <Input type="file" name="imgdata" id="imgdata" 
                                     onChange={this.onFileChange} 
                                 />
@@ -163,8 +163,9 @@ class EditStockForm extends Component {
                                     </div>    
                                 ) : ( <div /> )}
                             </FormGroup>
+                            <br/>
                             <FormGroup>
-                                <Label for="stocknotes">Additional notes: </Label>
+                                <Label for="stocknotes">New Additional notes: </Label>
                                 <Input type="text" name="stocknotes" id="stocknotes" 
                                     value={this.state.stocknotes} onChange={this.onChangeStocknotes}
                                     invalid={this.state.isError && !this.state.stocknotes}

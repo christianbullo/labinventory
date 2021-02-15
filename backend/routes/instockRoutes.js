@@ -57,8 +57,11 @@ conn.once("open", () => {
 router.get("/lastinstock", (req, res) => {
   Stock.find({"category": "instock"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1)
     .then(lastInstock => {
+      if (lastInstock.length === 0) {
+        console.log('attenzione lastInstock is null');
+        lastInstock = [{ id: 0 }]; 
+      };
       res.json(lastInstock);
-        //console.log("lastInstock is " + lastInstock);
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -112,13 +115,7 @@ router.post("/addinstock", upload.single('imgdata'), (req, res) => {
 // @desc Update item in stock
 router.post("/editstock", upload.single('imgdata'), (req, res) => {
 
-  //workaround per gestire eventuale immagine in upload ....
-
   const item_id = req.body.item_id; 
-  //const status = req.body.status;
-  //const status = req.body.status;
-  //const status = req.body.status;
-  //const status = req.body.status;
 
   Stock.findByIdAndUpdate(
     { "_id": item_id }, 

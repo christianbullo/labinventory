@@ -57,8 +57,11 @@ conn.once("open", () => {
 router.get("/lastorder", (req, res) => {
   Stock.find({"category": "order"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1)
     .then(lastOrder => {
+      if (lastOrder.length === 0) {
+        console.log('attenzione lastOrder is null');
+        lastOrder = [{ id: 0 }]; 
+      };
       res.json(lastOrder);
-        //console.log("lastOrder is " + lastOrder);
     })
     .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -79,6 +82,7 @@ router.post("/addorder", upload.single('pdfdata'), (req, res) => {
   const new_id = req.body.id; 
   const category = "order";
   const tracking = req.body.tracking;
+  const status = "on schedule";
   const orderdate = req.body.orderdate;
   const orderuser = req.body.orderuser;
   const pdfname = req.file.filename; 
@@ -90,6 +94,7 @@ router.post("/addorder", upload.single('pdfdata'), (req, res) => {
         "id": new_id,
         "category": category, 
         "tracking": tracking,
+        "status": status, 
         "orderdate": orderdate,
         "orderuser": orderuser,
         "pdfname": pdfname 
