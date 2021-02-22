@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const passport = require("passport");
 const cors = require("cors");
+const path = require('path');
 
 require('dotenv').config();
 
@@ -26,7 +27,7 @@ app.use(express.urlencoded(
 ));
 app.use(cors());
 
-app.use('/public', express.static('public'));
+//app.use('/public', express.static('public'));
 
 // DB Config
 const mongoUri = process.env.DB_URL || 'mongodb://localhost:27017/labinventory';
@@ -72,6 +73,17 @@ app.use("/api/stock/outstock", outstock);
 app.use("/api/files", files); 
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port 
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'build')));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
+} else {
+  app.get('/', (req, res) => {
+    res.send('Api running');
+  });  
+}
 
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
 

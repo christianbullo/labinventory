@@ -150,9 +150,7 @@ router.post("/editdetails", (req, res) => {
   for (let i = 0; i < entries.length; i++) {
     if (entries[i] !== 'item_id') {
       updates[entries[i]] = Object.values(req.body)[i];
-      //console.log('entries[i] is ' + entries[i]);
-      //console.log('updates[entries[i]] is ' + updates[entries[i]]);
-      }    
+    }    
   }
 
   const item_id = req.body.item_id; 
