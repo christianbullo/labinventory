@@ -1,0 +1,32 @@
+body, .menu {
+  font-family: "Playfair Display";
+  font-size: 95%;
+}
+
+.jumbotron h1 {
+  font-family: "Pangolin";
+  font-size: 120px;
+  margin-top: 50;
+}
+
+.jumbotron h2 {
+  font-family: "Pangolin";
+  font-size: 100px;
+}
+
+.jumbotron {
+  margin: 0;
+  margin-bottom: 0; 
+  background-image: url('./assets/images/background_header.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.navbar-dark {
+  background-color:rgba(6, 80, 150, 0.5);
+}
+
+.vertical-line {
+  display: inline-block;
+  border-left: 1px solid #ccc;
+  height: 150px; }
