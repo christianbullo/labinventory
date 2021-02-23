@@ -3,9 +3,16 @@ import * as ActionTypes from "../actions/ActionsTypes";
 export const Orders = (state = {
         isLoading: true, 
         errMess: null,
+        page: 1,
+        pages: 0,
         orders: []
     }, action) => {
     switch (action.type) {
+        case ActionTypes.GET_ORDERS_PAGES:
+            const pages = action.payload;
+            return {...state, 
+                    page: pages.page, 
+                    pages: pages.totalPages}
         case ActionTypes.GET_ORDERS:
             return {...state, 
                     isLoading: false, 

@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
+import Pagination from "./Pagination";
 
 const mapStateToProps = state => {
     return {
@@ -16,22 +17,34 @@ const mapStateToProps = state => {
 };
   
 const mapDispatchToProps = {
-    fetchInStock: () => (fetchInStock()),
+    fetchInStock: (pageData) => (fetchInStock(pageData)),
     addInStock: (stock) => (addInStock(stock)),
     deleteInStock: (oldInstockId) => (deleteInStock(oldInstockId))
 };
 
 class InStockTable extends Component {
     
-    componentDidMount() {
-        this.props.fetchInStock();
+    constructor(props) {
+        super(props);
+        this.onChangePage = this.onChangePage.bind(this);
+    }
+    
+    onChangePage(newPage) {
+        const pageData = {
+            page: newPage
+        };
+        this.props.fetchInStock(newPage);
     }
 
-    componentDidUpdate() {
-        this.props.fetchInStock();
+    componentDidMount() {
+        const actualPage = this.props.instock.page;
+        this.props.fetchInStock(actualPage);
     }
 
     render() {
+
+        let numPage = this.props.instock.page;
+        let numPages = this.props.instock.pages;
         
         if (this.props.instock.isLoading) {
             return <Loading />
@@ -76,14 +89,30 @@ class InStockTable extends Component {
                             this.props.instock.instock
                                 .map(item => 
                                     <InStockTableRow item={ item }
-                                        key={ item.id }  
+                                        key={ item._id }  
                                         auth={ this.props.auth }
                                     />)
                         }
                     </tbody>
                 </table>
                 {
-                    (this.props.instock.instock.length === 0) ? (<NoItemsComponent />) : ( <div />)
+                    (this.props.instock.pages === 0) 
+                        ? (<NoItemsComponent />) 
+                        : (  
+                            <div className="container">
+                                <div className="row justify-content-center">
+                                    <div className="col"></div>
+                                    <div className="col text-center">
+                                        <Pagination 
+                                            numpage={numPage} 
+                                            numpages={numPages} 
+                                            changePage={this.onChangePage}
+                                        />  
+                                    </div>
+                                    <div className="col"></div>
+                                </div>
+                            </div>
+                        )
                 }
             </div>
         );

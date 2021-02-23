@@ -60,7 +60,7 @@ router.get("/lastinstock", async (req, res) => {
     if (!lastInstock.length) {
       lastInstock = [{ id: 0 }]; 
     }
-    res.json(lastInstock);
+    res.status(200).json(lastInstock);
   } catch (error) {
     res.status(400).json('Error: ' + error);
   }
@@ -80,8 +80,34 @@ router.get("/lastinstock", async (req, res) => {
 // @desc Get instock
 router.get("/instock", async (req, res) => {
   try {
-    const instock = await Stock.find({"category": "instock"}).sort({orderdate: 'asc'});
-    res.json(instock);
+    //const instock = await Stock.find({"category": "instock"}).sort({orderdate: 'asc'});
+    let query = Stock.find({"category": "instock"}).sort({orderdate: 'asc'});
+
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * pageSize;
+    const total = await Stock.countDocuments({"category": "instock"});
+
+    const pages = Math.ceil(total / pageSize);
+
+    query = query.skip(skip).limit(pageSize);
+
+    if (page > pages && pages) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No page found",
+      });
+    }
+
+    const instock = await query; 
+
+    res.status(200).json({
+      pages: {
+        page: page,
+        totalPages: pages 
+      },
+      instock: instock,
+    });
   } catch (error) {
     res.status(400).json('Error: ' + error);
   }

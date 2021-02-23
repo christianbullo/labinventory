@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
-import { fetchLastOrder, addOrder, deleteRequest } from "../actions/ActionCreators";
+import { fetchLastOrder, addOrder, deleteRequest, fetchRequests } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -12,6 +12,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+    fetchRequests: () => (fetchRequests()),
     fetchLastOrder: () => (fetchLastOrder()),
     addOrder: (order) => (addOrder(order)),
     deleteRequest: (oldrequest) => (deleteRequest(oldrequest))
@@ -72,9 +73,11 @@ class PurchaseForm extends Component {
             });
         }
 
-        //this.props.fetchLastOrder();
-        
-        const lastOrder = this.props.lastId.lastOrder[0];
+        this.props.fetchLastOrder();
+
+        const arrOrderLength = this.props.lastId.lastOrder.length;
+        const lastOrder = this.props.lastId.lastOrder[arrOrderLength - 1];
+
         const newId = lastOrder.id + 1; 
 
         let r = this.props.request;           
@@ -97,6 +100,8 @@ class PurchaseForm extends Component {
         this.props.addOrder(formData);
 
         this.props.deleteRequest(item_id);
+
+        this.props.fetchRequests();
 
         this.toggleModal();
 

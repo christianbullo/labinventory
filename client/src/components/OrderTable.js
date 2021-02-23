@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
+import Pagination from "./Pagination";
 
 const mapStateToProps = state => {
     return {
@@ -16,22 +17,34 @@ const mapStateToProps = state => {
 };
   
 const mapDispatchToProps = {
-    fetchOrders: () => (fetchOrders()),
+    fetchOrders: (pageData) => (fetchOrders(pageData)),
     addInStock: (instock) => (addInStock(instock)),
     deleteOrder: (oldorder) => (deleteOrder(oldorder)),
 };
 
 class OrderTable extends Component {
 
-    componentDidMount() {
-        this.props.fetchOrders();
+    constructor(props) {
+        super(props);
+        this.onChangePage = this.onChangePage.bind(this);
+    }
+    
+    onChangePage(newPage) {
+        const pageData = {
+            page: newPage
+        };
+        this.props.fetchOrders(newPage);
     }
 
-    componentDidUpdate() {
-        this.props.fetchOrders();
+    componentDidMount() {
+        const actualPage = this.props.orders.page; 
+        this.props.fetchOrders(actualPage);
     }
 
     render() {
+
+        let numPage = this.props.orders.page;
+        let numPages = this.props.orders.pages;
 
         if (this.props.orders.isLoading) {
             return <Loading />
@@ -74,14 +87,30 @@ class OrderTable extends Component {
                         {   
                             this.props.orders.orders.map(o => 
                                 <OrderTableRow order={ o }
-                                    key={ o.id }  
+                                    key={ o._id }  
                                     auth={ this.props.auth }
                                 />)
                         }
                     </tbody>
                 </table>
                 {
-                    (this.props.orders.orders.length === 0) ? (<NoItemsComponent />) : ( <div />)
+                    (this.props.orders.pages === 0) 
+                        ? (<NoItemsComponent />) 
+                        : (  
+                            <div className="container">
+                                <div className="row justify-content-center">
+                                    <div className="col"></div>
+                                    <div className="col text-center">
+                                        <Pagination 
+                                            numpage={numPage} 
+                                            numpages={numPages} 
+                                            changePage={this.onChangePage}
+                                        />  
+                                    </div>
+                                    <div className="col"></div>
+                                </div>
+                            </div>
+                        )
                 }
             </div>
         );

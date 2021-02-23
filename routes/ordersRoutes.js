@@ -60,7 +60,7 @@ router.get("/lastorder", async (req, res) => {
     if (!lastOrder.length) {
       lastOrder = [{ id: 0 }]; 
     };
-    res.json(lastOrder);
+    res.status(200).json(lastOrder);
   } catch (error) {
     res.status(400).json('Error: ' + error);
   }
@@ -81,8 +81,34 @@ router.get("/lastorder", async (req, res) => {
 // @desc Get requests
 router.get("/orders", async (req, res) => {
   try {
-    const orders = await Stock.find({"category": "order"}).sort({orderdate: 'asc'});  
-    res.json(orders);
+    //const orders = await Stock.find({"category": "order"}).sort({orderdate: 'asc'});  
+    let query = Stock.find({"category": "order"}).sort({id: 'asc'});
+
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * pageSize;
+    const total = await Stock.countDocuments({"category": "order"});
+
+    const pages = Math.ceil(total / pageSize);
+
+    query = query.skip(skip).limit(pageSize);
+
+    if (page > pages && pages) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No page found",
+      });
+    }
+
+    const orders = await query; 
+
+    res.status(200).json({
+      pages: {
+        page: page,
+        totalPages: pages 
+      },
+      orders: orders,
+    }); 
   } catch (error) {
     res.status(400).json('Error: ' + error);
   }

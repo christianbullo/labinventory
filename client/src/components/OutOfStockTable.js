@@ -25,7 +25,6 @@ class OutOfStockTable extends Component {
 
     constructor(props) {
         super(props);
-        
         this.onChangePage = this.onChangePage.bind(this);
     }
     
@@ -33,18 +32,18 @@ class OutOfStockTable extends Component {
         const pageData = {
             page: newPage
         };
-
-        this.props.fetchOutStock(pageData);
+        this.props.fetchOutStock(newPage);
     }
 
     componentDidMount() {
-        const pageData = {
-            page: this.props.outstock.page
-        };
-        this.props.fetchOutStock(pageData);        
+        const actualPage = this.props.outstock.page;
+        this.props.fetchOutStock(actualPage);        
     }
 
     render() {
+
+        let numPage = this.props.outstock.page;
+        let numPages = this.props.outstock.pages;
 
         if (this.props.outstock.isLoading) {
             return <Loading />
@@ -87,7 +86,7 @@ class OutOfStockTable extends Component {
                             this.props.outstock.outstock
                                 .map(item => 
                                     <OutOfStockTableRow item={ item }
-                                        key={ item.id }  
+                                        key={ item._id }  
                                     />)
                         }
                     </tbody>
@@ -101,8 +100,8 @@ class OutOfStockTable extends Component {
                                     <div className="col"></div>
                                     <div className="col text-center">
                                         <Pagination 
-                                            page={this.props.outstock.page} 
-                                            pages={this.props.outstock.pages} 
+                                            numpage={numPage} 
+                                            numpages={numPages} 
                                             changePage={this.onChangePage}
                                         />  
                                     </div>

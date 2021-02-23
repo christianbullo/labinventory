@@ -1,10 +1,12 @@
 import axios from "axios";
+import url from "url";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
 import * as ActionTypes from "./ActionsTypes";
 
-
+//const url = require('url');   
+    
 // Register User
 export const registerUser = (userData, history) => dispatch => {
   axios
@@ -88,15 +90,18 @@ export const getLastRequest = lastRequest => ({
 }); 
 
 // Get requests 
-export const fetchRequests = () => dispatch => {
+export const fetchRequests = (pageDataReq) => dispatch => {
   dispatch(requestsLoading()); 
 
   axios
-    .get("/api/stock/requests/requests")
+    .get(`/api/stock/requests/requests?page=${pageDataReq}`)
     .then(response => {
       return response.data;
     })
-    .then(requests => dispatch(getRequests(requests)))
+    .then(data => {
+      dispatch(getRequestPages(data.pages));
+      dispatch(getRequests(data.requests));
+    })
     .catch(error => dispatch(requestsFailed(error.message)));
 };
 
@@ -107,6 +112,11 @@ export const requestsLoading = () => ({
 export const getRequests = requests => ({
   type: ActionTypes.GET_REQUESTS,
   payload: requests
+}); 
+
+export const getRequestPages = pages => ({
+  type: ActionTypes.GET_REQUESTS_PAGES,
+  payload: pages
 }); 
 
 export const requestsFailed = errMess => ({
@@ -162,15 +172,18 @@ export const getLastOrder = lastOrder => ({
 }); 
 
 // Get orders 
-export const fetchOrders = () => dispatch => {
+export const fetchOrders = (pageDataOrder) => dispatch => {
   dispatch(ordersLoading()); 
 
   axios
-    .get("/api/stock/orders/orders")
+    .get(`/api/stock/orders/orders?page=${pageDataOrder}`)
     .then(response => {
       return response.data;
     })
-    .then(orders => dispatch(getOrders(orders)))
+    .then(data => {
+      dispatch(getOrderPages(data.pages));
+      dispatch(getOrders(data.orders));
+    })
     .catch(error => dispatch(ordersFailed(error.message)));
 };
 
@@ -182,6 +195,11 @@ export const getOrders = orders => ({
   type: ActionTypes.GET_ORDERS,
   payload: orders
 }); 
+
+export const getOrderPages = pages => ({
+  type: ActionTypes.GET_ORDERS_PAGES,
+  payload: pages
+});
 
 export const ordersFailed = errMess => ({
   type: ActionTypes.ORDERS_FAILED,
@@ -271,15 +289,18 @@ export const getLastInstock = lastInStock => ({
 }); 
 
 // Get in stock  
-export const fetchInStock = () => dispatch => {
+export const fetchInStock = (pageDataInstock) => dispatch => {
   dispatch(instockLoading()); 
 
   axios
-    .get("/api/stock/instock/instock")
+    .get(`/api/stock/instock/instock?page=${pageDataInstock}`)
     .then(response => {
       return response.data;
     })
-    .then(instock => dispatch(getInStock(instock)))
+    .then(data => {
+      dispatch(getInstockPages(data.pages));
+      dispatch(getInStock(data.instock));
+    })
     .catch(error => dispatch(instockFailed(error.message)));
 };
 
@@ -290,6 +311,11 @@ export const instockLoading = () => ({
 export const getInStock = instock => ({
   type: ActionTypes.GET_INSTOCK, 
   payload: instock
+}); 
+
+export const getInstockPages = pages => ({
+  type: ActionTypes.GET_INSTOCK_PAGES,
+  payload: pages
 }); 
 
 export const instockFailed = errMess => ({
@@ -422,9 +448,12 @@ export const getLastOutstock = lastOutStock => ({
 // Get out of stock  
 export const fetchOutStock = (pageData) => dispatch => {
   dispatch(outstockLoading()); 
-  //alert('passa di qua!!');
+  
+  const params = new URLSearchParams(pageData);
+  //console.log("params is " + params);
+
   axios
-    .post("/api/stock/outstock/outstock", pageData)
+    .get(`/api/stock/outstock/outstock?page=${pageData}`)
     .then(response => {
       return response.data;
     })

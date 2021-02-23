@@ -15,7 +15,7 @@ router.get("/lastoutstock", async (req, res) => {
     if (!lastOutstock.length) {
       lastOutstock = [{ id: 0 }]; 
     };
-    res.json(lastOutstock);    
+    res.status(200).json(lastOutstock);    
   } catch (error) {
     res.status(400).json('Error: ' + error);
   }
@@ -34,22 +34,22 @@ router.get("/lastoutstock", async (req, res) => {
 
 // @route GET api/stock/outstock/outstock 
 // @desc Get out of stock
-router.post("/outstock", async (req, res) => {
-
+router.get("/outstock", async (req, res) => {
+   
   try {
     //const outstock = await Stock.find({"category": "outofstock"}).sort({orderdate: 'asc'});
-    let query = Stock.find({"category": "outofstock"}).sort({deliverydate: 'desc'});
-
-    const page = req.body.page || 1;
-    const pageSize = parseInt(req.body.limit) || 5;
+    let query = Stock.find({"category": "outofstock"}).sort({id: 'asc'});
+    
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 5;
     const skip = (page - 1) * pageSize;
-    const total = await Stock.countDocuments();
+    const total = await Stock.countDocuments({"category": "outofstock"});
 
     const pages = Math.ceil(total / pageSize);
-
+  
     query = query.skip(skip).limit(pageSize);
 
-    if (page > pages) {
+    if (page > pages && pages) {
       return res.status(404).json({
         status: "fail",
         message: "No page found",
@@ -58,11 +58,7 @@ router.post("/outstock", async (req, res) => {
 
     const outstock = await query; 
 
-    //console.log(outstock);
-
-    res.json({
-      // status: "success",
-      // count: outstock.length,
+    res.status(200).json({
       pages: {
         page: page,
         totalPages: pages 
@@ -79,31 +75,6 @@ router.post("/outstock", async (req, res) => {
 //     .catch(err => res.status(400).json('Error: ' + err));
 // });
 
-// @route POST api/stock/outstock/addoutstock
-// @desc Add out of stock 
-// router.post("/old_addoutstock", (req, res) => {
-//   const item_id = req.body.item_id; 
-//   const new_id = req.body.id; 
-//   const category = "outofstock";  
-//   const quantity = 0;
-  
-//   Stock.findByIdAndUpdate(
-//     { "_id": item_id }, 
-//     { $set: 
-//       { 
-//         "id": new_id,
-//         "category": category,
-//         "quantity": quantity
-//       } 
-//     })
-//   .then(outstock => {
-//     res.json(outstock);
-//   })
-//   .catch(err => {
-//     console.log('Error in POST /addoutstock: ' + err);
-//     res.status(400).json('Error: ' + err);
-//   } );
-// });
 
 // @route POST api/stock/addoutstock
 // @desc Add outstock

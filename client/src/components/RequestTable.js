@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 
 import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
+import Pagination from "./Pagination";
 
 const mapStateToProps = state => {
     return {
@@ -17,24 +18,34 @@ const mapStateToProps = state => {
 };
   
 const mapDispatchToProps = {
-    fetchRequests: () => (fetchRequests()),
+    fetchRequests: (pageData) => (fetchRequests(pageData)),
     fetchLastRequest: () => (fetchLastRequest()),
     addRequest: (request) => (addRequest(request))
 };
 
 class RequestTable extends Component {
 
-    componentDidMount() {
-        this.props.fetchRequests();
+    constructor(props) {
+        super(props);
+        this.onChangePage = this.onChangePage.bind(this);
+    }
+    
+    onChangePage(newPage) {
+        this.props.fetchRequests(newPage);
+        const prova = this.props.requests.requests.length;
+        //alert('quanti item ora: ' + prova); 
     }
 
-    componentDidUpdate() {
-        this.props.fetchRequests();
-        this.props.fetchLastRequest();
+    componentDidMount() {
+        const pageData = this.props.requests.page;
+        this.props.fetchRequests(pageData);
     }
 
     render() {
         
+        let numPage = this.props.requests.page;
+        let numPages = this.props.requests.pages;
+
         if (this.props.requests.isLoading) {
             return <Loading />
         }
@@ -76,7 +87,7 @@ class RequestTable extends Component {
                             this.props.requests.requests.map(r => 
                             <RequestTableRow 
                                 request={ r }
-                                key={ r.id } 
+                                key={ r._id } 
                                 auth={ this.props.auth }
                             />
                             )
@@ -84,7 +95,7 @@ class RequestTable extends Component {
                     </tbody>
                 </table>
                 {
-                    (this.props.requests.requests.length === 0) ? (<NoItemsComponent />) : ( <div />)
+                    (this.props.requests.pages === 0) ? (<NoItemsComponent />) : ( <div />)
                 }
                 <hr/>
                 <div className="container">
@@ -94,7 +105,27 @@ class RequestTable extends Component {
                         </div>
                     </div>
                 </div>
+                <hr/>
                 <br/>
+                {
+                    (this.props.requests.pages !== 0)  
+                        ? (  
+                            <div className="container">
+                                <div className="row justify-content-center">
+                                    <div className="col"></div>
+                                    <div className="col-3 text-center">
+                                        <Pagination 
+                                            numpage={numPage} 
+                                            numpages={numPages} 
+                                            changePage={this.onChangePage}
+                                        />  
+                                    </div>
+                                    <div className="col"></div>
+                                </div>
+                            </div>
+                        ) 
+                        : ( <div />)
+                }
             </div>
         );
     }

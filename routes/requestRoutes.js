@@ -16,7 +16,7 @@ router.get("/lastrequest", async (req, res) => {
     if (!lastRequest.length) {
       lastRequest = [{ id: 0 }]; 
     }
-    res.json(lastRequest);
+    res.status(200).json(lastRequest);
   } catch (error) {
     res.status(400).json('Error: ' + error);
   }
@@ -37,8 +37,34 @@ router.get("/lastrequest", async (req, res) => {
 // @desc Get requests
 router.get("/requests", async (req, res) => {
   try {
-    const requests = await Stock.find({"category": "request"}).sort({requestdate: 'asc'});
-    res.json(requests);
+    //const requests = await Stock.find({"category": "request"}).sort({requestdate: 'asc'});
+    let query = Stock.find({"category": "request"}).sort({requestdate: 'asc'});
+
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * pageSize;
+    const total = await Stock.countDocuments({"category": "request"});
+
+    const pages = Math.ceil(total / pageSize);
+
+    query = query.skip(skip).limit(pageSize);
+
+    if (page > pages && pages) {
+      return res.status(404).json({
+        status: "fail",
+        message: "No page found",
+      });
+    }
+
+    const requests = await query; 
+
+    res.status(200).json({
+      pages: {
+        page: page,
+        totalPages: pages 
+      },
+      requests: requests,
+    }); 
   } catch (error) {
     res.status(400).json('Error: ' + error);
   }

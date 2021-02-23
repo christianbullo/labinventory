@@ -1,7 +1,11 @@
-//import "./Pagination.css";
+import React, { Component } from "react";
 
-const Pagination = ({ page, pages, changePage }) => {
+const Pagination = ({ numpage, numpages, changePage }) => {
+ 
   let middlePagination;
+
+  let page = parseInt(numpage);
+  let pages = numpages;
 
   if (pages <= 5) {
     middlePagination = [...Array(pages)].map((_, idx) => (
@@ -10,35 +14,36 @@ const Pagination = ({ page, pages, changePage }) => {
         onClick={() => changePage(idx + 1)}
         disabled={page === idx + 1}
       >
-        {idx + 1}
+        {idx + 1}  
       </button>
     ));
   } else {
     const startValue = Math.floor((page - 1) / 5) * 5;
-
+    const lastItem = [...Array(5)].length;
+    
     middlePagination = (
-      <>
+      <React.Fragment>
         {[...Array(5)].map((_, idx) => (
           <button
             key={startValue + idx + 1}
             disabled={page === startValue + idx + 1}
             onClick={() => changePage(startValue + idx + 1)}
           >
-            {startValue + idx + 1}
+            {startValue + idx + 1}  
           </button>
         ))}
 
-        <button>...</button>
+        <button onClick={() => changePage(lastItem + 1)}>...</button>
         <button onClick={() => changePage(pages)}>{pages}</button>
-      </>
+      </React.Fragment>
     );
 
     if (page > 5) {
       if (pages - page >= 5) {
         middlePagination = (
-          <>
+          <React.Fragment>
             <button onClick={() => changePage(1)}>1</button>
-            <button>...</button>
+            <button onClick={() => changePage(startValue - 1)}>...</button>
             <button onClick={() => changePage(startValue)}>{startValue}</button>
             {[...Array(5)].map((_, idx) => (
               <button
@@ -46,20 +51,20 @@ const Pagination = ({ page, pages, changePage }) => {
                 disabled={page === startValue + idx + 1}
                 onClick={() => changePage(startValue + idx + 1)}
               >
-                {startValue + idx + 1}
+                {startValue + idx + 1} 
               </button>
             ))}
 
-            <button>...</button>
+            <button onClick={() => changePage(startValue + 6)}>...</button>
             <button onClick={() => changePage(pages)}>{pages}</button>
-          </>
+          </React.Fragment>
         );
       } else {
         let amountLeft = pages - page + 5;
         middlePagination = (
-          <>
+          <React.Fragment>
             <button onClick={() => changePage(1)}>1</button>
-            <button>...</button>
+            <button onClick={() => changePage(startValue - 1)}>...</button>
             <button onClick={() => changePage(startValue)}>{startValue}</button>
             {[...Array(amountLeft)].map((_, idx) => (
               <button
@@ -70,10 +75,10 @@ const Pagination = ({ page, pages, changePage }) => {
                 }
                 onClick={() => changePage(startValue + idx + 1)}
               >
-                {startValue + idx + 1}
+                {startValue + idx + 1} 
               </button>
             ))}
-          </>
+          </React.Fragment>
         );
       }
     }
@@ -84,15 +89,15 @@ const Pagination = ({ page, pages, changePage }) => {
       <div className="pagination">
         <button
           className="pagination__prev"
-          onClick={() => changePage((page) => page - 1)}
+          onClick={() => changePage(page - 1)}
           disabled={page === 1}
         >
           &#171;
         </button>
-        {middlePagination}
+        {middlePagination}  
         <button
           className="pagination__next"
-          onClick={() => changePage((page) => page + 1)}
+          onClick={() => changePage(page + 1)}
           disabled={page === pages}
         >
           &#187;

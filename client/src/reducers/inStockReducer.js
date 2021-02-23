@@ -3,9 +3,16 @@ import * as ActionTypes from "../actions/ActionsTypes";
 export const Instock = (state = {
         isLoading: true, 
         errMess: null,
+        page: 1,
+        pages: 0,
         instock: []
     }, action) => {
     switch (action.type) {
+        case ActionTypes.GET_INSTOCK_PAGES:
+            const pages = action.payload;
+            return {...state, 
+                    page: pages.page, 
+                    pages: pages.totalPages}
         case ActionTypes.GET_INSTOCK:
             return {...state, 
                     isLoading: false, 

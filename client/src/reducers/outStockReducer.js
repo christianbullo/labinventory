@@ -3,7 +3,7 @@ import * as ActionTypes from "../actions/ActionsTypes";
 export const Outstock = (state = {
         isLoading: true, 
         errMess: null,
-        page: 0,
+        page: 1,
         pages: 0,
         outstock: []
     }, action) => {

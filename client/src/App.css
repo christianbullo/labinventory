@@ -38,12 +38,15 @@ body, .menu {
 }
 
 .pagination button {
+  border: none;
   margin-right: 0.5rem;
   cursor: pointer;
   padding: 7px 15px;
+  outline: none; 
 }
 
 .pagination button:disabled {
+  border: none;
   background-color: #333;
   color: #fff;
   cursor: not-allowed;

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 import { LocalForm, Control, Errors } from 'react-redux-form';
 
-import { fetchLastRequest } from "../actions/ActionCreators";
+import { fetchLastRequest, fetchRequests } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -19,7 +19,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    fetchLastRequest: () => (fetchLastRequest())
+    fetchLastRequest: () => (fetchLastRequest()),
+    fetchRequests: () => (fetchRequests())
 };
 
 class RequestForm extends Component {
@@ -27,11 +28,9 @@ class RequestForm extends Component {
         super(props);
         this.state = {
             isModalOpen: false,
-            //lastRequest: undefined 
         };
         this.toggleModal = this.toggleModal.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        //this.handleLastRequest = this.handleLastRequest.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this); 
     }
     
     toggleModal() {
@@ -47,6 +46,7 @@ class RequestForm extends Component {
     handleSubmit(values) {
         const arrReqLength = this.props.lastId.lastRequest.length;
         const lastRequest = this.props.lastId.lastRequest[arrReqLength - 1];
+        //alert('arrReqLength = ' + arrReqLength + ' lastRequest = ' + lastRequest);
         const newId = lastRequest.id + 1; 
 
         const newRequest = {
@@ -57,6 +57,7 @@ class RequestForm extends Component {
         };
 
         this.props.addRequest(newRequest);
+        this.props.fetchRequests();
         this.toggleModal();
 
     }
