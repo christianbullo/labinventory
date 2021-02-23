@@ -88,8 +88,8 @@ class RequestTable extends Component {
                 }
                 <hr/>
                 <div className="container">
-                    <div class="row justify-content-center">
-                        <div class="col-3 text-center">
+                    <div className="row justify-content-center">
+                        <div className="col-3 text-center">
                             <RequestForm auth={ this.props.auth } addRequest={ this.props.addRequest }/>
                         </div>
                     </div>

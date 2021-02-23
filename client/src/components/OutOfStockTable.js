@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 
 import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
+import Pagination from "./Pagination";
 
 const mapStateToProps = state => {
     return {
@@ -16,14 +17,31 @@ const mapStateToProps = state => {
 };
   
 const mapDispatchToProps = {
-    fetchOutStock: () => (fetchOutStock()),
+    fetchOutStock: (pageData) => (fetchOutStock(pageData)),
     addOutStock: (stock) => (addOutStock(stock)),
 };
 
 class OutOfStockTable extends Component {
 
+    constructor(props) {
+        super(props);
+        
+        this.onChangePage = this.onChangePage.bind(this);
+    }
+    
+    onChangePage(newPage) {
+        const pageData = {
+            page: newPage
+        };
+
+        this.props.fetchOutStock(pageData);
+    }
+
     componentDidMount() {
-        this.props.fetchOutStock();
+        const pageData = {
+            page: this.props.outstock.page
+        };
+        this.props.fetchOutStock(pageData);        
     }
 
     render() {
@@ -57,10 +75,10 @@ class OutOfStockTable extends Component {
                             <th>ID</th>
                             <th>Article</th>
                             <th>Index</th>
-                            <th>Purchased on</th>
-                            <th>Ordered by</th>
                             <th>Delivered on</th>
                             <th>Delivered by</th>
+                            <th>Purchased on</th>
+                            <th>Ordered by</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -75,7 +93,23 @@ class OutOfStockTable extends Component {
                     </tbody>
                 </table>
                 {
-                    (this.props.outstock.outstock.length === 0) ? (<NoItemsComponent />) : ( <div />)
+                    (this.props.outstock.pages === 0) 
+                        ? (<NoItemsComponent />) 
+                        : (  
+                            <div className="container">
+                                <div className="row justify-content-center">
+                                    <div className="col"></div>
+                                    <div className="col text-center">
+                                        <Pagination 
+                                            page={this.props.outstock.page} 
+                                            pages={this.props.outstock.pages} 
+                                            changePage={this.onChangePage}
+                                        />  
+                                    </div>
+                                    <div className="col"></div>
+                                </div>
+                            </div>
+                        )
                 }
             </div>
         );

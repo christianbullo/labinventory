@@ -420,15 +420,18 @@ export const getLastOutstock = lastOutStock => ({
 }); 
 
 // Get out of stock  
-export const fetchOutStock = () => dispatch => {
+export const fetchOutStock = (pageData) => dispatch => {
   dispatch(outstockLoading()); 
-
+  //alert('passa di qua!!');
   axios
-    .get("/api/stock/outstock/outstock")
+    .post("/api/stock/outstock/outstock", pageData)
     .then(response => {
       return response.data;
     })
-    .then(outstock => dispatch(getOutStock(outstock)))
+    .then(data => {
+      dispatch(getOutstockPages(data.pages));
+      dispatch(getOutStock(data.outstock));
+    })
     .catch(error => dispatch(outstockFailed(error.message)));
 };
 
@@ -439,6 +442,11 @@ export const outstockLoading = () => ({
 export const getOutStock = outstock => ({
   type: ActionTypes.GET_OUTSTOCK, 
   payload: outstock
+}); 
+
+export const getOutstockPages = pages => ({
+  type: ActionTypes.GET_OUTSTOCK_PAGES,
+  payload: pages
 }); 
 
 export const outstockFailed = errMess => ({
