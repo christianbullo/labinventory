@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 import { LocalForm, Control, Errors } from 'react-redux-form';
 
-import { fetchLastRequest, fetchRequests } from "../actions/ActionCreators";
+import { fetchRequests } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -14,13 +14,12 @@ const isZero = val => val && (+val > 0);
 
 const mapStateToProps = state => {
     return { 
-        lastId: state.lastId
+        requests: state.requests 
     };
 };
 
 const mapDispatchToProps = {
-    fetchLastRequest: () => (fetchLastRequest()),
-    fetchRequests: () => (fetchRequests())
+    fetchRequests: (pageData) => (fetchRequests(pageData))
 };
 
 class RequestForm extends Component {
@@ -28,8 +27,10 @@ class RequestForm extends Component {
         super(props);
         this.state = {
             isModalOpen: false,
+            lastRequest: []
         };
         this.toggleModal = this.toggleModal.bind(this);
+        this.fetchLastRequest = this.fetchLastRequest.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this); 
     }
     
@@ -39,16 +40,32 @@ class RequestForm extends Component {
         });
     }
 
-    componentDidMount() {
-        this.props.fetchLastRequest();
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.isModalOpen === false && this.state.isModalOpen === true) {
+            this.fetchLastRequest();
+        }
     }
 
-    handleSubmit(values) {
-        const arrReqLength = this.props.lastId.lastRequest.length;
-        const lastRequest = this.props.lastId.lastRequest[arrReqLength - 1];
-        //alert('arrReqLength = ' + arrReqLength + ' lastRequest = ' + lastRequest);
-        const newId = lastRequest.id + 1; 
+    fetchLastRequest() {
+        const url = `/api/stock/requests/lastrequest`;
 
+        async function findLastItem() {
+            const response = await fetch(url);
+            const lastItem = await response.json();
+            return lastItem;    
+        } 
+
+        findLastItem().then(item => {
+            this.setState({
+                lastRequest: item 
+            });
+        });
+    } 
+
+    handleSubmit(values) {
+        const lastId = this.state.lastRequest[0];
+        const newId = lastId.id + 1; 
+    
         const newRequest = {
             id: newId,  
             ...values,
@@ -57,7 +74,10 @@ class RequestForm extends Component {
         };
 
         this.props.addRequest(newRequest);
-        this.props.fetchRequests();
+
+        const actualPage = this.props.requests.page
+        this.props.fetchRequests(actualPage);
+
         this.toggleModal();
 
     }
@@ -72,7 +92,7 @@ class RequestForm extends Component {
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}><span className="text-info">New Request</span></ModalHeader>
                     <ModalBody>
-                        <LocalForm onSubmit={ (values) => this.handleSubmit(values) }>
+                        <LocalForm onSubmit={ (values) => this.handleSubmit(values)}>
                             <div className="form-group">
                                 <Label htmlFor="article">Article</Label>
                                 <Control.text className="form-control" model=".article" id="article" name="article" 

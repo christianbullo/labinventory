@@ -15,13 +15,14 @@ import EditLocation from "./EditLocation";
 
 const mapStateToProps = state => {
     return { 
-        auth: state.auth
+        auth: state.auth,
+        instock: state.instock  
     };
 };
 
 const mapDispatchToProps = {
     editLocation: (instock) => (editLocation(instock)),
-    fetchInStock: () => (fetchInStock())
+    fetchInStock: (pageData) => (fetchInStock(pageData))
 };
 
 class InStockTableRow extends Component {
@@ -50,7 +51,7 @@ class InStockTableRow extends Component {
                     <EditLocation auth={ this.props.auth } item={i}/>
                 </td>
                 <td>
-                    <EditOutOfSTockForm item={i} />  
+                    <EditOutOfSTockForm item={i} length={ this.props.length } />  
                 </td>
             </tr>
         );

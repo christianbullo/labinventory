@@ -6,14 +6,15 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
-    return { 
+    return {
+        orders: state.orders, 
         lastId: state.lastId
     };
 };
 
 const mapDispatchToProps = {
     editOrder: (formData) => (editOrder(formData)),
-    fetchOrders: () => (fetchOrders()),
+    fetchOrders: (pageData) => (fetchOrders(pageData)),
 };
 
 class EditOrderForm extends Component {
@@ -66,7 +67,10 @@ class EditOrderForm extends Component {
         };
 
         this.props.editOrder(updateOrder);
-        this.props.fetchOrders();
+
+        const actualPage = this.props.orders.page;
+        this.props.fetchOrders(actualPage);
+        
         this.toggleModal();
 
     }

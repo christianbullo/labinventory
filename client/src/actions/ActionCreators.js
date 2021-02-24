@@ -1,11 +1,9 @@
 import axios from "axios";
-import url from "url";
+//import url from "url";
 import setAuthToken from "../utils/setAuthToken";
 import jwt_decode from "jwt-decode";
 
 import * as ActionTypes from "./ActionsTypes";
-
-//const url = require('url');   
     
 // Register User
 export const registerUser = (userData, history) => dispatch => {
@@ -73,22 +71,6 @@ export const logoutUser = () => dispatch => {
 
 // REQUESTS
 
-// Get last ID
-export const fetchLastRequest = () => dispatch => {
-  axios
-    .get("/api/stock/requests/lastrequest")
-    .then(response => {
-      return response.data;
-    })
-    .then(lastRequest => dispatch(getLastRequest(lastRequest)))
-    .catch(error => dispatch(requestsFailed(error.message)));
-}
-
-export const getLastRequest = lastRequest => ({
-  type: ActionTypes.GET_LAST_REQUEST,
-  payload: lastRequest
-}); 
-
 // Get requests 
 export const fetchRequests = (pageDataReq) => dispatch => {
   dispatch(requestsLoading()); 
@@ -152,24 +134,6 @@ export const addNewRequest = request => ({
 
 
 // ORDERS
-
-// Get last ID
-export const fetchLastOrder = () => dispatch => {
-  axios
-    .get("/api/stock/orders/lastorder")
-    .then(response => {
-      //alert('response fetch is ' + response);
-      return response.data;
-    })
-    //.then(lastOrder => dispatch(getLastOrder(lastOrder)))
-    .then(lastOrder => dispatch(getLastOrder(lastOrder)))
-    .catch(error => dispatch(ordersFailed(error.message)));
-}
-
-export const getLastOrder = lastOrder => ({
-  type: ActionTypes.GET_LAST_ORDER,
-  payload: lastOrder
-}); 
 
 // Get orders 
 export const fetchOrders = (pageDataOrder) => dispatch => {
@@ -271,22 +235,6 @@ export const editedOrder = order => ({
 });
 
 // IN STOCK 
-
-// Get last ID
-export const fetchLastInstock = () => dispatch => {
-  axios
-    .get("/api/stock/instock/lastinstock")
-    .then(response => {
-      return response.data;
-    })
-    .then(lastInStock => dispatch(getLastInstock(lastInStock)))
-    .catch(error => dispatch(instockFailed(error.message)));
-}
-
-export const getLastInstock = lastInStock => ({
-  type: ActionTypes.GET_LAST_INSTOCK, 
-  payload: lastInStock
-}); 
 
 // Get in stock  
 export const fetchInStock = (pageDataInstock) => dispatch => {
@@ -428,22 +376,6 @@ export const editedDetails = stock => ({
 
 
 // OUT OF STOCK 
-
-// Get last ID
-export const fetchLastOutstock = () => dispatch => {
-  axios
-    .get("/api/stock/outstock/lastoutstock")
-    .then(response => {
-      return response.data;
-    })
-    .then(lastOutStock => dispatch(getLastOutstock(lastOutStock)))
-    .catch(error => dispatch(outstockFailed(error.message)));
-}
-
-export const getLastOutstock = lastOutStock => ({
-  type: ActionTypes.GET_LAST_OUTSTOCK, 
-  payload: lastOutStock
-}); 
 
 // Get out of stock  
 export const fetchOutStock = (pageData) => dispatch => {

@@ -11,7 +11,7 @@ const Stock = require("../models/stock.model");
 // @desc Get last out of stock id
 router.get("/lastoutstock", async (req, res) => {
   try {
-    let lastOutstock = Stock.find({"category": "outofstock"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1);
+    let lastOutstock = await Stock.find({"category": "outofstock"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1);
     if (!lastOutstock.length) {
       lastOutstock = [{ id: 0 }]; 
     };
@@ -50,10 +50,7 @@ router.get("/outstock", async (req, res) => {
     query = query.skip(skip).limit(pageSize);
 
     if (page > pages && pages) {
-      return res.status(404).json({
-        status: "fail",
-        message: "No page found",
-      });
+      return page = pages; 
     }
 
     const outstock = await query; 
@@ -81,6 +78,7 @@ router.get("/outstock", async (req, res) => {
 router.post("/addoutstock", (req, res) => {
 
   const item_id = req.body.item_id; 
+  const id = req.body.id;
   const category = req.body.category;  
   const quantity = 0;
 
@@ -88,6 +86,7 @@ router.post("/addoutstock", (req, res) => {
     { "_id": item_id }, 
     { $set: 
       { 
+        "id": id,
         "category": category,
         "quantity": quantity
       } 

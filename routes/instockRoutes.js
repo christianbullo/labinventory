@@ -81,7 +81,7 @@ router.get("/lastinstock", async (req, res) => {
 router.get("/instock", async (req, res) => {
   try {
     //const instock = await Stock.find({"category": "instock"}).sort({orderdate: 'asc'});
-    let query = Stock.find({"category": "instock"}).sort({orderdate: 'asc'});
+    let query = Stock.find({"category": "instock"}).sort({id: 'asc'});
 
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.limit) || 5;
@@ -93,10 +93,7 @@ router.get("/instock", async (req, res) => {
     query = query.skip(skip).limit(pageSize);
 
     if (page > pages && pages) {
-      return res.status(404).json({
-        status: "fail",
-        message: "No page found",
-      });
+      return page = pages; 
     }
 
     const instock = await query; 

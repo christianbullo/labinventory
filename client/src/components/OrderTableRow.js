@@ -7,12 +7,19 @@ import DeliveredForm from "./DeliveredForm";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
+import { fetchOrders } from "../actions/ActionCreators";
+
 import Moment from "react-moment";
 
 const mapStateToProps = state => {
     return { 
-        auth: state.auth
+        auth: state.auth,
+        orders: state.orders  
     };
+};
+
+const mapDispatchToProps = {
+    fetchOrders: (pageData) => (fetchOrders(pageData))
 };
 
 class OrderTableRow extends Component {
@@ -35,11 +42,11 @@ class OrderTableRow extends Component {
                 <td> <Moment format="ll">{o.orderdate}</Moment> </td>
                 <td> {o.orderuser} </td>
                 <td>
-                    <DeliveredForm auth={ this.props.auth } order={o} />  
+                    <DeliveredForm auth={ this.props.auth } order={o} length={ this.props.length } />  
                 </td>
             </tr>
         );
     }
 }
 
-export default withRouter(connect(mapStateToProps)(OrderTableRow));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OrderTableRow));

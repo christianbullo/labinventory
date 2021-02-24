@@ -38,9 +38,9 @@ router.get("/lastrequest", async (req, res) => {
 router.get("/requests", async (req, res) => {
   try {
     //const requests = await Stock.find({"category": "request"}).sort({requestdate: 'asc'});
-    let query = Stock.find({"category": "request"}).sort({requestdate: 'asc'});
+    let query = Stock.find({"category": "request"}).sort({id: 'asc'});
 
-    const page = parseInt(req.query.page) || 1;
+    let page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.limit) || 5;
     const skip = (page - 1) * pageSize;
     const total = await Stock.countDocuments({"category": "request"});
@@ -50,10 +50,7 @@ router.get("/requests", async (req, res) => {
     query = query.skip(skip).limit(pageSize);
 
     if (page > pages && pages) {
-      return res.status(404).json({
-        status: "fail",
-        message: "No page found",
-      });
+      return page = pages; 
     }
 
     const requests = await query; 

@@ -1,21 +1,20 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
-import { fetchOrders, fetchLastInstock, addInStock, deleteOrder } from "../actions/ActionCreators";
+import { fetchOrders, addInStock, deleteOrder } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
-    return { 
-        lastId: state.lastId
+    return {
+        orders: state.orders 
     };
 };
 
 const mapDispatchToProps = {
-    fetchLastInstock: () => (fetchLastInstock()),
     addInStock: (instock) => (addInStock(instock)),
     deleteOrder: (oldorder) => (deleteOrder(oldorder)),
-    fetchOrders: () => (fetchOrders())
+    fetchOrders: (pageData) => (fetchOrders(pageData))
 };
 
 class DeliveredForm extends Component {
@@ -25,6 +24,7 @@ class DeliveredForm extends Component {
         this.state = {
             isModalOpen: false,
             isError: false, 
+            lastRequest: [],
             imgdata: "",
             location: ""
         };
@@ -41,9 +41,27 @@ class DeliveredForm extends Component {
         });
     }
 
-    componentDidMount() {
-        this.props.fetchLastInstock();
+    componentDidUpdate(prevProps, prevState) {
+        if ((prevState.lastRequest === this.state.lastRequest) || (this.state.lastRequest === [])) {
+            this.fetchLastInstock();
+        }
     }
+
+    fetchLastInstock() {
+        const url = `/api/stock/instock/lastinstock`;
+
+        async function findLastItem() {
+            const response = await fetch(url);
+            const lastItem = await response.json();
+            return lastItem;    
+        } 
+
+        findLastItem().then(item => {
+            this.setState({
+                lastRequest: item 
+            });
+        });
+    } 
 
     onChangeLocation(e) {
         e.preventDefault();
@@ -78,10 +96,8 @@ class DeliveredForm extends Component {
             });
         }
 
-        this.props.fetchLastInstock();
-        
-        const lastInStock = this.props.lastId.lastInStock[0]; 
-        const newId = lastInStock.id + 1; 
+        const lastId = this.state.lastRequest[0];
+        const newId = lastId.id + 1;
 
         let o = this.props.order;           
 
@@ -103,7 +119,17 @@ class DeliveredForm extends Component {
         this.props.addInStock(formData);
 
         this.props.deleteOrder(item_id);
-        //this.props.fetchOrders();
+
+        const length = this.props.length;
+        if ((length === 1) && (this.props.orders.pages > 1)) {
+            const newPage = this.props.orders.pages - 1;
+            this.props.fetchOrders(newPage);
+        } 
+        else {
+            const actualPage = this.props.orders.page;
+            this.props.fetchOrders(actualPage);
+        }
+        
         this.toggleModal();
 
     }

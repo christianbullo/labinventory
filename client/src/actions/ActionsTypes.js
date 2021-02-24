@@ -9,7 +9,6 @@ export const REQUESTS_LOADING = "REQUESTS_LOADING";
 export const REQUESTS_FAILED = "REQUESTS_FAILED";
 
 export const ADD_REQUEST = "ADD_REQUEST";
-export const GET_LAST_REQUEST = "GET_LAST_REQUEST";
 export const DELETE_REQUEST = 'DELETE_REQUEST';
 
 // ORDERS
@@ -19,7 +18,6 @@ export const ORDERS_LOADING = "ORDERS_LOADING";
 export const ORDERS_FAILED = "ORDERS_FAILED";
 
 export const ADD_ORDER = "ADD_ORDER";
-export const GET_LAST_ORDER = "GET_LAST_ORDER";
 export const DELETE_ORDER = 'DELETE_ORDER';
 export const EDIT_ORDER = "EDIT_ORDER";
 
@@ -30,7 +28,6 @@ export const INSTOCK_LOADING = "INSTOCK_LOADING";
 export const INSTOCK_FAILED = "INSTOCK_FAILED";
 
 export const ADD_INSTOCK = "ADD_INSTOCK";
-export const GET_LAST_INSTOCK = "GET_LAST_INSTOCK";
 export const DELETE_INSTOCK = 'DELETE_INSTOCK';
 
 export const EDIT_LOCATION = "EDIT_LOCATION";
@@ -44,4 +41,4 @@ export const OUTSTOCK_LOADING = "OUTSTOCK_LOADING";
 export const OUTSTOCK_FAILED = "OUTSTOCK_FAILED";
 
 export const ADD_OUTSTOCK = "ADD_OUTSTOCK";
-export const GET_LAST_OUTSTOCK = "GET_LAST_OUTSTOCK"; 
+

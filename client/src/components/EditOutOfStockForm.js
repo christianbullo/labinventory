@@ -6,14 +6,14 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
-    return { 
-        lastId: state.lastId
+    return {
+        instock: state.instock 
     };
 };
 
 const mapDispatchToProps = {
     addOutStock: (formData) => (addOutStock(formData)),
-    fetchInStock: () => (fetchInStock()),
+    fetchInStock: (pageData) => (fetchInStock(pageData)),
 };
 
 class EditOutOfSTockForm extends Component {
@@ -23,6 +23,7 @@ class EditOutOfSTockForm extends Component {
         this.state = {
             isModalOpen: false,
             status: "",
+            lastRequest: [],
             isError: false 
         };
         this.toggleModal = this.toggleModal.bind(this);
@@ -35,6 +36,28 @@ class EditOutOfSTockForm extends Component {
             isModalOpen: !this.state.isModalOpen 
         });
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if ((prevState.lastRequest === this.state.lastRequest) || (this.state.lastRequest === [])) {
+            this.fetchLastOutstock();
+        }
+    }
+
+    fetchLastOutstock() {
+        const url = `/api/stock/outstock/lastoutstock`;
+
+        async function findLastItem() {
+            const response = await fetch(url);
+            const lastItem = await response.json();
+            return lastItem;    
+        } 
+
+        findLastItem().then(item => {
+            this.setState({
+                lastRequest: item 
+            });
+        });
+    } 
 
     onChangeStatus(event) {
         event.preventDefault();
@@ -55,18 +78,31 @@ class EditOutOfSTockForm extends Component {
             });
         }
 
+        const lastId = this.state.lastRequest[0];
+        const newId = lastId.id + 1; 
+
         const item = this.props.item;
         const itemId = item._id;
 
         const status = this.state.status;
         
         const updateItem = {
-            item_id: itemId,  
+            item_id: itemId,
+            id: newId,
             category: status 
         };
 
         this.props.addOutStock(updateItem);
-        this.props.fetchInStock();
+
+        const length = this.props.length;
+        if ((length === 1) && (this.props.instock.pages > 1)) {
+            const newPage = this.props.instock.pages - 1;
+            this.props.fetchInStock(newPage);
+        } else {
+            const actualPage = this.props.instock.page;
+            this.props.fetchInStock(actualPage);
+        }
+
         this.toggleModal();
 
     }

@@ -9,6 +9,8 @@ import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
 import Pagination from "./Pagination";
 
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+
 const mapStateToProps = state => {
     return {
         auth: state.auth,
@@ -30,9 +32,6 @@ class OrderTable extends Component {
     }
     
     onChangePage(newPage) {
-        const pageData = {
-            page: newPage
-        };
         this.props.fetchOrders(newPage);
     }
 
@@ -41,10 +40,16 @@ class OrderTable extends Component {
         this.props.fetchOrders(actualPage);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.orders.page !== this.props.orders.page) {
+            const actualPage = this.props.orders.page; 
+            this.props.fetchOrders(actualPage);
+        }
+    }
+
     render() {
 
-        let numPage = this.props.orders.page;
-        let numPages = this.props.orders.pages;
+        const arrOrd = this.props.orders.orders;
 
         if (this.props.orders.isLoading) {
             return <Loading />
@@ -84,13 +89,21 @@ class OrderTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {   
-                            this.props.orders.orders.map(o => 
-                                <OrderTableRow order={ o }
-                                    key={ o._id }  
-                                    auth={ this.props.auth }
-                                />)
-                        }
+                        <TransitionGroup component={null}>
+                            {this.props.orders.orders.map(o => 
+                                <CSSTransition
+                                        timeout={500}
+                                        classNames="fade"
+                                > 
+                                    <OrderTableRow 
+                                        order={ o }
+                                        key={ o._id }  
+                                        auth={ this.props.auth }
+                                        length={arrOrd.length} 
+                                    />
+                                </CSSTransition>
+                            )}
+                        </TransitionGroup>
                     </tbody>
                 </table>
                 {
@@ -102,8 +115,8 @@ class OrderTable extends Component {
                                     <div className="col"></div>
                                     <div className="col text-center">
                                         <Pagination 
-                                            numpage={numPage} 
-                                            numpages={numPages} 
+                                            numpage={this.props.orders.page} 
+                                            numpages={this.props.orders.pages} 
                                             changePage={this.onChangePage}
                                         />  
                                     </div>

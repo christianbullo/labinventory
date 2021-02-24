@@ -6,14 +6,15 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
-    return { 
+    return {
+        instock: state.instock,   
         lastId: state.lastId
     };
 };
 
 const mapDispatchToProps = {
     editLocation: (instock) => (editLocation(instock)),
-    fetchInStock: () => (fetchInStock())
+    fetchInStock: (pageData) => (fetchInStock(pageData))
 };
 
 class EditLocation extends Component {
@@ -92,7 +93,10 @@ class EditLocation extends Component {
         formData.append('updatelocuser', updatelocuser);  
 
         this.props.editLocation(formData);
-        this.props.fetchInStock();
+
+        const actualPage = this.props.instock.page;
+        this.props.fetchInStock(actualPage);
+        
         this.toggleModal();
 
     }

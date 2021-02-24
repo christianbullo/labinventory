@@ -56,7 +56,8 @@ conn.once("open", () => {
 // @desc Get last request id
 router.get("/lastorder", async (req, res) => {
   try {
-    let lastOrder = Stock.find({"category": "order"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1);
+    let lastOrder = await Stock.find({"category": "order"}, {"id": 1, "_id": 0}).sort({"id":-1}).limit(1);
+    // When there are no matches find() returns [], while findOne() returns null
     if (!lastOrder.length) {
       lastOrder = [{ id: 0 }]; 
     };
@@ -92,12 +93,9 @@ router.get("/orders", async (req, res) => {
     const pages = Math.ceil(total / pageSize);
 
     query = query.skip(skip).limit(pageSize);
-
+     
     if (page > pages && pages) {
-      return res.status(404).json({
-        status: "fail",
-        message: "No page found",
-      });
+      return page = pages; 
     }
 
     const orders = await query; 

@@ -30,9 +30,6 @@ class InStockTable extends Component {
     }
     
     onChangePage(newPage) {
-        const pageData = {
-            page: newPage
-        };
         this.props.fetchInStock(newPage);
     }
 
@@ -41,10 +38,16 @@ class InStockTable extends Component {
         this.props.fetchInStock(actualPage);
     }
 
+    // componentDidUpdate(prevProps, prevState) {
+    //     if ((prevProps.instock.instock.length !== this.props.instock.instock.length)) {
+    //         const actualPage = this.props.instock.page; 
+    //         this.props.fetchInStock(actualPage);   
+    //     }
+    // }
+
     render() {
 
-        let numPage = this.props.instock.page;
-        let numPages = this.props.instock.pages;
+        const arrStock = this.props.instock.instock;
         
         if (this.props.instock.isLoading) {
             return <Loading />
@@ -88,9 +91,11 @@ class InStockTable extends Component {
                         {   
                             this.props.instock.instock
                                 .map(item => 
-                                    <InStockTableRow item={ item }
+                                    <InStockTableRow 
+                                        item={ item }
                                         key={ item._id }  
                                         auth={ this.props.auth }
+                                        length={arrStock.length} 
                                     />)
                         }
                     </tbody>
@@ -104,8 +109,8 @@ class InStockTable extends Component {
                                     <div className="col"></div>
                                     <div className="col text-center">
                                         <Pagination 
-                                            numpage={numPage} 
-                                            numpages={numPages} 
+                                            numpage={this.props.instock.page} 
+                                            numpages={this.props.instock.pages} 
                                             changePage={this.onChangePage}
                                         />  
                                     </div>

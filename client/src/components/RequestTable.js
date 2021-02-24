@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import RequestTableRow  from "./RequestTableRow";
 import RequestForm from "./RequestForm";
 
-import { fetchRequests, addRequest, fetchLastRequest } from "../actions/ActionCreators";
+import { fetchRequests, addRequest } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
 import Pagination from "./Pagination";
+
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const mapStateToProps = state => {
     return {
@@ -19,7 +21,6 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = {
     fetchRequests: (pageData) => (fetchRequests(pageData)),
-    fetchLastRequest: () => (fetchLastRequest()),
     addRequest: (request) => (addRequest(request))
 };
 
@@ -32,8 +33,6 @@ class RequestTable extends Component {
     
     onChangePage(newPage) {
         this.props.fetchRequests(newPage);
-        const prova = this.props.requests.requests.length;
-        //alert('quanti item ora: ' + prova); 
     }
 
     componentDidMount() {
@@ -43,8 +42,7 @@ class RequestTable extends Component {
 
     render() {
         
-        let numPage = this.props.requests.page;
-        let numPages = this.props.requests.pages;
+        const arrReq = this.props.requests.requests;
 
         if (this.props.requests.isLoading) {
             return <Loading />
@@ -83,15 +81,21 @@ class RequestTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {   
-                            this.props.requests.requests.map(r => 
-                            <RequestTableRow 
-                                request={ r }
-                                key={ r._id } 
-                                auth={ this.props.auth }
-                            />
-                            )
-                        }
+                        <TransitionGroup component={null}>
+                            {this.props.requests.requests.map(r => 
+                                <CSSTransition
+                                    timeout={500}
+                                    classNames="fade"
+                                >   
+                                    <RequestTableRow 
+                                        request={ r }
+                                        key={ r._id } 
+                                        auth={ this.props.auth }
+                                        length={arrReq.length} 
+                                    />
+                                </CSSTransition>
+                            )}
+                        </TransitionGroup>
                     </tbody>
                 </table>
                 {
@@ -115,8 +119,8 @@ class RequestTable extends Component {
                                     <div className="col"></div>
                                     <div className="col-3 text-center">
                                         <Pagination 
-                                            numpage={numPage} 
-                                            numpages={numPages} 
+                                            numpage={this.props.requests.page} 
+                                            numpages={this.props.requests.pages} 
                                             changePage={this.onChangePage}
                                         />  
                                     </div>

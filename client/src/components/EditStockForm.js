@@ -12,14 +12,15 @@ const isNumber = val => !isNaN(+val);
 const isZero = val => val && (+val > 0);
 
 const mapStateToProps = state => {
-    return { 
+    return {
+        instock: state.instock,   
         lastId: state.lastId
     };
 };
 
 const mapDispatchToProps = {
     editDetails: (instock) => (editDetails(instock)),
-    fetchInStock: () => (fetchInStock())
+    fetchInStock: (pageData) => (fetchInStock(pageData))
 };
 
 class EditStockForm extends Component {
@@ -53,6 +54,8 @@ class EditStockForm extends Component {
         e.preventDefault();
         const quantity = e.target.value; 
 
+        const i = this.props.item;
+
         (quantity.length !== 0) ?
         this.setState({ quantity: quantity }) : 
         this.setState({ quantity: "" });
@@ -63,6 +66,10 @@ class EditStockForm extends Component {
         const resultZ = isZero(quantity);
 
         if (!isNumber || !resultZ) {
+            return this.setState({
+                isErrorQty: true 
+            });
+        } else if (quantity > i.quantity) {
             return this.setState({
                 isErrorQty: true 
             });
@@ -121,9 +128,6 @@ class EditStockForm extends Component {
         const i = this.props.item;           
         const item_id = i._id; 
         let newDetails = {}
-        // let newDetails = {
-        //     item_id: item_id
-        // }
 
         const quantity = this.state.quantity;
         const updateqtydate = new Date().toISOString();
@@ -157,7 +161,8 @@ class EditStockForm extends Component {
             newDetails.item_id = item_id; 
             this.props.editDetails(newDetails);
         }    
-        this.props.fetchInStock();
+        const actualPage = this.props.instock.page;
+        this.props.fetchInStock(actualPage);
         this.toggleModal();
     }
 
@@ -185,7 +190,7 @@ class EditStockForm extends Component {
                                 />
                                 {(this.state.isErrorQty && this.state.quantity) ? (
                                     <div>
-                                        <p className="text-danger">Must be a valid quantity | In case of zero, set as out of stock.</p>
+                                        <p className="text-danger">Must be a valid quantity, no greater than the previous | In case of zero, set as out of stock.</p>
                                     </div>    
                                 ) : ( <div /> )}            
                             </FormGroup>    

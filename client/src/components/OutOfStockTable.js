@@ -42,9 +42,6 @@ class OutOfStockTable extends Component {
 
     render() {
 
-        let numPage = this.props.outstock.page;
-        let numPages = this.props.outstock.pages;
-
         if (this.props.outstock.isLoading) {
             return <Loading />
         }
@@ -85,7 +82,8 @@ class OutOfStockTable extends Component {
                         {   
                             this.props.outstock.outstock
                                 .map(item => 
-                                    <OutOfStockTableRow item={ item }
+                                    <OutOfStockTableRow 
+                                        item={ item }
                                         key={ item._id }  
                                     />)
                         }
@@ -100,8 +98,8 @@ class OutOfStockTable extends Component {
                                     <div className="col"></div>
                                     <div className="col text-center">
                                         <Pagination 
-                                            numpage={numPage} 
-                                            numpages={numPages} 
+                                            numpage={this.props.outstock.page} 
+                                            numpages={this.props.outstock.pages} 
                                             changePage={this.onChangePage}
                                         />  
                                     </div>

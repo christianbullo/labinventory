@@ -1,19 +1,18 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
-import { fetchLastOrder, addOrder, deleteRequest, fetchRequests } from "../actions/ActionCreators";
+import { addOrder, deleteRequest, fetchRequests } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 const mapStateToProps = state => {
     return { 
-        lastId: state.lastId
+        requests: state.requests
     };
 };
 
 const mapDispatchToProps = {
-    fetchRequests: () => (fetchRequests()),
-    fetchLastOrder: () => (fetchLastOrder()),
+    fetchRequests: (pageData) => (fetchRequests(pageData)),
     addOrder: (order) => (addOrder(order)),
     deleteRequest: (oldrequest) => (deleteRequest(oldrequest))
 };
@@ -25,6 +24,7 @@ class PurchaseForm extends Component {
         this.state = {
             isModalOpen: false,
             isError: false, 
+            lastRequest: [],
             pdfdata: "",
             tracking: ""
         };
@@ -41,9 +41,27 @@ class PurchaseForm extends Component {
         });
     }
 
-    componentDidMount() {
-        this.props.fetchLastOrder();
+    componentDidUpdate(prevProps, prevState) {
+        if ((prevState.lastRequest === this.state.lastRequest) || (this.state.lastRequest === [])) {
+            this.fetchLastOrder();
+        }
     }
+
+    fetchLastOrder() {
+        const url = `/api/stock/orders/lastorder`;
+
+        async function findLastItem() {
+            const response = await fetch(url);
+            const lastItem = await response.json();
+            return lastItem;    
+        } 
+
+        findLastItem().then(item => {
+            this.setState({
+                lastRequest: item 
+            });
+        });
+    } 
 
     onTrackingChange(e) {
         e.preventDefault();
@@ -72,13 +90,9 @@ class PurchaseForm extends Component {
                 isError: true 
             });
         }
-
-        this.props.fetchLastOrder();
-
-        const arrOrderLength = this.props.lastId.lastOrder.length;
-        const lastOrder = this.props.lastId.lastOrder[arrOrderLength - 1];
-
-        const newId = lastOrder.id + 1; 
+        
+        const lastId = this.state.lastRequest[0];
+        const newId = lastId.id + 1; 
 
         let r = this.props.request;           
 
@@ -101,7 +115,15 @@ class PurchaseForm extends Component {
 
         this.props.deleteRequest(item_id);
 
-        this.props.fetchRequests();
+        const length = this.props.length;
+        if ((length === 1) && (this.props.requests.pages > 1)) {
+            const newPage = this.props.requests.pages - 1;
+            this.props.fetchRequests(newPage);
+        }
+        // else {
+        //     const actualPage = this.props.requests.page;
+        //     this.props.fetchRequests(actualPage);
+        // }
 
         this.toggleModal();
 
