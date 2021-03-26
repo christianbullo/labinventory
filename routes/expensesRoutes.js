@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
         results[Object.values(result)[i]._id] = Object.values(result)[i].TotalAmount;
     }
 
-    console.log(results);
+    //console.log(results);
 
     res.status(200).json(results);    
   } catch (error) {

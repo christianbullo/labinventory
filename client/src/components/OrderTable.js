@@ -51,6 +51,8 @@ class OrderTable extends Component {
 
         const arrOrd = this.props.orders.orders;
 
+        const stagger = 200;
+
         if (this.props.orders.isLoading) {
             return <Loading />
         }
@@ -90,10 +92,15 @@ class OrderTable extends Component {
                     </thead>
                     <tbody>
                         <TransitionGroup component={null}>
-                            {this.props.orders.orders.map(o => 
+                            {this.props.orders.orders.map((o, index) => 
                                 <CSSTransition
-                                        timeout={500}
-                                        classNames="fade"
+                                        key={ o._id } 
+                                        in={true}
+                                        appear={true}
+                                        timeout={ stagger * index }
+                                        classNames="fade2"
+                                        // timeout={500}
+                                        // classNames="fade"
                                 > 
                                     <OrderTableRow 
                                         order={ o }

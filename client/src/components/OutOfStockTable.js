@@ -9,6 +9,8 @@ import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
 import Pagination from "./Pagination";
 
+import { Transition, CSSTransition, TransitionGroup } from "react-transition-group";
+
 const mapStateToProps = state => {
     return {
         auth: state.auth,
@@ -41,6 +43,8 @@ class OutOfStockTable extends Component {
     }
 
     render() {
+
+        const stagger = 200;
 
         if (this.props.outstock.isLoading) {
             return <Loading />
@@ -79,14 +83,24 @@ class OutOfStockTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {   
-                            this.props.outstock.outstock
-                                .map(item => 
+                        <TransitionGroup component={null}>
+                            {this.props.outstock.outstock.map((item, index) => 
+                                <CSSTransition
+                                    key={ item._id }
+                                    in={true}
+                                    appear={true}
+                                    timeout={ stagger * index }
+                                    classNames="fade2"
+                                    // timeout={{ enter: 2000, exit: 1000 }}
+                                    // classNames="fade"
+                                >   
                                     <OutOfStockTableRow 
                                         item={ item }
                                         key={ item._id }  
-                                    />)
-                        }
+                                    />
+                                </CSSTransition>
+                            )}
+                        </TransitionGroup>
                     </tbody>
                 </table>
                 {

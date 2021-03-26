@@ -10,6 +10,8 @@ import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
 import Pagination from "./Pagination"; 
 
+import { Transition, CSSTransition, TransitionGroup } from "react-transition-group";
+
 // import { Transition, CSSTransition, TransitionGroup } from "react-transition-group";
 
 const mapStateToProps = state => {
@@ -52,6 +54,8 @@ class InStockTable extends Component {
     render() {
 
         const arrStock = this.props.instock.instock;
+
+        const stagger = 200;
         
         if (this.props.instock.isLoading) {
             return <Loading />
@@ -92,17 +96,26 @@ class InStockTable extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {   
-                            this.props.instock.instock
-                                .map((item, index) => 
-                                        <InStockTableRow 
-                                            item={ item }
-                                            key={ item._id }  
-                                            auth={ this.props.auth }
-                                            length={arrStock.length} 
-                                        />
-                                    )
-                        }   
+                        <TransitionGroup component={null}>
+                            {this.props.instock.instock.map((item, index) => 
+                                <CSSTransition
+                                    key={ item._id } 
+                                    in={true}
+                                    appear={true}
+                                    timeout={ stagger * index }
+                                    classNames="fade2"
+                                    // timeout={{ enter: 2000, exit: 1000 }}
+                                    // classNames="fade"
+                                >    
+                                    <InStockTableRow 
+                                        item={ item }
+                                        key={ item._id }  
+                                        auth={ this.props.auth }
+                                        length={arrStock.length} 
+                                    />
+                                </CSSTransition>
+                            )}   
+                        </TransitionGroup>
                     </tbody>
                 </table>
                 {
