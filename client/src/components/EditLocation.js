@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
 
+import axios from "axios";
+
 import { editLocation, fetchInStock } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -92,6 +94,19 @@ class EditLocation extends Component {
         formData.append('updatelocdate', updatelocdate); 
         formData.append('updatelocuser', updatelocuser);  
 
+        // const filename = i.imgname;
+        // const url = `/api/cancelfiles/${filename}`;
+        // axios
+        //     .delete(url) 
+        //     .then(response => {
+        //         return response.data;
+        //     })
+        //     .catch(err =>
+        //     {
+        //         alert('error in cancel files = ' + err);
+        //     }
+        // );
+
         this.props.editLocation(formData);
 
         const actualPage = this.props.instock.page;
@@ -111,7 +126,7 @@ class EditLocation extends Component {
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>
-                        Update location of:
+                        Update the location of the item:
                         <hr/>
                         <h4 className="text-primary">{i.article}</h4>
                     </ModalHeader>

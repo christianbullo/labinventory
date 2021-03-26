@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import InStockTableRow from "./InStockTableRow";
+import InStockForm from "./InStockForm";
 
-import { fetchInStock, addInStock , deleteInStock } from "../actions/ActionCreators";
+import { fetchInStock, addInStock , deleteInStock, saveItem } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
-import Pagination from "./Pagination";
+import Pagination from "./Pagination"; 
+
+// import { Transition, CSSTransition, TransitionGroup } from "react-transition-group";
 
 const mapStateToProps = state => {
     return {
@@ -19,7 +22,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     fetchInStock: (pageData) => (fetchInStock(pageData)),
     addInStock: (stock) => (addInStock(stock)),
-    deleteInStock: (oldInstockId) => (deleteInStock(oldInstockId))
+    deleteInStock: (oldInstockId) => (deleteInStock(oldInstockId)),
+    saveItem: (request) => (saveItem(request))
 };
 
 class InStockTable extends Component {
@@ -77,8 +81,8 @@ class InStockTable extends Component {
                         <tr>
                             <th>ID</th>
                             <th>Article</th>
+                            <th>Order Form</th>
                             <th>Qty now</th> 
-                            <th></th>
                             <th>Details</th>  
                             <th>Edit Details</th> 
                             <th>Location</th>
@@ -90,19 +94,33 @@ class InStockTable extends Component {
                     <tbody>
                         {   
                             this.props.instock.instock
-                                .map(item => 
-                                    <InStockTableRow 
-                                        item={ item }
-                                        key={ item._id }  
-                                        auth={ this.props.auth }
-                                        length={arrStock.length} 
-                                    />)
-                        }
+                                .map((item, index) => 
+                                        <InStockTableRow 
+                                            item={ item }
+                                            key={ item._id }  
+                                            auth={ this.props.auth }
+                                            length={arrStock.length} 
+                                        />
+                                    )
+                        }   
                     </tbody>
                 </table>
                 {
+                    (this.props.instock.pages === 0) ? (<NoItemsComponent />) : ( <div />)
+                }
+                <hr/>
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-3 text-center">
+                            <InStockForm auth={ this.props.auth } saveItem={ this.props.saveItem }/>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <br/>
+                {
                     (this.props.instock.pages === 0) 
-                        ? (<NoItemsComponent />) 
+                        ? (<div />) 
                         : (  
                             <div className="container">
                                 <div className="row justify-content-center">

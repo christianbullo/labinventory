@@ -37,7 +37,11 @@ class PurchaseForm extends Component {
 
     toggleModal() {
         this.setState({
-            isModalOpen: !this.state.isModalOpen
+            isModalOpen: !this.state.isModalOpen,
+            isError: false, 
+            lastRequest: [],
+            pdfdata: "",
+            tracking: ""
         });
     }
 

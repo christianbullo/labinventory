@@ -142,7 +142,7 @@ router.post("/addorder", upload.single('pdfdata'), (req, res) => {
         "orderuser": orderuser,
         "pdfname": pdfname 
       } 
-    })
+    }, { new: true })
   .then(order => {
     res.json(order);
   })
@@ -165,7 +165,7 @@ router.post("/editorder", (req, res) => {
       { 
         "status": status 
       } 
-  })
+  }, { new: true })
   .then(order => {
     res.json(order);
   })

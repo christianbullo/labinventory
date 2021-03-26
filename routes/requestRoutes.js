@@ -86,11 +86,16 @@ router.post("/addrequest", (req, res) => {
   const id = req.body.id; 
   const category = "request"; 
   const article = req.body.article;
+  const typeofarticle = req.body.typeofarticle;
   const index = req.body.index;
   const quantity = Number(req.body.quantity);
   const unitcost = Number(req.body.unitcost);
+  const totalcost = Number(quantity * unitcost); 
+  const unitsize = req.body.unitsize;
   const requestdate = req.body.requestdate;
   const requestuser = req.body.requestuser;
+  const vendor = req.body.vendor;
+  const contact = req.body.contact;
   const pdfname = "";
   const tracking = ""; 
   const status = ""; 
@@ -110,16 +115,23 @@ router.post("/addrequest", (req, res) => {
   const updatealiquser = "";
   const updatenotedate = ""; 
   const updatenoteuser = "";
+  const updatevendordate = "";
+  const updatevendoruser = "";
 
   const newStock = new Stock({
     id, 
     category,  
     article,  
+    typeofarticle,
     index, 
     quantity,  
     unitcost,  
+    totalcost, 
+    unitsize,
     requestdate,  
     requestuser,  
+    vendor, 
+    contact, 
     pdfname,  
     tracking,  
     status,  
@@ -138,7 +150,9 @@ router.post("/addrequest", (req, res) => {
     updatealiqdate,   
     updatealiquser,   
     updatenotedate,   
-    updatenoteuser 
+    updatenoteuser,
+    updatevendordate,
+    updatevendoruser 
   });
 
   newStock.save()

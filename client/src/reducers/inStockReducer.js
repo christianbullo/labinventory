@@ -39,6 +39,11 @@ export const Instock = (state = {
             const toChangeDetails = action.payload;
             return {...state, 
                 instock: state.instock.filter(o => o._id !== toChangeDetails._id).concat(toChangeDetails)};         
+        case ActionTypes.SAVE_ITEM:
+            const saveinstock = action.payload;
+        return {...state, 
+            instock: state.instock.concat(saveinstock)}; 
+        break;
         default:
             return state; 
             break;

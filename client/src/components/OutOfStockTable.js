@@ -70,11 +70,11 @@ class OutOfStockTable extends Component {
                         <tr>
                             <th>ID</th>
                             <th>Article</th>
+                            <th>Order Form</th>
                             <th>Index</th>
-                            <th>Delivered on</th>
-                            <th>Delivered by</th>
-                            <th>Purchased on</th>
-                            <th>Ordered by</th>
+                            <th>Details</th>
+                            <th>Unit Cost</th>
+                            <th>Total Cost</th>
                             <th></th>
                         </tr>
                     </thead>

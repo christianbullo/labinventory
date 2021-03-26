@@ -52,15 +52,119 @@ body, .menu {
   cursor: not-allowed;
 }
 
-.fade-enter {
+
+/* .appear-enter {
+  opacity: 0.01;
+  transform: translate(-40px, 0)
+}
+
+.appear-enter-active {
+  opacity: 0.01;
+  transform: translate(-40px, 0);
+  transition: all 500ms ease-in;
+}
+
+.appear-exit {
+  max-height: 30px;
+  opacity: 1;
+}
+
+.appear-exit-active {
   max-height: 0;
   opacity: 0;
+  transition: all 500ms;
+} */
+
+
+.alert-enter {
+  transform: translateX(-100%);
+}
+.alert-enter-active {
+  transform: translateX(0);
+  transition: all 2000ms ease-in-out;
+}
+.alert-exit {
+  transform: translateX(0);
+}
+.alert-exit-active {
+  transform: translateX(100%);
+  transition: all 500ms ease;
+}
+
+
+/* appear - on page load */
+.fade-appear {
+  opacity: 0.01;
+  transform: translate(-50px, 0)
+}
+
+.fade-appear.fade-appear-active {
+  opacity: 1;
+  transition: all 500ms ease-in;
+}
+
+.fade-enter {
+  transform: translateX(-100%);
 }
 
 .fade-enter-active {
+  transform: translateX(0);
+  transition: all 2000ms ease-in-out;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: all 0ms;
+} 
+
+.fade2-appear {
+  opacity: 0.01;
+  transform: translateX(-100%);
+}
+
+.fade2-appear.fade2-appear-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 1000ms ease-in;
+}
+
+.fade2-enter {
+  transform: translateX(-100%);
+}
+
+.fade2-enter-active {
+  transform: translateX(0);
+  transition: all 1000ms ease-in;
+}
+
+.fade2-exit {
+  opacity: 1;
+}
+
+.fade2-exit-active {
+  opacity: 0;
+  transition: all 0ms;
+} 
+
+/* .fade-enter {
+  opacity: 0.01;
+  transform: translate(-40px, 0)
+}
+
+.old-fade-enter-active {
   max-height: 30px;
   opacity: 1;
   transition: all 500ms;
+}
+
+.fade-enter-active {
+  opacity: 0.01;
+  transform: translate(-40px, 0);
+  transition: all 500ms ease-in;
 }
 
 .fade-exit {
@@ -72,4 +176,5 @@ body, .menu {
   max-height: 0;
   opacity: 0;
   transition: all 500ms;
-}
+} */
+

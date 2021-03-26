@@ -10,7 +10,7 @@ import { Loading } from "./LoadingComponent";
 import { NoItemsComponent } from "./NoItemsComponent";
 import Pagination from "./Pagination";
 
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { Transition, CSSTransition, TransitionGroup } from "react-transition-group";
 
 const mapStateToProps = state => {
     return {
@@ -43,6 +43,8 @@ class RequestTable extends Component {
     render() {
         
         const arrReq = this.props.requests.requests;
+
+        const stagger = 200;
 
         if (this.props.requests.isLoading) {
             return <Loading />
@@ -82,10 +84,15 @@ class RequestTable extends Component {
                     </thead>
                     <tbody>
                         <TransitionGroup component={null}>
-                            {this.props.requests.requests.map(r => 
+                            {this.props.requests.requests.map((r, index) => 
                                 <CSSTransition
-                                    timeout={500}
-                                    classNames="fade"
+                                    key={ r._id } 
+                                    in={true}
+                                    appear={true}
+                                    timeout={ stagger * index }
+                                    classNames="fade2"
+                                    // timeout={{ enter: 2000, exit: 1000 }}
+                                    // classNames="fade"
                                 >   
                                     <RequestTableRow 
                                         request={ r }

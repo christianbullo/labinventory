@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { logoutUser } from "../../actions/ActionCreators";
 
+import Accordion from "./Accordion";
+
 import imageUrl from "../../assets/images/dashboard_background.JPG";
 
 class Dashboard extends Component {
@@ -30,6 +32,24 @@ class Dashboard extends Component {
                     <div className="col-sm-1 col-xs-4"></div>
                     <div className="col-sm-4">
                         <h2 className="text-color-grey"><b>Hey there,</b> {user.name.split(" ")[0]}</h2>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        <br/>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-sm-1 col-xs-4"></div>
+                    <div className="col-sm-9">
+                        {/* <Accordion />  */}
+                    </div>
+                    <div className="col"></div>
+                </div>
+                <div className="row">
+                    <div className="col">
+                        <br/>
+                        <br/>
                     </div>
                 </div>
                 <div className="row">

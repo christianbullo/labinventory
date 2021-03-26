@@ -27,6 +27,8 @@ class Landing extends Component {
                       <p className="flow-text grey-text text-darken-1">
                         Access via web and through your browser start managing your inventory
                       </p>
+                      <h4><a href="https://github.com/christianbullo/inventoryapp/blob/master/README.md" target="_blank" class="text-info"><i class="fa fa-github"></i> Read me</a></h4>
+                      <br />
                       <br />
                     </CardText>
                     <div className="row">
@@ -58,6 +60,12 @@ class Landing extends Component {
                         </Link>
                       </div>
                     </div>
+                    {/* <CardText>
+                      <br />
+                      <p className="flow-text grey-text text-darken-1">
+                        Access via web and through your browser start managing your inventory.
+                      </p>
+                    </CardText> */}
                   </CardBody>  
                 </Card>
             </div>

@@ -90,7 +90,7 @@ router.post("/addoutstock", (req, res) => {
         "category": category,
         "quantity": quantity
       } 
-  })
+  }, { new: true })
   .then(outstock => {
     res.json(outstock);
   })

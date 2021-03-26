@@ -34,6 +34,8 @@ export const EDIT_LOCATION = "EDIT_LOCATION";
 
 export const EDIT_DETAILS = "EDIT_DETAILS";
 
+export const SAVE_ITEM = "SAVE_ITEM";
+
 // OUT OF STOCK 
 export const GET_OUTSTOCK = "GET_OUTSTOCK";
 export const GET_OUTSTOCK_PAGES = "GET_OUTSTOCK_PAGES";

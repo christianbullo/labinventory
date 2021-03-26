@@ -373,6 +373,32 @@ export const editedDetails = stock => ({
   payload: stock  
 });
 
+// Edit stock details 
+export const saveItem = (formData) => dispatch => {
+  
+  axios
+    .post("/api/stock/instock/saveinstock", formData)
+    .then(response => {
+      return response.data;
+    })
+    .then(stock => {
+      dispatch(savedItem(stock));
+    })
+    .catch(err =>
+      {
+        alert('errore in edit saveItem!!!!! err = ' + err);
+        dispatch({
+          type: ActionTypes.GET_ERRORS,
+          payload: err.response.data
+        })  
+      }
+    );
+};
+
+export const savedItem = stock => ({
+  type: ActionTypes.SAVE_ITEM,
+  payload: stock  
+});
 
 
 // OUT OF STOCK 

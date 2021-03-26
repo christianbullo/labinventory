@@ -33,7 +33,10 @@ class EditOutOfSTockForm extends Component {
 
     toggleModal() {
         this.setState({
-            isModalOpen: !this.state.isModalOpen 
+            isModalOpen: !this.state.isModalOpen,
+            status: "",
+            lastRequest: [],
+            isError: false 
         });
     }
 

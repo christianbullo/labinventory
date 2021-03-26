@@ -1,29 +1,25 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Input, Label, Modal, ModalHeader, ModalBody} from "reactstrap";
-// import { LocalForm, Control, Errors } from 'react-redux-form';
-// import NumberFormat from 'react-number-format';
 
-import { fetchRequests } from "../actions/ActionCreators";
+import { fetchInStock, saveItem } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-// const required = val => val && val.length; 
-// const maxLength = len => val => !val || (val.length <= len); 
-// const minLength = len => val => val && (val.length >= len); 
 const isNumber = val => !isNaN(+val); 
 const isZero = val => val && (+val > 0);
 
 const mapStateToProps = state => {
     return { 
-        requests: state.requests 
+        instock: state.instock 
     };
 };
 
 const mapDispatchToProps = {
-    fetchRequests: (pageData) => (fetchRequests(pageData))
+    saveItem: (instock) => (saveItem(instock)),
+    fetchInStock: (pageData) => (fetchInStock(pageData))
 };
 
-class RequestForm extends Component {
+class InStockForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,7 +36,7 @@ class RequestForm extends Component {
             lastRequest: []
         };
         this.toggleModal = this.toggleModal.bind(this);
-        this.fetchLastRequest = this.fetchLastRequest.bind(this);
+        this.fetchLastInstock = this.fetchLastInstock.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this); 
 
         this.onChangeArticle = this.onChangeArticle.bind(this);
@@ -70,12 +66,12 @@ class RequestForm extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.isModalOpen === false && this.state.isModalOpen === true) {
-            this.fetchLastRequest();
+            this.fetchLastInstock();
         }
     }
 
-    fetchLastRequest() {
-        const url = `/api/stock/requests/lastrequest`;
+    fetchLastInstock() {
+        const url = `/api/stock/instock/lastinstock`;
 
         async function findLastItem() {
             const response = await fetch(url);
@@ -187,14 +183,14 @@ class RequestForm extends Component {
             unitsize: this.state.unitsize, 
             vendor: this.state.vendor, 
             contact: this.state.contact, 
-            requestdate: new Date().toISOString(),
-            requestuser: this.props.auth.user.name
+            registrationdate: new Date().toISOString(),
+            registrationuser: this.props.auth.user.name
         };
 
-        this.props.addRequest(newRequest);
+        this.props.saveItem(newRequest);
 
-        const actualPage = this.props.requests.page
-        this.props.fetchRequests(actualPage);
+        const actualPage = this.props.instock.page;
+        this.props.fetchInStock(actualPage);
 
         this.toggleModal();
 
@@ -205,11 +201,11 @@ class RequestForm extends Component {
         return(
             <div>
                 <Button outline onClick={this.toggleModal}>
-                    <span className="text-info">Add a new Request</span> 
+                    <span className="text-info">Add an existing item</span> 
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>
-                        <h4 className="text-primary">New Request</h4>
+                        <h4 className="text-primary">Add an existing item</h4>
                     </ModalHeader>
                     <ModalBody>
                         <h5 className="text-info">Mandatory Fields</h5>
@@ -225,7 +221,7 @@ class RequestForm extends Component {
                                         <p className="text-danger">Article description is required.</p>
                                     </div>    
                                 ) : ( <div /> )}            
-                            </FormGroup>   
+                            </FormGroup>    
                             <FormGroup>
                                 <Label for="index">Index: </Label>
                                 <Input type="text" name="index" id="index" 
@@ -237,7 +233,7 @@ class RequestForm extends Component {
                                         <p className="text-danger">Index is required.</p>
                                     </div>    
                                 ) : ( <div /> )}            
-                            </FormGroup>       
+                            </FormGroup>     
                             <div className="row">
                                 <div className="col-sm-6">
                                     <FormGroup>
@@ -303,9 +299,9 @@ class RequestForm extends Component {
                                                 <p className="text-danger">Type of Article is required.</p>
                                             </div>    
                                         ) : ( <div /> )}            
-                                    </FormGroup>  
+                                    </FormGroup>
                                 </div>
-                            </div>
+                            </div>  
                             <br/>
                             <h5 className="text-info">Optional Fields</h5>
                             <FormGroup>
@@ -330,4 +326,4 @@ class RequestForm extends Component {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RequestForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(InStockForm));

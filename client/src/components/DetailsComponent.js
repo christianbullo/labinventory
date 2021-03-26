@@ -36,8 +36,16 @@ export default class DetailsComponent extends Component {
                     <ModalBody>
                         <Card>
                             <CardBody>
-                                <CardTitle><h5 className="text-info">Quantity:</h5> {" "} {i.quantity} </CardTitle>
                                 <CardText>
+                                    <div className="row">
+                                        <div className="col"><h5 className="text-info">Quantity:</h5></div>
+                                        <div className="col-sm-8">{i.quantity}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col"><h5 className="text-info">Unit size:</h5></div>
+                                        <div className="col-sm-9">{i.unitsize}</div>
+                                    </div>
+                                    <hr/>
                                     <div className="row">
                                         <div className="col text-info">Updated by:</div>
                                         <div className="col text-info">On:</div>
@@ -54,8 +62,21 @@ export default class DetailsComponent extends Component {
                         <br/>
                         <Card>
                             <CardBody>
-                                <CardTitle><h5 className="text-info">Location:</h5> {" "} {i.location} {" "} <ImgComponent item={i} /></CardTitle>
                                 <CardText>
+                                    <div className="row">
+                                        <div className="col"><h5 className="text-info">Location:</h5></div>
+                                        {i.location ? (
+                                            <React.Fragment>
+                                                <div className="col-sm-6">{i.location}</div>
+                                                <div className="col"><ImgComponent item={i} /></div>
+                                            </React.Fragment>                                
+                                        ) : (
+                                            <div className="col-sm-8">
+                                                <span className="text-warning"><i>(missing)</i></span> 
+                                            </div>
+                                        )}
+                                    </div>
+                                    <hr/>
                                     <div className="row">
                                         <div className="col text-info">Updated by:</div>
                                         <div className="col text-info">On:</div>
@@ -72,8 +93,38 @@ export default class DetailsComponent extends Component {
                         <br/>
                         <Card>
                             <CardBody>
-                                <CardTitle><h5 className="text-info">Aliquot:</h5> {" "} {i.aliquot}</CardTitle>
                                 <CardText>
+                                    <div className="row">
+                                        <div className="col"><h5 className="text-info">Vendor:</h5></div>
+                                        <div className="col-sm-9">{i.vendor}</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col"><h5 className="text-info">Contact:</h5></div>
+                                        <div className="col-sm-9">{i.contact}</div>
+                                    </div>
+                                    <hr/>
+                                    <div className="row">
+                                        <div className="col text-info">Updated by:</div>
+                                        <div className="col text-info">On:</div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col">{i.updatevendoruser}</div>
+                                        <div className="col">
+                                            {i.updatevendordate ? (<Moment format="ll">{i.updatevendordate}</Moment>) : (<div/>)}
+                                        </div>
+                                    </div>
+                                </CardText>
+                            </CardBody>
+                        </Card>
+                        <br/>
+                        <Card>
+                            <CardBody>
+                                <CardText>
+                                    <div className="row">
+                                        <div className="col"><h5 className="text-info">Aliquot:</h5></div>
+                                        <div className="col-sm-9">{i.aliquot}</div>
+                                    </div>
+                                    <hr/>
                                     <div className="row">
                                         <div className="col text-info">Updated by:</div>
                                         <div className="col text-info">On:</div>
@@ -92,6 +143,7 @@ export default class DetailsComponent extends Component {
                             <CardBody>
                                 <CardTitle><h5 className="text-info">Additional notes:</h5> {" "} {i.stocknotes}</CardTitle>
                                 <CardText>
+                                    <hr/>
                                     <div className="row">
                                         <div className="col text-info">Updated by:</div>
                                         <div className="col text-info">On:</div>
@@ -106,50 +158,85 @@ export default class DetailsComponent extends Component {
                             </CardBody>
                         </Card>
                         <br/>
-                        <Card>
-                            <CardBody>
-                                <CardText>
-                                    <div className="row">
-                                        <div className="col text-info">Delivered by:</div>
-                                        <div className="col text-info">On:</div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">{i.deliveryuser}</div>
-                                        <div className="col"><Moment format="ll">{i.deliverydate}</Moment></div>
-                                    </div>
-                                </CardText>
-                            </CardBody>
-                        </Card>
-                        <br/>
-                        <Card>
-                            <CardBody>
-                                <CardText>
-                                    <div className="row">
-                                        <div className="col text-info">Purchased by:</div>
-                                        <div className="col text-info">On:</div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">{i.orderuser}</div>
-                                        <div className="col"><Moment format="ll">{i.orderdate}</Moment></div>
-                                    </div>
-                                </CardText>
-                            </CardBody>
-                        </Card>
-                        <br/>
-                        <Card>
-                            <CardBody>
-                                <CardText>
-                                    <div className="row">
-                                        <div className="col text-info">Requested by:</div>
-                                        <div className="col text-info">On:</div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="col">{i.requestuser}</div>
-                                        <div className="col"><Moment format="ll">{i.requestdate}</Moment></div>
-                                    </div>
-                                </CardText>
-                            </CardBody>
-                        </Card>
+                        {i.registrationdate ? 
+                        ( 
+                            <Card>
+                                <CardBody>
+                                    <CardTitle>
+                                        <h5 className="text-info">
+                                            Item already present and registered ex post. 
+                                        </h5>
+                                        <hr/>
+                                    </CardTitle>
+                                    <CardText>
+                                        <div className="row">
+                                            <div className="col text-info">Registered by:</div>
+                                            <div className="col text-info">On:</div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col">{i.registrationuser}</div>
+                                            <div className="col">
+                                                <Moment format="ll">{i.registrationdate}</Moment>
+                                            </div>
+                                        </div>
+                                    </CardText>
+                                </CardBody>
+                            </Card>
+                        )   
+                        :
+                        (<React.Fragment>
+                            <Card>
+                                <CardBody>
+                                    <CardText>
+                                        <div className="row">
+                                            <div className="col text-info">Delivered by:</div>
+                                            <div className="col text-info">On:</div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col">{i.deliveryuser}</div>
+                                            <div className="col">
+                                                {i.deliverydate ? (<Moment format="ll">{i.deliverydate}</Moment>) : (<div/>)}
+                                            </div>
+                                        </div>
+                                    </CardText>
+                                </CardBody>
+                            </Card>
+                            <br/>
+                            <Card>
+                                <CardBody>
+                                    <CardText>
+                                        <div className="row">
+                                            <div className="col text-info">Purchased by:</div>
+                                            <div className="col text-info">On:</div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col">{i.orderuser}</div>
+                                            <div className="col">
+                                                {i.orderdate ? (<Moment format="ll">{i.orderdate}</Moment>) : (<div/>)}
+                                            </div>
+                                        </div>
+                                    </CardText>
+                                </CardBody>
+                            </Card>
+                            <br/>
+                            <Card>
+                                <CardBody>
+                                    <CardText>
+                                        <div className="row">
+                                            <div className="col text-info">Requested by:</div>
+                                            <div className="col text-info">On:</div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col">{i.requestuser}</div>
+                                            <div className="col">
+                                                {i.requestdate ? (<Moment format="ll">{i.requestdate}</Moment>) : (<div/>)}
+                                            </div>
+                                        </div>
+                                    </CardText>
+                                </CardBody>
+                            </Card>
+                        </React.Fragment>
+                        )}
                         <br/>
                     </ModalBody>
                 </Modal>

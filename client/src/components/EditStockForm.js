@@ -5,12 +5,6 @@ import { editDetails, fetchInStock } from "../actions/ActionCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
-//const required = val => val && val.length; 
-const maxLength = len => val => !val || (val.length <= len); 
-const minLength = len => val => val && (val.length >= len); 
-const isNumber = val => !isNaN(+val); 
-const isZero = val => val && (+val > 0);
-
 const mapStateToProps = state => {
     return {
         instock: state.instock,   
@@ -41,12 +35,24 @@ class EditStockForm extends Component {
 
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
         this.onChangeAliquot = this.onChangeAliquot.bind(this);
+        this.onChangeVendor = this.onChangeVendor.bind(this);
+        this.onChangeContact = this.onChangeContact.bind(this);
         this.onChangeStocknotes = this.onChangeStocknotes.bind(this);
     }
 
     toggleModal() {
         this.setState({
-            isModalOpen: !this.state.isModalOpen
+            isModalOpen: !this.state.isModalOpen,
+            isErrorQty: false, 
+            quantity: "",
+            isErrorAliq: false,
+            aliquot: "",
+            isErrorVend: false,
+            vendor: "",
+            isErrorCont: false,
+            contact: "",
+            isErrorNotes: false,
+            stocknotes: "" 
         });
     }
 
@@ -60,16 +66,14 @@ class EditStockForm extends Component {
         this.setState({ quantity: quantity }) : 
         this.setState({ quantity: "" });
         
-        const isNumber = val => !isNaN(+val); 
-        const resultN = isNumber(quantity);
         const isZero = val => val && (+val > 0);
         const resultZ = isZero(quantity);
 
-        if (!isNumber || !resultZ) {
+        if (quantity && !resultZ) {
             return this.setState({
                 isErrorQty: true 
             });
-        } else if (quantity > i.quantity) {
+        } else if (quantity >= i.quantity) {
             return this.setState({
                 isErrorQty: true 
             });
@@ -90,13 +94,55 @@ class EditStockForm extends Component {
 
         const minLength = len => val => val && (val.length >= len); 
         const result = minLength(5)(aliquot);
-        if (!result) {
+        if (!result && aliquot) {
             return this.setState({
                 isErrorAliq: true 
             });
         } else {
             return this.setState({
                 isErrorAliq: false  
+            });
+        } 
+    }
+
+    onChangeVendor(e) {
+        e.preventDefault();
+        const vendor = e.target.value; 
+
+        (vendor.length !== 0) ?
+        this.setState({ vendor: vendor }) : 
+        this.setState({ vendor: "" }) 
+
+        const minLength = len => val => val && (val.length >= len); 
+        const result = minLength(5)(vendor);
+        if (!result && vendor) {
+            return this.setState({
+                isErrorVend: true 
+            });
+        } else {
+            return this.setState({
+                isErrorVend: false  
+            });
+        } 
+    }
+
+    onChangeContact(e) {
+        e.preventDefault();
+        const contact = e.target.value; 
+
+        (contact.length !== 0) ?
+        this.setState({ contact: contact }) : 
+        this.setState({ contact: "" }) 
+
+        const minLength = len => val => val && (val.length >= len); 
+        const result = minLength(5)(contact);
+        if (!result && contact) {
+            return this.setState({
+                isErrorCont: true 
+            });
+        } else {
+            return this.setState({
+                isErrorCont: false  
             });
         } 
     }
@@ -111,7 +157,7 @@ class EditStockForm extends Component {
 
         const minLength = len => val => val && (val.length >= len); 
         const result = minLength(5)(stocknotes);
-        if (!result) {
+        if (!result && stocknotes) {
             return this.setState({
                 isErrorNotes: true 
             });
@@ -124,6 +170,10 @@ class EditStockForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+    
+        if (this.state.isErrorAliq || this.state.isErrorNotes || this.state.isErrorQty) {
+            return;
+        }
 
         const i = this.props.item;           
         const item_id = i._id; 
@@ -145,6 +195,24 @@ class EditStockForm extends Component {
             newDetails.aliquot = aliquot;
             newDetails.updatealiqdate = updatealiqdate;
             newDetails.updatealiquser = updatealiquser; 
+        }
+
+        const vendor = this.state.vendor;
+        const contact = this.state.contact;
+        const updatevendordate = new Date().toISOString();
+        const updatevendoruser = this.props.auth.user.name;
+
+        if (vendor.length) {
+            newDetails.vendor = vendor;
+        }
+
+        if (contact.length) {
+            newDetails.contact = contact;
+        }
+
+        if (vendor.length || contact.length) {
+            newDetails.updatevendordate = updatevendordate;
+            newDetails.updatevendoruser = updatevendoruser; 
         }
 
         const stocknotes = this.state.stocknotes;
@@ -184,13 +252,13 @@ class EditStockForm extends Component {
                         <Form onSubmit={this.handleSubmit}>
                             <FormGroup>
                                 <Label for="quantity">New Quantity: </Label>
-                                <Input type="text" name="quantity" id="quantity" 
+                                <Input type="number" name="quantity" id="quantity" 
                                     onChange={this.onChangeQuantity}
                                     invalid={this.state.isErrorQty && this.state.quantity}
                                 />
                                 {(this.state.isErrorQty && this.state.quantity) ? (
                                     <div>
-                                        <p className="text-danger">Must be a valid quantity, no greater than the previous | In case of zero, set as out of stock.</p>
+                                        <p className="text-danger">Must be a valid quantity, no equal or greater than the previous | In case of zero, set as out of stock.</p>
                                     </div>    
                                 ) : ( <div /> )}            
                             </FormGroup>    
@@ -201,6 +269,30 @@ class EditStockForm extends Component {
                                     invalid={this.state.isErrorAliq && this.state.aliquot}
                                 />
                                 {(this.state.isErrorAliq && this.state.aliquot) ? (
+                                    <div>
+                                        <p className="text-danger">Must be at least 5 characters.</p>
+                                    </div>    
+                                ) : ( <div /> )}            
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="vendor">New Vendor: </Label>
+                                <Input type="text" name="vendor" id="vendor" 
+                                    onChange={this.onChangeVendor}
+                                    invalid={this.state.isErrorVend && this.state.vendor}
+                                />
+                                {(this.state.isErrorVend && this.state.vendor) ? (
+                                    <div>
+                                        <p className="text-danger">Must be at least 5 characters.</p>
+                                    </div>    
+                                ) : ( <div /> )}            
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="contact">New Contact: </Label>
+                                <Input type="text" name="contact" id="contact" 
+                                    onChange={this.onChangeContact}
+                                    invalid={this.state.isErrorCont && this.state.contact}
+                                />
+                                {(this.state.isErrorCont && this.state.contact) ? (
                                     <div>
                                         <p className="text-danger">Must be at least 5 characters.</p>
                                     </div>    

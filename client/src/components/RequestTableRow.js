@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { fetchRequests } from "../actions/ActionCreators";
 
 import Moment from "react-moment";
+import NumberFormat from 'react-number-format';
 
 const mapStateToProps = state => {
     return { 
@@ -31,7 +32,7 @@ class RequestTableRow extends Component {
                 <td> {r.article} </td>
                 <td> {r.index} </td>
                 <td> {r.quantity} </td>
-                <td> {r.unitcost} </td>
+                <td> <NumberFormat value={r.unitcost} displayType={'text'} thousandSeparator={true} prefix={'$'} /> </td>
                 <td> <Moment format="ddd, MMM DD, YYYY">{r.requestdate}</Moment> </td>
                 <td> {r.requestuser} </td>
                 <td>

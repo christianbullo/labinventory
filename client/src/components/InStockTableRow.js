@@ -11,7 +11,7 @@ import EditStockForm from "./EditStockForm";
 import DetailsComponent from "./DetailsComponent";
 import EditOutOfSTockForm from "./EditOutOfStockForm";
 import EditLocation from "./EditLocation";
-
+import PdfUpdateComponent from "./PdfUpdateComponent";
 
 const mapStateToProps = state => {
     return { 
@@ -33,20 +33,29 @@ class InStockTableRow extends Component {
             <tr>
                 <td> {i.id} </td>
                 <td> {i.article} </td>
-                <td> {i.quantity} </td>
                 <td>
-                    <PdfComponent item={i} />  
+                    {i.pdfname ? (<PdfComponent item={i} />) : (<PdfUpdateComponent item={i} />)}
                 </td>
+                <td> {i.quantity} </td>
                 <td>
                     <DetailsComponent item={i} />
                 </td>                
                 <td>
                     <EditStockForm auth={ this.props.auth } item={i}/>
-                </td>                
-                <td> {i.location} </td>
-                <td>
-                    <ImgComponent item={i} />  
                 </td>
+                {i.location ? (
+                    <React.Fragment>
+                        <td> {i.location} </td>
+                        <td>
+                            <ImgComponent item={i} />  
+                        </td>        
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        <td><span className="text-warning"><i>(missing)</i></span></td>
+                        <td></td>
+                    </React.Fragment>
+                )}
                 <td>
                     <EditLocation auth={ this.props.auth } item={i}/>
                 </td>

@@ -1,0 +1,128 @@
+export const textData = [
+    
+    {
+      "cycle": "B",
+      "banner_id": 1,
+      "title": "Requests board",
+      "subtitle": "How to add a request",
+      "text": "lorem ipsum lorem ipsum lorem ipsum ",
+      "release_date": "2018-01-05",
+      "layout": "3400H",
+      "layout_name": "Milk - (Enhanced)",
+      "release_id": 5280,
+      "planned_hours": "6.60",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 7
+    },
+    {
+      "cycle": "B",
+      "banner_id": 1,
+      "title": "Requests board",
+      "subtitle": "How to confirm a purchase",
+      "text": "lorem ipsum lorem ipsum lorem ipsum ",
+      "release_date": "2018-01-19",
+      "layout": "0400A",
+      "layout_name": "Asian Combo",
+      "release_id": 5032,
+      "planned_hours": "4.00",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 7
+    },
+    {
+      "cycle": "B",
+      "banner_id": 1,
+      "release_date": "2018-01-19",
+      "layout": "1160C",
+      "layout_name": "Facial Tissue",
+      "release_id": 5024,
+      "planned_hours": "1.00",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 7
+    },
+    {
+      "cycle": "B",
+      "banner_id": 1,
+      "release_date": "2018-01-19",
+      "layout": "1160D",
+      "layout_name": "Facial Tissue w HBC",
+      "release_id": 5024,
+      "planned_hours": "1.00",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 7
+    },
+    {
+      "cycle": "B",
+      "banner_id": 1,
+      "release_date": "2018-01-19",
+      "layout": "3120D",
+      "layout_name": "Snacks",
+      "release_id": 4615,
+      "planned_hours": "5.00",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 7
+    },
+    {
+      "cycle": "B",
+      "banner_id": 1,
+      "release_date": "2018-01-19",
+      "layout": "3120G",
+      "layout_name": "Snacks w-Meat Dept",
+      "release_id": 4615,
+      "planned_hours": "5.00",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 7
+    },
+    {
+      "cycle": "B",
+      "banner_id": 1,
+      "release_date": "2018-01-19",
+      "layout": "6886D",
+      "layout_name": "Vegetarian (Tofu, Soy, etc)",
+      "release_id": 5127,
+      "planned_hours": "0.50",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 7
+    },
+    {
+      "cycle": "C",
+      "banner_id": 1,
+      "title": "Incoming Orders",
+      "subtitle": "How to change status of delivery",
+      "text": "lorem ipsum lorem ipsum lorem ipsum ",
+      "release_date": "2018-01-26",
+      "layout": "6886A",
+      "layout_name": "Value Added Fruit/Veg Combo (Generic)",
+      "release_id": 4877,
+      "planned_hours": "0.50",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 14
+    },
+    {
+      "cycle": "C",
+      "banner_id": 1,
+      "title": "Incoming Orders",
+      "subtitle": "How to change status of delivery",
+      "text": "lorem ipsum lorem ipsum lorem ipsum ",
+      "release_date": "2018-01-26",
+      "layout": "6886A",
+      "layout_name": "Value Added Fruit/Veg Combo (Generic)",
+      "release_id": 4877,
+      "planned_hours": "0.50",
+      "trade_cat": "Butter/Margarine-Deli",
+      "num_wks": 14
+    },
+    {
+      "cycle": "B",
+      "banner_id": 3,
+      "title": "Authorize a new user",
+      "subtitle": "Users",
+      "text": "lorem ipsum lorem ipsum lorem ipsum ",
+      "release_date": "2018-01-05",
+      "layout": "0090I",
+      "layout_name": "Isotoniccs",
+      "release_id": 5279,
+      "planned_hours": null,
+      "trade_cat": "Isotonic Beverage",
+      "num_wks": 7
+    }
+];

@@ -12,6 +12,8 @@ const orders = require("./routes/ordersRoutes");
 const instock = require("./routes/instockRoutes");
 const outstock = require("./routes/outstockRoutes");
 const files = require("./routes/filesRoutes");
+const expenses = require("./routes/expensesRoutes");
+const cancelfiles = require("./routes/cancelFilesRoutes");
 
 // setup express app server 
 const app = express();
@@ -69,6 +71,10 @@ app.use("/api/stock/instock", instock);
 app.use("/api/stock/outstock", outstock); 
 
 app.use("/api/files", files); 
+
+app.use("/api/expenses", expenses); 
+
+//app.use("/api/cancelfiles", cancelfiles); 
 
 const port = process.env.PORT || 5000; // process.env.port is Heroku's port 
 

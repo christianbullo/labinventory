@@ -140,7 +140,7 @@ router.post("/addinstock", upload.single('imgdata'), (req, res) => {
         "status": status, 
         "imgname": imgname
       } 
-    }
+    }, { new: true }
   )
   .then(instock => {
     res.json(instock);
@@ -171,7 +171,7 @@ router.post("/editlocation", upload.single('imgdata'), (req, res) => {
         "updatelocdate": updatelocdate,
         "updatelocuser": updatelocuser
       } 
-  })
+    }, { new: true })
   .then(order => {
     res.json(order);
   })
@@ -198,7 +198,8 @@ router.post("/editdetails", (req, res) => {
   
   Stock.findByIdAndUpdate(
     { "_id": item_id }, 
-    { $set: updates }
+    { $set: updates }, 
+    { new: true }
   )
   .then(order => {
     res.json(order);
@@ -208,6 +209,124 @@ router.post("/editdetails", (req, res) => {
     res.status(400).json('Error: ' + err);
   } );
 
+});
+
+// @route POST api/stock/instock/editstockpdf
+// @desc Update pdf of item in stock  
+router.post("/editstockpdf", upload.single('pdfdata'), (req, res) => {
+
+  const item_id = req.body.item_id; 
+  const pdfname = req.file.filename;
+  
+  Stock.findByIdAndUpdate(
+    { "_id": item_id }, 
+    { $set: 
+      { 
+        "pdfname": pdfname 
+      } 
+    }, { new: true })
+  .then(order => {
+    res.json(order);
+  })
+  .catch(err => {
+    console.log('Error in POST /editstockpdf: ' + err);
+    res.status(400).json('Error: ' + err);
+  } );
+});
+
+// @route POST api/stock/saveinstock
+// @desc SAVE existing item 
+router.post("/saveinstock", (req, res) => {
+  // Form validation
+  //const { errors, isValid } = validateRequestInput(req.body);
+
+  // Check validation
+  // if (!isValid) {
+  //     return res.status(400).json(errors);
+  // }
+
+  const id = req.body.id; 
+  const category = "instock"; 
+  const article = req.body.article;
+  const typeofarticle = req.body.typeofarticle;
+  const index = req.body.index;
+  const quantity = Number(req.body.quantity);
+  const unitcost = Number(req.body.unitcost);
+  const totalcost = Number(quantity * unitcost); 
+  const unitsize = req.body.unitsize;
+  const requestdate = req.body.registrationdate;
+  const requestuser = req.body.registrationuser;
+  const vendor = req.body.vendor;
+  const contact = req.body.contact;
+  const pdfname = "";
+  const tracking = ""; 
+  const status = ""; 
+  const orderdate = "";
+  const orderuser = "";
+  const location = "";
+  const imgname = "";
+  const deliverydate = ""; 
+  const deliveryuser = "";
+  const aliquot = ""; 
+  const stocknotes = "";
+  const updateqtydate = ""; 
+  const updateqtyuser = "";
+  const updatelocdate = ""; 
+  const updatelocuser = "";
+  const updatealiqdate = ""; 
+  const updatealiquser = "";
+  const updatenotedate = ""; 
+  const updatenoteuser = "";
+  const updatevendordate = "";
+  const updatevendoruser = "";
+  const registrationdate = req.body.registrationdate;
+  const registrationuser = req.body.registrationuser;
+
+  const newStock = new Stock({
+    id, 
+    category,  
+    article,  
+    typeofarticle,
+    index, 
+    quantity,  
+    unitcost,  
+    totalcost, 
+    unitsize,
+    requestdate,  
+    requestuser,  
+    vendor, 
+    contact, 
+    pdfname,  
+    tracking,  
+    status,  
+    orderdate,  
+    orderuser,  
+    location,  
+    imgname,  
+    deliverydate,  
+    deliveryuser,  
+    aliquot,  
+    stocknotes,  
+    updateqtydate,   
+    updateqtyuser, 
+    updatelocdate,   
+    updatelocuser,  
+    updatealiqdate,   
+    updatealiquser,   
+    updatenotedate,   
+    updatenoteuser,
+    updatevendordate,
+    updatevendoruser,
+    registrationdate,
+    registrationuser 
+  });
+
+  newStock.save()
+  .then(request => res.json(request))
+  .catch(err => {
+    console.log('Error in POST /saveinstock : ' + err);
+    res.status(400).json('Error: ' + err);
+  } );
 });
 
 module.exports = router;

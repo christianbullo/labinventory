@@ -33,7 +33,9 @@ class EditOrderForm extends Component {
 
     toggleModal() {
         this.setState({
-            isModalOpen: !this.state.isModalOpen 
+            isModalOpen: !this.state.isModalOpen,
+            status: "",
+            isError: false 
         });
     }
 
@@ -85,7 +87,7 @@ class EditOrderForm extends Component {
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>
-                        Editing item:
+                        Update status of the item:
                         <hr/>
                         <h4 className="text-primary">{o.tracking}</h4>
                         <h5 className="text-info">{o.article}</h5>

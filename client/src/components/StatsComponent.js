@@ -1,44 +1,119 @@
 import React, { Component } from "react";
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
-export class StatsComponent extends Component {
+import {Doughnut} from 'react-chartjs-2';
 
-    COLORS = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"];
+import axios from "axios";
 
-    pieData = [
-        {
-            "name": "ACME XYZ.n Polyclonal Antibody",
-            "value": 38.85
-        },
-        {
-            "name": "Histone H2C.y Polyclonal Antibody",
-            "value": 17.91
-        },
-        {
-            "name": "ACME ABC.w Fluo Marker",
-            "value": 16.85
-        },
-        {
-            "name": "Tungsten Carbide Beads, 3 mm (200)",
-            "value": 16.14
-        },
-        {
-            "name": "Others",
-            "value": 10.25
+export class StatsComponent extends Component { 
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            myData: [],
         }
-    ];
+        this.triggerQuery = this.triggerQuery.bind(this);
+    }
 
-    CustomTooltip = ({ active, payload, label }) => {
-        if (active) {
-            return (
-                <div className="custom-tooltip" style={{ backgroundColor: '#ffff', padding: '5px', border: '1px solid #cccc' }}>
-                    <label>{`${payload[0].name} : ${payload[0].value}%`}</label>
-                </div>
-            );
-        }
+    triggerQuery() {
+        const url = `/api/expenses`;
 
-        return null;
-    };
+        axios
+        .get(`/api/expenses`)
+        .then(response => {
+            return response.data;
+        })
+        .then(data => {
+            const entries = Object.keys(data);
+
+            let totalAmount = 0; 
+    
+            for (let i = 0; i < entries.length; i++) {
+                totalAmount = totalAmount + Number(Object.values(data)[i]);  
+            }
+
+            for (let i = 0; i < entries.length; i++) {
+                                
+                if (entries[i] === 'reagents') {
+                    const actualAmount = Number(Object.values(data)[i]); 
+                    let Percent = (Number(actualAmount.toFixed(2)) / Number(totalAmount.toFixed(2))) * 100; 
+                    //let Percent = ((Math.round(actualAmount * 100) / 100) / (Math.round(totalAmount * 100) / 100) * 100); 
+                    this.setState({
+                        myData: this.state.myData.concat({
+                            label: 'Reagents',
+                            value:  Number(Percent.toFixed(2)) //Object.values(data)[i]
+                        })
+                    });
+                }
+                if (entries[i] === 'animal') {
+                    const actualAmount = Number(Object.values(data)[i]); 
+                    let Percent = (Number(actualAmount.toFixed(2)) / Number(totalAmount.toFixed(2))) * 100; 
+
+                    this.setState({
+                        myData: this.state.myData.concat({
+                            label: 'Animal Facilities',
+                            value:  Number(Percent.toFixed(2)) //Object.values(data)[i]
+                        })
+                    });
+                }
+                if (entries[i] === 'consumables') {
+                    const actualAmount = Number(Object.values(data)[i]); 
+                    let Percent = (Number(actualAmount.toFixed(2)) / Number(totalAmount.toFixed(2))) * 100; 
+
+                    this.setState({
+                        myData: this.state.myData.concat({
+                            label: 'General Consumables',
+                            value: Number(Percent.toFixed(2)) //Object.values(data)[i]
+                        })
+                    });
+                }
+                if (entries[i] === 'microscope') {
+                    const actualAmount = Number(Object.values(data)[i]); 
+                    let Percent = (Number(actualAmount.toFixed(2)) / Number(totalAmount.toFixed(2))) * 100; 
+
+                    this.setState({
+                        myData: this.state.myData.concat({
+                            label: 'Microscope Accessories',
+                            value:  Number(Percent.toFixed(2)) //Object.values(data)[i]
+                        })
+                    });
+                }              
+            }
+
+            this.setState({
+                chartData:{
+                    labels: this.state.myData.map(d => d.label),
+                    datasets:[
+                        {
+                        label:'Population',
+                        data: this.state.myData.map(d => d.value),
+                        backgroundColor: [
+                            // 'rgba(255, 99, 132, 0.2)',
+                            // 'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                        ],
+                        borderColor: [
+                            // 'rgba(255, 99, 132, 1)',
+                            // 'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                        ],
+                        borderWidth: 1,
+                        }
+                    ]
+                }
+            });
+        })
+        .catch(error => alert('error! ' + error));
+    } 
+
+    componentDidMount() {
+        this.triggerQuery();
+    }
 
     render() {
         return (
@@ -46,34 +121,7 @@ export class StatsComponent extends Component {
                 <div className="row d-flex justify-content-center">
                     <div className="col"></div>
                     <div className="col-6 justify-content-center">
-                        <h1>Stats on the inventory</h1>
-                    </div>
-                    <div className="col"></div>
-                </div>
-                <div>
-                    <hr />
-                </div>
-                <div className="row d-flex justify-content-center">
-                    <div className="col"></div>
-                    <div className="col-6 justify-content-center">
-                        <br />
-                        <h2>Annual expenditures: </h2>
-                        <br />
-                    </div>
-                    <div className="col"></div>
-                </div>
-                <div className="row">
-                    <div className="col"></div>
-                    <div className="col">
-                        <PieChart width={730} height={300}>
-                            <Pie data={this.pieData} color="#000000" dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={120} fill="#8884d8" >
-                                {
-                                    this.pieData.map((entry, index) => <Cell key={`cell-${index}`} fill={this.COLORS[index % this.COLORS.length]} />)
-                                }
-                            </Pie>
-                            <Tooltip content={<this.CustomTooltip />} />
-                            <Legend />
-                        </PieChart>                        
+                        <h1>Total Expenditures Percentages</h1>
                     </div>
                     <div className="col"></div>
                 </div>
@@ -81,8 +129,8 @@ export class StatsComponent extends Component {
                     <br />
                     <hr />
                 </div>
+                <Doughnut data={this.state.chartData} />
                 <div>
-                    <br />
                     <br />
                     <br />
                 </div>
